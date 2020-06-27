@@ -4,9 +4,12 @@ import { Boot } from "./scenes/Boot";
 import { Preloader } from "./scenes/Preloader";
 import { Menu } from "./scenes/Menu";
 import { GameScene } from "./scenes/Game";
+import Ship from "./models/Ship";
+import Room from "./models/Room";
+import { generateGrid } from "./procedural/generateShip";
 
-new Phaser.Game(
-  Object.assign(config, {
-    scene: [Boot, Preloader, Menu, GameScene],
-  })
+let game = new Phaser.Game(
+	Object.assign(config, {
+		scene: [Boot, Preloader, Menu, GameScene],
+	})
 );
