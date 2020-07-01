@@ -33,4 +33,46 @@ export default class GenerationSettings {
 	public get strokeThickness() {
 		return GenerationSettings.STROKE_THICKNESS * this.mod;
 	}
+
+	public get personWidth() {
+		return this.personHeight / 2;
+	}
+
+	public get personHeight() {
+		return this.roomSize * 0.7;
+	}
+
+	public get personRoundingRadius() {
+		return this.mod;
+	}
+
+	public get headConfig() {
+		return { width: this.personHeight * 0.25, height: this.personHeight * 0.25, xOffset: 0, yOffset: -this.bodyConfig.height / 2 };
+	}
+
+	public get bodyConfig() {
+		let bodyConfig = { width: this.personWidth * 0.7, height: this.personHeight * 0.5, xOffset: undefined, yOffset: this.personHeight * 0.24 };
+		bodyConfig.xOffset = (this.personWidth - bodyConfig.width) / 2;
+		return bodyConfig;
+	}
+
+	public get armConfig() {
+		return {
+			width: this.bodyConfig.width * 0.25 + this.personRoundingRadius,
+			height: this.bodyConfig.height * 0.7,
+			xOffset: this.bodyConfig.width / 2,
+			yOffset: -this.bodyConfig.height / 2,
+		};
+	}
+
+	public get legConfig() {
+		let legConfig = {
+			width: this.bodyConfig.width * 0.4,
+			height: this.personHeight * 0.25,
+			xOffset: undefined, //this.bodyConfig.xOffset,
+			yOffset: this.bodyConfig.height / 2 - this.personRoundingRadius, //this.bodyConfig.yOffset + this.bodyConfig.height - this.personRoundingRadius,
+		};
+		legConfig.xOffset = Math.round(this.bodyConfig.width / 2 - legConfig.width / 2);
+		return legConfig;
+	}
 }

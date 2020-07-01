@@ -6,7 +6,7 @@ import Container = Phaser.GameObjects.Container;
 import Rectangle = Phaser.GameObjects.Rectangle;
 
 export default class RoomSprite extends Phaser.GameObjects.Sprite {
-	private roomData: Room;
+	public room: Room;
 	private highlightBox: Phaser.GameObjects.Rectangle;
 	private parent: Phaser.GameObjects.Container;
 	private generationSettings: GenerationSettings;
@@ -18,7 +18,7 @@ export default class RoomSprite extends Phaser.GameObjects.Sprite {
 
 		this.setInteractive();
 
-		this.roomData = roomData;
+		this.room = roomData;
 		this.generationSettings = generationSettings;
 	}
 
@@ -31,11 +31,9 @@ export default class RoomSprite extends Phaser.GameObjects.Sprite {
 		this.parent.add(this.highlightBox);
 
 		this.on("pointerover", (event) => {
-			console.log("hover", this.highlightBox.x);
 			this.highlightBox.setVisible(true);
 		});
 		this.on("pointerout", (event) => {
-			console.log("nohover", this.highlightBox.x);
 			this.highlightBox.setVisible(false);
 		});
 	}

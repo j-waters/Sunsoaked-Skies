@@ -1,97 +1,102 @@
 import Person from "../models/Person";
+import Scene = Phaser.Scene;
+import GenerationSettings from "./generationSettings";
 
-/*
-Segment: 100x200
- */
-
-const frameWidth = 128;
-const frameHeight = 256;
-const roundingRadius = 5;
-const headConfig = { width: frameHeight * 0.25, height: frameHeight * 0.25, xOffset: frameWidth * 0.25, yOffset: 0 };
-const bodyConfig = { width: frameWidth * 0.7, height: frameHeight * 0.5, xOffset: undefined, yOffset: frameHeight * 0.24 };
-bodyConfig.xOffset = (frameWidth - bodyConfig.width) / 2;
-const legConfig = { width: bodyConfig.width * 0.4, height: frameHeight * 0.25, xOffset: bodyConfig.xOffset, yOffset: bodyConfig.yOffset + bodyConfig.height - roundingRadius };
-const armConfig = { width: bodyConfig.width * 0.25 + roundingRadius, height: bodyConfig.height * 0.7, xOffset: 0, yOffset: bodyConfig.yOffset };
-
-export function generatePersonGraphic(person: Person): HTMLImageElement {
+export function generatePersonGraphic(person: Person, generationSettings: GenerationSettings): HTMLImageElement {
 	let canvas = document.createElement("canvas");
-	canvas.width = frameWidth;
-	canvas.height = frameHeight;
+	canvas.width = generationSettings.personWidth;
+	canvas.height = generationSettings.personHeight;
 	let context = canvas.getContext("2d");
 
-	let head = generateHeadGraphic(person);
-	let body = generateBodyGraphic(person);
-	let leg1 = generateLegGraphic(person);
-	let leg2 = generateLegGraphic(person);
-	let arm1 = generateArmGraphic(person);
-	let arm2 = generateArmGraphic(person);
+	let head = generateHeadGraphic(person, generationSettings);
+	let body = generateBodyGraphic(person, generationSettings);
+	let leg1 = generateLegGraphic(person, generationSettings);
+	let leg2 = generateLegGraphic(person, generationSettings);
+	let arm1 = generateArmGraphic(person, generationSettings);
+	let arm2 = generateArmGraphic(person, generationSettings);
 
-	context.drawImage(leg1, legConfig.xOffset, legConfig.yOffset);
-	context.drawImage(leg2, frameWidth - legConfig.xOffset - legConfig.width, legConfig.yOffset);
-	context.drawImage(body, bodyConfig.xOffset, bodyConfig.yOffset);
-	context.drawImage(head, headConfig.xOffset, headConfig.yOffset);
-	context.drawImage(arm1, armConfig.xOffset, armConfig.yOffset);
-	context.drawImage(arm2, frameWidth - armConfig.xOffset - armConfig.width, armConfig.yOffset);
+	context.drawImage(leg1, generationSettings.legConfig.xOffset, generationSettings.legConfig.yOffset);
+	context.drawImage(leg2, generationSettings.personWidth - generationSettings.legConfig.xOffset - generationSettings.legConfig.width, generationSettings.legConfig.yOffset);
+	context.drawImage(body, generationSettings.bodyConfig.xOffset, generationSettings.bodyConfig.yOffset);
+	context.drawImage(head, generationSettings.headConfig.xOffset, generationSettings.headConfig.yOffset);
+	context.drawImage(arm1, generationSettings.armConfig.xOffset, generationSettings.armConfig.yOffset);
+	context.drawImage(arm2, generationSettings.personWidth - generationSettings.armConfig.xOffset - generationSettings.armConfig.width, generationSettings.armConfig.yOffset);
 
 	let img = document.createElement("img");
 	img.src = canvas.toDataURL();
 	return img;
 }
 
-function generateHeadGraphic(person: Person) {
+export function generateHeadGraphic(person: Person, generationSettings: GenerationSettings) {
 	let canvas = document.createElement("canvas");
 
-	canvas.width = headConfig.width;
-	canvas.height = headConfig.height;
+	canvas.width = generationSettings.headConfig.width;
+	canvas.height = generationSettings.headConfig.height;
 	let context = canvas.getContext("2d");
 
 	context.strokeStyle = "#000000";
 	context.fillStyle = "#ba826b";
-	roundedRectangle(context, 0, 0, headConfig.width, headConfig.height, roundingRadius);
+	roundedRectangle(context, 0, 0, generationSettings.headConfig.width, generationSettings.headConfig.height, generationSettings.personRoundingRadius);
 	context.fill();
 	return canvas;
 }
 
-function generateBodyGraphic(person: Person) {
+export function generateHeadTexture(scene: Scene, person: Person, generationSettings: GenerationSettings) {
+	return scene.textures.addCanvas(null, generateHeadGraphic(person, generationSettings), true);
+}
+
+export function generateBodyGraphic(person: Person, generationSettings: GenerationSettings) {
 	let canvas = document.createElement("canvas");
 
-	canvas.width = bodyConfig.width;
-	canvas.height = bodyConfig.height;
+	canvas.width = generationSettings.bodyConfig.width;
+	canvas.height = generationSettings.bodyConfig.height;
 	let context = canvas.getContext("2d");
 
 	context.strokeStyle = "#000000";
 	context.fillStyle = "#3b2678";
-	roundedRectangle(context, 0, 0, bodyConfig.width, bodyConfig.height, roundingRadius);
+	roundedRectangle(context, 0, 0, generationSettings.bodyConfig.width, generationSettings.bodyConfig.height, generationSettings.personRoundingRadius);
 	context.fill();
 	return canvas;
 }
 
-function generateLegGraphic(person: Person) {
+export function generateBodyTexture(scene: Scene, person: Person, generationSettings: GenerationSettings) {
+	return scene.textures.addCanvas(null, generateBodyGraphic(person, generationSettings), true);
+}
+
+export function generateLegGraphic(person: Person, generationSettings: GenerationSettings) {
 	let canvas = document.createElement("canvas");
 
-	canvas.width = legConfig.width;
-	canvas.height = legConfig.height;
+	canvas.width = generationSettings.legConfig.width;
+	canvas.height = generationSettings.legConfig.height;
 	let context = canvas.getContext("2d");
 
 	context.strokeStyle = "#000000";
 	context.fillStyle = "#361a0e";
-	roundedRectangle(context, 0, 0, legConfig.width, legConfig.height, roundingRadius);
+	roundedRectangle(context, 0, 0, generationSettings.legConfig.width, generationSettings.legConfig.height, generationSettings.personRoundingRadius);
 	context.fill();
 	return canvas;
 }
 
-function generateArmGraphic(person: Person) {
+export function generateLegTexture(scene: Scene, person: Person, generationSettings: GenerationSettings) {
+	return scene.textures.addCanvas(null, generateLegGraphic(person, generationSettings), true);
+}
+
+export function generateArmGraphic(person: Person, generationSettings: GenerationSettings) {
 	let canvas = document.createElement("canvas");
 
-	canvas.width = armConfig.width;
-	canvas.height = armConfig.height;
+	canvas.width = generationSettings.armConfig.width;
+	canvas.height = generationSettings.armConfig.height;
 	let context = canvas.getContext("2d");
 
 	context.strokeStyle = "#000000";
 	context.fillStyle = "#493092";
-	roundedRectangle(context, 0, 0, armConfig.width, armConfig.height, roundingRadius);
+	roundedRectangle(context, 0, 0, generationSettings.armConfig.width, generationSettings.armConfig.height, generationSettings.personRoundingRadius);
 	context.fill();
 	return canvas;
+}
+
+export function generateArmTexture(scene: Scene, person: Person, generationSettings: GenerationSettings) {
+	return scene.textures.addCanvas(null, generateArmGraphic(person, generationSettings), true);
 }
 
 function roundedRectangle(context, x, y, width, height, rounded) {

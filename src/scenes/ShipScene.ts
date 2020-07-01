@@ -4,6 +4,7 @@ import Room from "../models/Room";
 import { generateHullGraphic, generateShipGraphic } from "../procedural/generateShip";
 import { createBackground } from "../procedural/generateBackground";
 import ShipHull from "../sprites/ShipHull";
+import Person from "../models/Person";
 
 export class ShipScene extends SceneBase {
 	constructor() {
@@ -25,9 +26,15 @@ export class ShipScene extends SceneBase {
 		builder
 			.createRootRoom(1, 1, false) //
 			.addRoomDown(new Room(1, 1))
+			.addPerson(new Person())
+			.addPerson(new Person())
 			.addRoomRight(new Room(3, 1))
+			.addPerson(new Person())
+			.addPerson(new Person())
+
 			.addRoomDown(new Room(1, 1), 1)
-			.addRoomLeft(new Room(2, 1));
+			.addRoomLeft(new Room(2, 1))
+			.addPerson(new Person());
 		let ship = builder.build();
 		let shipContainer = new ShipHull(this, ship);
 		shipContainer.setPosition(this.gameWidth / 2, this.gameHeight / 2);

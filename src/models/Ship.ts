@@ -1,5 +1,6 @@
 import Room from "./Room";
 import { generateGrid } from "../procedural/generateShip";
+import Person from "./Person";
 
 export default class Ship {
 	rootRoom: Room;
@@ -14,6 +15,10 @@ export default class Ship {
 
 	public get roomGrid() {
 		return generateGrid(this.rootRoom);
+	}
+
+	public get people() {
+		return this.rooms.flatMap((room) => room.people);
 	}
 
 	public get rooms(): Room[] {
@@ -39,6 +44,8 @@ class ShipBuilder {
 	}
 
 	build() {
-		return new Ship(this.rootRoom);
+		let ship = new Ship(this.rootRoom);
+		ship.rootRoom.setShip(ship);
+		return ship;
 	}
 }

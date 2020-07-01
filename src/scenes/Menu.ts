@@ -3,6 +3,7 @@ import { generateMenuShip } from "../procedural/generateShip";
 import { generatePersonGraphic } from "../procedural/generatePerson";
 import Person from "../models/Person";
 import { createBackground } from "../procedural/generateBackground";
+import GenerationSettings from "../procedural/generationSettings";
 
 export class Menu extends SceneBase {
 	private backgroundShips;
@@ -10,7 +11,7 @@ export class Menu extends SceneBase {
 		super("Menu");
 	}
 	public preload() {
-		// this.textures.addSpriteSheet(`menu_person`, generatePersonGraphic(new Person()), { frameWidth: 50, frameHeight: 50, spacing: 10 });
+		// this.textures.addSpriteSheet(`menu_person`, generatePersonGraphic(new Person()), { personWidth: 50, personHeight: 50, spacing: 10 });
 	}
 	public create(): void {
 		console.log("GAME WIDTH HEIGHT", this.gameWidth, this.gameHeight, this.gameWidth);
@@ -25,7 +26,7 @@ export class Menu extends SceneBase {
 		hill.setOrigin(0.5, 1);
 		hill.setDisplaySize(this.gameWidth * 0.6, this.gameHeight * 0.15);
 
-		let p = generatePersonGraphic(new Person());
+		let p = generatePersonGraphic(new Person(), new GenerationSettings());
 		p.onload = () => {
 			this.textures.addImage("menu_person", p);
 			let person = this.add.image(this.gameWidth / 2, this.gameHeight * 0.9, "menu_person");
