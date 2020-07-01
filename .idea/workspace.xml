@@ -11,18 +11,9 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="59aac075-e575-4944-a7af-9da6af2ce2a0" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/src/sprites/PersonSprite.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/codeStyles/Project.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/codeStyles/Project.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/models/Person.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/models/Person.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/models/Room.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/models/Room.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/models/Ship.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/models/Ship.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/procedural/generatePerson.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/procedural/generatePerson.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/procedural/generationSettings.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/procedural/generationSettings.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/scenes/Menu.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/scenes/Menu.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/scenes/ShipScene.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/scenes/ShipScene.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/sprites/RoomSprite.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/sprites/RoomSprite.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/sprites/ShipHull.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/sprites/ShipHull.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.prettierrc" beforeDir="false" afterPath="$PROJECT_DIR$/.prettierrc" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/sprites/PersonSprite.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/sprites/PersonSprite.ts" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -116,7 +107,7 @@
       <workItem from="1593271697756" duration="201000" />
       <workItem from="1593271930818" duration="2433000" />
       <workItem from="1593371023734" duration="146000" />
-      <workItem from="1593373188476" duration="24322000" />
+      <workItem from="1593373188476" duration="24637000" />
     </task>
     <task id="LOCAL-00001" summary="Init basic structure">
       <created>1592242264845</created>
@@ -139,7 +130,14 @@
       <option name="project" value="LOCAL" />
       <updated>1593633610426</updated>
     </task>
-    <option name="localTasksCounter" value="4" />
+    <task id="LOCAL-00004" summary="Add person storage and positioning system">
+      <created>1593645619297</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1593645619297</updated>
+    </task>
+    <option name="localTasksCounter" value="5" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -180,21 +178,22 @@
     <MESSAGE value="Init basic structure" />
     <MESSAGE value="Add ship and person generation&#10;&#10;Added basic menu scene" />
     <MESSAGE value="Add basic ship scene and room layout" />
-    <option name="LAST_COMMIT_MESSAGE" value="Add basic ship scene and room layout" />
+    <MESSAGE value="Add person storage and positioning system" />
+    <option name="LAST_COMMIT_MESSAGE" value="Add person storage and positioning system" />
   </component>
   <component name="WindowStateProjectService">
-    <state x="659" y="201" key="#TypeScript" timestamp="1593635357684">
+    <state x="659" y="201" key="#TypeScript" timestamp="1593645832743">
       <screen x="0" y="0" width="1920" height="1080" />
     </state>
-    <state x="659" y="201" key="#TypeScript/0.0.1920.1080@0.0.1920.1080" timestamp="1593635357684" />
+    <state x="659" y="201" key="#TypeScript/0.0.1920.1080@0.0.1920.1080" timestamp="1593645832743" />
     <state x="769" y="295" key="#com.intellij.ide.util.MemberChooser" timestamp="1593632739187">
       <screen x="0" y="0" width="1920" height="1080" />
     </state>
     <state x="769" y="295" key="#com.intellij.ide.util.MemberChooser/0.0.1920.1080@0.0.1920.1080" timestamp="1593632739187" />
-    <state x="516" y="60" key="CommitChangelistDialog2" timestamp="1593633609396">
+    <state x="516" y="60" key="CommitChangelistDialog2" timestamp="1593645618995">
       <screen x="0" y="0" width="1920" height="1080" />
     </state>
-    <state x="516" y="60" key="CommitChangelistDialog2/0.0.1920.1080@0.0.1920.1080" timestamp="1593633609396" />
+    <state x="516" y="60" key="CommitChangelistDialog2/0.0.1920.1080@0.0.1920.1080" timestamp="1593645618995" />
     <state x="2360" y="-36" key="CommitChangelistDialog2/0.0.3840.1080@0.0.3840.1080" timestamp="1593269213585" />
     <state width="1844" height="323" key="GridCell.Tab.0.bottom" timestamp="1593271664143">
       <screen x="0" y="0" width="3840" height="1080" />
@@ -248,10 +247,10 @@
       <screen x="0" y="0" width="3840" height="1080" />
     </state>
     <state width="1844" height="323" key="GridCell.Tab.2.right/0.0.3840.1080@0.0.3840.1080" timestamp="1593259671094" />
-    <state x="2370" y="211" key="SettingsEditor" timestamp="1593272406903">
-      <screen x="1920" y="0" width="1920" height="1080" />
+    <state x="450" y="211" key="SettingsEditor" timestamp="1593645820028">
+      <screen x="0" y="0" width="1920" height="1080" />
     </state>
-    <state x="450" y="211" key="SettingsEditor/0.0.1920.1080@0.0.1920.1080" timestamp="1592237390476" />
+    <state x="450" y="211" key="SettingsEditor/0.0.1920.1080@0.0.1920.1080" timestamp="1593645820028" />
     <state x="2370" y="211" key="SettingsEditor/1920.0.1920.1080/0.0.1920.1080@1920.0.1920.1080" timestamp="1593272406903" />
     <state x="650" y="240" width="612" height="592" key="find.popup" timestamp="1592180223767">
       <screen x="0" y="0" width="1920" height="1080" />
@@ -261,9 +260,10 @@
       <screen x="0" y="0" width="1920" height="1080" />
     </state>
     <state x="740" y="315" key="refactoring.ChangeSignatureDialog/0.0.1920.1080@0.0.1920.1080" timestamp="1592565771110" />
-    <state x="2540" y="265" width="672" height="677" key="run.anything.popup" timestamp="1593271591772">
-      <screen x="0" y="0" width="3840" height="1080" />
+    <state x="1270" y="265" width="336" height="677" key="run.anything.popup" timestamp="1593645658267">
+      <screen x="0" y="0" width="1920" height="1080" />
     </state>
+    <state x="1270" y="265" width="336" height="677" key="run.anything.popup/0.0.1920.1080@0.0.1920.1080" timestamp="1593645658267" />
     <state x="2540" y="265" width="672" height="677" key="run.anything.popup/0.0.3840.1080@0.0.3840.1080" timestamp="1593271591772" />
   </component>
 </project>

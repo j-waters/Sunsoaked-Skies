@@ -103,10 +103,3 @@ export default class PersonSprite extends Phaser.GameObjects.Container {
 		});
 	}
 }
-
-/*
-1 -> 2
-2 -> 3
-3 -> 5
-
- */
