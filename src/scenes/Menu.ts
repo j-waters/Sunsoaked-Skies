@@ -2,6 +2,7 @@
 import { generateMenuShip } from "../procedural/generateShip";
 import { generatePersonGraphic } from "../procedural/generatePerson";
 import Person from "../models/Person";
+import { createBackground } from "../procedural/generateBackground";
 
 export class Menu extends SceneBase {
 	private backgroundShips;
@@ -13,7 +14,7 @@ export class Menu extends SceneBase {
 	}
 	public create(): void {
 		console.log("GAME WIDTH HEIGHT", this.gameWidth, this.gameHeight, this.gameWidth);
-		this.createBackground();
+		createBackground(this);
 		let background = this.add.image(0, 0, "gradient_background");
 		background.setOrigin(0, 0);
 
@@ -51,8 +52,8 @@ export class Menu extends SceneBase {
 	private createBackgroundShips() {
 		this.backgroundShips.clear(true, true);
 		for (let i = 0; i < 25; i++) {
-			this.textures.addCanvas(`menu_ship_${i}`, generateMenuShip());
-			let image = this.add.image(Phaser.Math.FloatBetween(-200, this.gameWidth + 200), Phaser.Math.FloatBetween(0, this.gameHeight), `menu_ship_${i}`);
+			let texture = this.textures.addCanvas(null, generateMenuShip(), true);
+			let image = this.add.image(Phaser.Math.FloatBetween(-200, this.gameWidth + 200), Phaser.Math.FloatBetween(0, this.gameHeight), texture);
 			const direction = Phaser.Math.Between(0, 1) == 0;
 			const scale = Phaser.Math.FloatBetween(0.5, 1.5);
 			image.setDisplaySize(30 * scale, 30 * scale);
@@ -62,24 +63,5 @@ export class Menu extends SceneBase {
 
 			this.backgroundShips.add(image);
 		}
-	}
-
-	createBackground() {
-		let texture = this.textures.createCanvas("gradient_background", this.gameWidth, this.gameHeight);
-		let context = texture.getContext();
-		let grd = context.createLinearGradient(0, 0, 0, this.gameHeight); // ERROR LINE
-
-		grd.addColorStop(0, "#DEB2FF");
-		grd.addColorStop(0.5, "#FFB2BF");
-		grd.addColorStop(1, "#FFE9B2");
-
-		context.fillStyle = grd;
-		context.fillRect(0, 0, this.gameWidth, this.gameHeight);
-
-		//  Call this if running under WebGL, or you'll see nothing change
-		texture.refresh();
-
-		console.log("xx", texture.width);
-		return texture;
 	}
 }

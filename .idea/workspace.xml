@@ -11,19 +11,27 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="59aac075-e575-4944-a7af-9da6af2ce2a0" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/src/models/Person.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/models/Room.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/models/Ship.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/procedural/generatePerson.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/procedural/generateShip.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/codeStyles/Project.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/codeStyles/codeStyleConfig.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/rollup2.config.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/procedural/generateBackground.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/procedural/generateRoom.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/procedural/generationSettings.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/scenes/ShipScene.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/sprites/PersonSprite.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/sprites/RoomSprite.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/sprites/ShipHull.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/airships2.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/airships2.iml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/config.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/config.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/index.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/index.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/scenes/Game.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/scenes/Game.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/models/Room.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/models/Room.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/models/Ship.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/models/Ship.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/procedural/generateShip.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/procedural/generateShip.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/scenes/Menu.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/scenes/Menu.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/scenes/Preloader.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/scenes/Preloader.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/scenes/SceneBase.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/scenes/SceneBase.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/yarn.lock" beforeDir="false" afterPath="$PROJECT_DIR$/yarn.lock" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -57,6 +65,7 @@
     <property name="DefaultHtmlFileTemplate" value="HTML File" />
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
+    <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$/src/scenes" />
     <property name="node.js.detected.package.eslint" value="true" />
@@ -72,14 +81,14 @@
     <property name="ts.external.directory.path" value="$PROJECT_DIR$/node_modules/typescript/lib" />
   </component>
   <component name="RecentsManager">
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/dist" />
+      <recent name="$PROJECT_DIR$/src" />
+    </key>
     <key name="CopyFile.RECENT_KEYS">
       <recent name="$PROJECT_DIR$/src/scenes" />
       <recent name="$PROJECT_DIR$/src" />
       <recent name="$PROJECT_DIR$" />
-    </key>
-    <key name="MoveFile.RECENT_KEYS">
-      <recent name="$PROJECT_DIR$/dist" />
-      <recent name="$PROJECT_DIR$/src" />
     </key>
   </component>
   <component name="RunManager">
@@ -112,7 +121,11 @@
       <workItem from="1592178266394" duration="10133000" />
       <workItem from="1592223538785" duration="3400000" />
       <workItem from="1592239113659" duration="48481000" />
-      <workItem from="1592756738673" duration="10854000" />
+      <workItem from="1592756738673" duration="13416000" />
+      <workItem from="1593271697756" duration="201000" />
+      <workItem from="1593271930818" duration="2433000" />
+      <workItem from="1593371023734" duration="146000" />
+      <workItem from="1593373188476" duration="15292000" />
     </task>
     <task id="LOCAL-00001" summary="Init basic structure">
       <created>1592242264845</created>
@@ -121,7 +134,14 @@
       <option name="project" value="LOCAL" />
       <updated>1592242264845</updated>
     </task>
-    <option name="localTasksCounter" value="2" />
+    <task id="LOCAL-00002" summary="Add ship and person generation&#10;&#10;Added basic menu scene">
+      <created>1593269214745</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1593269214745</updated>
+    </task>
+    <option name="localTasksCounter" value="3" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -160,53 +180,55 @@
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="Init basic structure" />
-    <option name="LAST_COMMIT_MESSAGE" value="Init basic structure" />
+    <MESSAGE value="Add ship and person generation&#10;&#10;Added basic menu scene" />
+    <option name="LAST_COMMIT_MESSAGE" value="Add ship and person generation&#10;&#10;Added basic menu scene" />
   </component>
   <component name="WindowStateProjectService">
-    <state x="769" y="295" key="#com.intellij.ide.util.MemberChooser" timestamp="1592250826014">
+    <state x="769" y="295" key="#com.intellij.ide.util.MemberChooser" timestamp="1593632739187">
       <screen x="0" y="0" width="1920" height="1080" />
     </state>
-    <state x="769" y="295" key="#com.intellij.ide.util.MemberChooser/0.0.1920.1080@0.0.1920.1080" timestamp="1592250826014" />
-    <state x="516" y="60" key="CommitChangelistDialog2" timestamp="1592242264607">
-      <screen x="0" y="0" width="1920" height="1080" />
+    <state x="769" y="295" key="#com.intellij.ide.util.MemberChooser/0.0.1920.1080@0.0.1920.1080" timestamp="1593632739187" />
+    <state x="2360" y="-36" key="CommitChangelistDialog2" timestamp="1593269213585">
+      <screen x="0" y="0" width="3840" height="1080" />
     </state>
     <state x="516" y="60" key="CommitChangelistDialog2/0.0.1920.1080@0.0.1920.1080" timestamp="1592242264607" />
-    <state width="1844" height="323" key="GridCell.Tab.0.bottom" timestamp="1593259862222">
+    <state x="2360" y="-36" key="CommitChangelistDialog2/0.0.3840.1080@0.0.3840.1080" timestamp="1593269213585" />
+    <state width="1844" height="323" key="GridCell.Tab.0.bottom" timestamp="1593271664143">
       <screen x="0" y="0" width="3840" height="1080" />
     </state>
     <state width="1844" height="261" key="GridCell.Tab.0.bottom/0.0.1920.1080@0.0.1920.1080" timestamp="1592221380325" />
-    <state width="1844" height="323" key="GridCell.Tab.0.bottom/0.0.3840.1080@0.0.3840.1080" timestamp="1593259862222" />
-    <state width="1844" height="323" key="GridCell.Tab.0.center" timestamp="1593259862200">
+    <state width="1844" height="323" key="GridCell.Tab.0.bottom/0.0.3840.1080@0.0.3840.1080" timestamp="1593271664143" />
+    <state width="1844" height="323" key="GridCell.Tab.0.center" timestamp="1593271664142">
       <screen x="0" y="0" width="3840" height="1080" />
     </state>
     <state width="1844" height="261" key="GridCell.Tab.0.center/0.0.1920.1080@0.0.1920.1080" timestamp="1592221380325" />
-    <state width="1844" height="323" key="GridCell.Tab.0.center/0.0.3840.1080@0.0.3840.1080" timestamp="1593259862200" />
-    <state width="1844" height="323" key="GridCell.Tab.0.left" timestamp="1593259862195">
+    <state width="1844" height="323" key="GridCell.Tab.0.center/0.0.3840.1080@0.0.3840.1080" timestamp="1593271664142" />
+    <state width="1844" height="323" key="GridCell.Tab.0.left" timestamp="1593271664142">
       <screen x="0" y="0" width="3840" height="1080" />
     </state>
     <state width="1844" height="261" key="GridCell.Tab.0.left/0.0.1920.1080@0.0.1920.1080" timestamp="1592221380325" />
-    <state width="1844" height="323" key="GridCell.Tab.0.left/0.0.3840.1080@0.0.3840.1080" timestamp="1593259862195" />
-    <state width="1844" height="323" key="GridCell.Tab.0.right" timestamp="1593259862202">
+    <state width="1844" height="323" key="GridCell.Tab.0.left/0.0.3840.1080@0.0.3840.1080" timestamp="1593271664142" />
+    <state width="1844" height="323" key="GridCell.Tab.0.right" timestamp="1593271664142">
       <screen x="0" y="0" width="3840" height="1080" />
     </state>
     <state width="1844" height="261" key="GridCell.Tab.0.right/0.0.1920.1080@0.0.1920.1080" timestamp="1592221380325" />
-    <state width="1844" height="323" key="GridCell.Tab.0.right/0.0.3840.1080@0.0.3840.1080" timestamp="1593259862202" />
-    <state width="1844" height="323" key="GridCell.Tab.1.bottom" timestamp="1593259862239">
+    <state width="1844" height="323" key="GridCell.Tab.0.right/0.0.3840.1080@0.0.3840.1080" timestamp="1593271664142" />
+    <state width="1844" height="323" key="GridCell.Tab.1.bottom" timestamp="1593271664144">
       <screen x="0" y="0" width="3840" height="1080" />
     </state>
-    <state width="1844" height="323" key="GridCell.Tab.1.bottom/0.0.3840.1080@0.0.3840.1080" timestamp="1593259862239" />
-    <state width="1844" height="323" key="GridCell.Tab.1.center" timestamp="1593259862227">
+    <state width="1844" height="323" key="GridCell.Tab.1.bottom/0.0.3840.1080@0.0.3840.1080" timestamp="1593271664144" />
+    <state width="1844" height="323" key="GridCell.Tab.1.center" timestamp="1593271664143">
       <screen x="0" y="0" width="3840" height="1080" />
     </state>
-    <state width="1844" height="323" key="GridCell.Tab.1.center/0.0.3840.1080@0.0.3840.1080" timestamp="1593259862227" />
-    <state width="1844" height="323" key="GridCell.Tab.1.left" timestamp="1593259862226">
+    <state width="1844" height="323" key="GridCell.Tab.1.center/0.0.3840.1080@0.0.3840.1080" timestamp="1593271664143" />
+    <state width="1844" height="323" key="GridCell.Tab.1.left" timestamp="1593271664143">
       <screen x="0" y="0" width="3840" height="1080" />
     </state>
-    <state width="1844" height="323" key="GridCell.Tab.1.left/0.0.3840.1080@0.0.3840.1080" timestamp="1593259862226" />
-    <state width="1844" height="323" key="GridCell.Tab.1.right" timestamp="1593259862235">
+    <state width="1844" height="323" key="GridCell.Tab.1.left/0.0.3840.1080@0.0.3840.1080" timestamp="1593271664143" />
+    <state width="1844" height="323" key="GridCell.Tab.1.right" timestamp="1593271664144">
       <screen x="0" y="0" width="3840" height="1080" />
     </state>
-    <state width="1844" height="323" key="GridCell.Tab.1.right/0.0.3840.1080@0.0.3840.1080" timestamp="1593259862235" />
+    <state width="1844" height="323" key="GridCell.Tab.1.right/0.0.3840.1080@0.0.3840.1080" timestamp="1593271664144" />
     <state width="1844" height="323" key="GridCell.Tab.2.bottom" timestamp="1593259671095">
       <screen x="0" y="0" width="3840" height="1080" />
     </state>
@@ -223,10 +245,11 @@
       <screen x="0" y="0" width="3840" height="1080" />
     </state>
     <state width="1844" height="323" key="GridCell.Tab.2.right/0.0.3840.1080@0.0.3840.1080" timestamp="1593259671094" />
-    <state x="450" y="211" key="SettingsEditor" timestamp="1592237390476">
-      <screen x="0" y="0" width="1920" height="1080" />
+    <state x="2370" y="211" key="SettingsEditor" timestamp="1593272406903">
+      <screen x="1920" y="0" width="1920" height="1080" />
     </state>
     <state x="450" y="211" key="SettingsEditor/0.0.1920.1080@0.0.1920.1080" timestamp="1592237390476" />
+    <state x="2370" y="211" key="SettingsEditor/1920.0.1920.1080/0.0.1920.1080@1920.0.1920.1080" timestamp="1593272406903" />
     <state x="650" y="240" width="612" height="592" key="find.popup" timestamp="1592180223767">
       <screen x="0" y="0" width="1920" height="1080" />
     </state>
@@ -235,5 +258,9 @@
       <screen x="0" y="0" width="1920" height="1080" />
     </state>
     <state x="740" y="315" key="refactoring.ChangeSignatureDialog/0.0.1920.1080@0.0.1920.1080" timestamp="1592565771110" />
+    <state x="2540" y="265" width="672" height="677" key="run.anything.popup" timestamp="1593271591772">
+      <screen x="0" y="0" width="3840" height="1080" />
+    </state>
+    <state x="2540" y="265" width="672" height="677" key="run.anything.popup/0.0.3840.1080@0.0.3840.1080" timestamp="1593271591772" />
   </component>
 </project>

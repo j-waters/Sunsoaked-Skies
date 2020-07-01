@@ -11,6 +11,6 @@ export class Preloader extends SceneBase {
 	}
 
 	public create() {
-		this.scene.start("Menu");
+		this.scene.start("ShipScene");
 	}
 }

@@ -1,4 +1,5 @@
 import Room from "./Room";
+import { generateGrid } from "../procedural/generateShip";
 
 export default class Ship {
 	rootRoom: Room;
@@ -9,6 +10,23 @@ export default class Ship {
 
 	public static builder() {
 		return new ShipBuilder();
+	}
+
+	public get roomGrid() {
+		return generateGrid(this.rootRoom);
+	}
+
+	public get rooms(): Room[] {
+		let rooms = [];
+		this.roomGrid.forEach((row, y) => {
+			row.forEach((room, x) => {
+				if (room && !rooms.includes(room)) {
+					room.setGridPosition(x, y);
+					rooms.push(room);
+				}
+			});
+		});
+		return rooms;
 	}
 }
 

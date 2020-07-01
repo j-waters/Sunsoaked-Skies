@@ -6,6 +6,7 @@ interface RoomPosition {
 export default class Room {
 	private readonly _width: number;
 	private readonly _height: number;
+	gridPosition: { x: number; y: number };
 
 	get width(): number {
 		return this._width;
@@ -66,5 +67,9 @@ export default class Room {
 		}
 		this.rightRoom = { room, position };
 		return room;
+	}
+
+	setGridPosition(x: number, y: number) {
+		this.gridPosition = { x, y };
 	}
 }
