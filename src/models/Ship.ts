@@ -1,6 +1,6 @@
-import Room from "./Room";
-import { generateGrid } from "../procedural/generateShip";
-import Person from "./Person";
+import type Room from './Room';
+import { generateGrid } from '../generation/generateShip';
+import Person from './Person';
 
 export default class Ship {
 	rootRoom: Room;
@@ -38,8 +38,8 @@ export default class Ship {
 class ShipBuilder {
 	private rootRoom: Room;
 
-	createRootRoom(width: number, height: number, inside?: boolean) {
-		this.rootRoom = new Room(width, height, inside);
+	createRootRoom(room: Room) {
+		this.rootRoom = room;
 		return this.rootRoom;
 	}
 

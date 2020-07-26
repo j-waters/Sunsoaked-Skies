@@ -1,12 +1,12 @@
-import "phaser";
+import 'phaser';
 
 export default {
 	type: Phaser.AUTO,
-	parent: "game",
+	parent: 'game',
 	// backgroundColor: "#33A5E7",
-	render: {
-		pixelArt: true,
-	},
+	// render: {
+	// 	pixelArt: true,
+	// },
 	scale: {
 		mode: Phaser.Scale.RESIZE,
 		autoCenter: Phaser.Scale.CENTER_BOTH,

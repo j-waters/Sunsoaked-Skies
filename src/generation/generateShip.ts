@@ -1,14 +1,15 @@
-import Room from "../models/Room";
-import Ship from "../models/Ship";
+import type Room from '../models/Room';
+import Ship from '../models/Ship';
 import Point = Phaser.Geom.Point;
 import Color = Phaser.Display.Color;
 import RND = Phaser.Math.RND;
 import RandomDataGenerator = Phaser.Math.RandomDataGenerator;
-import GenerationSettings from "./generationSettings";
-import generationSettings from "./generationSettings";
+import GenerationSettings from './generationSettings';
+import generationSettings from './generationSettings';
+import Empty from '../models/rooms/Empty';
 
 type roomGrid = Array<Array<Room>>;
-type direction = "LEFT" | "RIGHT" | "TOP" | "BOTTOM";
+type direction = 'LEFT' | 'RIGHT' | 'TOP' | 'BOTTOM';
 
 export function generateGrid(room: Room, grid?: roomGrid, x?: number, y?: number) {
 	let xMod = 0;
@@ -52,18 +53,24 @@ export function generateGrid(room: Room, grid?: roomGrid, x?: number, y?: number
 			addToGrid(room, grid, xi, yi);
 		}
 	}
-	if (room.upRoom) {
-		generateGrid(room.upRoom.room, grid, x + room.upRoom.position, y - room.upRoom.room.height);
-	}
-	if (room.downRoom) {
-		generateGrid(room.downRoom.room, grid, x + room.downRoom.position, y + 1);
-	}
-	if (room.leftRoom) {
-		generateGrid(room.leftRoom.room, grid, x - room.leftRoom.room.width, y + room.leftRoom.position);
-	}
-	if (room.rightRoom) {
-		generateGrid(room.rightRoom.room, grid, x + 1, y + room.rightRoom.position);
-	}
+	room.neighbours
+		.filter((neighbour) => !neighbour.automatic)
+		.forEach((neighbour) => {
+			switch (neighbour.direction) {
+				case 'UP':
+					generateGrid(neighbour.room, grid, x + neighbour.thisPosition.x - neighbour.theirPosition.x, y - neighbour.room.height);
+					break;
+				case 'DOWN':
+					generateGrid(neighbour.room, grid, x + neighbour.thisPosition.x - neighbour.theirPosition.x, y + room.height);
+					break;
+				case 'LEFT':
+					generateGrid(neighbour.room, grid, x - neighbour.room.width, y + neighbour.thisPosition.y - neighbour.theirPosition.y);
+					break;
+				case 'RIGHT':
+					generateGrid(neighbour.room, grid, x + room.width, y + neighbour.thisPosition.y - neighbour.theirPosition.y);
+					break;
+			}
+		});
 	return grid;
 }
 
@@ -71,8 +78,8 @@ export function generateShipGraphic(ship: Ship, generationSettings): HTMLCanvasE
 	let hull = generateHullGraphic(ship, null);
 	let balloon = generateBalloonGraphic(ship, generationSettings);
 
-	let canvas = document.createElement("canvas");
-	let context = canvas.getContext("2d");
+	let canvas = document.createElement('canvas');
+	let context = canvas.getContext('2d');
 	canvas.width = Math.max(hull.width, balloon.width);
 	canvas.height = hull.height + balloon.height + 20;
 
@@ -87,15 +94,15 @@ export function generateShipGraphic(ship: Ship, generationSettings): HTMLCanvasE
 
 export function generateHullGraphic(ship: Ship, generationSettings: GenerationSettings, seed?: string) {
 	let grid = generateGrid(ship.rootRoom);
-	let canvas = document.createElement("canvas");
+	let canvas = document.createElement('canvas');
 
 	canvas.width = grid[0].length * generationSettings.roomSizeMargin + generationSettings.margin * 2 + generationSettings.strokeThickness;
 	canvas.height = grid.length * generationSettings.roomSizeMargin + generationSettings.margin * 2 + generationSettings.strokeThickness;
-	let context = canvas.getContext("2d");
+	let context = canvas.getContext('2d');
 
 	context.lineWidth = generationSettings.strokeThickness;
-	context.lineJoin = "bevel";
-	context.strokeStyle = "#6b4a31";
+	context.lineJoin = 'bevel';
+	context.strokeStyle = '#6b4a31';
 
 	let path = generateOutlinePath(grid, generationSettings);
 	// context.fill(path);
@@ -120,24 +127,24 @@ export function generateHullGraphic(ship: Ship, generationSettings: GenerationSe
 }
 
 function generateBackgroundGraphic(width: number, height: number, seed?: string) {
-	let canvas = document.createElement("canvas");
+	let canvas = document.createElement('canvas');
 
 	canvas.width = width;
 	canvas.height = height;
-	let context = canvas.getContext("2d");
+	let context = canvas.getContext('2d');
 
 	const plankHeight = 15;
 	const maxDarken = 20;
 	let rnd = new RandomDataGenerator(seed);
 
-	context.strokeStyle = "#6b4a31";
+	context.strokeStyle = '#6b4a31';
 	context.lineWidth = 0.1;
 
 	for (let y = 0; y < height; y += plankHeight) {
 		let x = 0;
 		while (x < width) {
 			let plankWidth = rnd.integerInRange(50, width * 0.5);
-			let colour = Color.HexStringToColor("#b27450");
+			let colour = Color.HexStringToColor('#b27450');
 
 			let darkenAmount = ((y / height) * maxDarken * rnd.realInRange(0.8, 1.5)) / 1.5;
 			colour.darken(Math.round(darkenAmount) * 1.5);
@@ -152,12 +159,12 @@ function generateBackgroundGraphic(width: number, height: number, seed?: string)
 }
 
 function generateBalloonGraphic(ship: Ship, generationSettings: GenerationSettings, seed?: string) {
-	let canvas = document.createElement("canvas");
+	let canvas = document.createElement('canvas');
 	let grid = generateGrid(ship.rootRoom);
 
 	canvas.width = grid[0].length * generationSettings.roomSizeMargin + generationSettings.margin * 2 + generationSettings.strokeThickness;
 	canvas.height = (grid.length * generationSettings.roomSizeMargin + generationSettings.margin * 2 + generationSettings.strokeThickness) / 2;
-	let context = canvas.getContext("2d");
+	let context = canvas.getContext('2d');
 
 	let colour = Color.RandomRGB();
 	context.fillStyle = colour.rgba;
@@ -170,12 +177,12 @@ function generateBalloonGraphic(ship: Ship, generationSettings: GenerationSettin
 }
 
 function generateBalloonLines(width, height, seed?: string) {
-	let canvas = document.createElement("canvas");
+	let canvas = document.createElement('canvas');
 
 	canvas.width = width;
 	canvas.height = height / 1.5;
 
-	let context = canvas.getContext("2d");
+	let context = canvas.getContext('2d');
 
 	let rnd = new RandomDataGenerator(seed);
 
@@ -193,7 +200,7 @@ function generateOutlinePath(grid: roomGrid, generationSettings: GenerationSetti
 		for (let xPos = 0; xPos < grid[0].length; xPos++) {
 			if (grid[yPos][xPos] != null && grid[yPos][xPos].inside) {
 				let path = new Path2D();
-				roomLines(grid, xPos, yPos, true, "TOP", path, generationSettings);
+				roomLines(grid, xPos, yPos, true, 'TOP', path, generationSettings);
 				path.closePath();
 				return path;
 			}
@@ -209,14 +216,14 @@ function roomLines(
 	direction: direction,
 	path: Path2D,
 	generationSettings: GenerationSettings,
-	startPoint?: Phaser.Geom.Point
+	startPoint?: Phaser.Geom.Point,
 ) {
 	let room = grid[yPos][xPos];
-	let surrounding = surroundingRooms(grid, xPos, yPos);
+	let surrounding = surroundingRooms(grid, xPos, yPos, false);
 
 	let topLeft = new Point(
 		generationSettings.margin + xPos * generationSettings.roomSizeMargin + generationSettings.strokeThickness / 2,
-		generationSettings.margin + yPos * generationSettings.roomSizeMargin + generationSettings.strokeThickness / 2
+		generationSettings.margin + yPos * generationSettings.roomSizeMargin + generationSettings.strokeThickness / 2,
 	);
 	let bottomRight = new Point(topLeft.x + generationSettings.roomSizeMargin, topLeft.y + generationSettings.roomSizeMargin);
 
@@ -256,7 +263,7 @@ function roomLines(
 	const pixelMod = 0.333;
 
 	switch (direction) {
-		case "LEFT":
+		case 'LEFT':
 			if (surrounding[1][0] == null || surrounding[1][0].outside) {
 				path.lineTo(topLeft.x + pixelMod, topLeft.y + pixelMod);
 				if (!starting && Point.Equals(startPoint, topLeft)) {
@@ -264,16 +271,16 @@ function roomLines(
 				}
 			}
 			if (surrounding[0][0]) {
-				roomLines(grid, xPos - 1, yPos - 1, false, "BOTTOM", path, generationSettings, startPoint);
+				roomLines(grid, xPos - 1, yPos - 1, false, 'BOTTOM', path, generationSettings, startPoint);
 				return;
 			}
 			if (surrounding[0][1]) {
-				roomLines(grid, xPos, yPos - 1, false, "LEFT", path, generationSettings, startPoint);
+				roomLines(grid, xPos, yPos - 1, false, 'LEFT', path, generationSettings, startPoint);
 				return;
 			}
-			roomLines(grid, xPos, yPos, false, "TOP", path, generationSettings, startPoint);
+			roomLines(grid, xPos, yPos, false, 'TOP', path, generationSettings, startPoint);
 			return;
-		case "RIGHT":
+		case 'RIGHT':
 			if (surrounding[1][2] == null || surrounding[1][2].outside) {
 				path.lineTo(bottomRight.x + pixelMod, bottomRight.y + pixelMod);
 				if (!starting && Point.Equals(startPoint, bottomRight)) {
@@ -281,16 +288,16 @@ function roomLines(
 				}
 			}
 			if (surrounding[2][2]) {
-				roomLines(grid, xPos + 1, yPos + 1, false, "TOP", path, generationSettings, startPoint);
+				roomLines(grid, xPos + 1, yPos + 1, false, 'TOP', path, generationSettings, startPoint);
 				return;
 			}
 			if (surrounding[2][1]) {
-				roomLines(grid, xPos, yPos + 1, false, "RIGHT", path, generationSettings, startPoint);
+				roomLines(grid, xPos, yPos + 1, false, 'RIGHT', path, generationSettings, startPoint);
 				return;
 			}
-			roomLines(grid, xPos, yPos, false, "BOTTOM", path, generationSettings, startPoint);
+			roomLines(grid, xPos, yPos, false, 'BOTTOM', path, generationSettings, startPoint);
 			return;
-		case "TOP":
+		case 'TOP':
 			if (surrounding[0][1] == null || surrounding[0][1].outside) {
 				path.lineTo(topRight.x + pixelMod, topRight.y + pixelMod);
 				if (!starting && Point.Equals(startPoint, topRight)) {
@@ -298,16 +305,16 @@ function roomLines(
 				}
 			}
 			if (surrounding[0][2]) {
-				roomLines(grid, xPos + 1, yPos - 1, false, "LEFT", path, generationSettings, startPoint);
+				roomLines(grid, xPos + 1, yPos - 1, false, 'LEFT', path, generationSettings, startPoint);
 				return;
 			}
 			if (surrounding[1][2]) {
-				roomLines(grid, xPos + 1, yPos, false, "TOP", path, generationSettings, startPoint);
+				roomLines(grid, xPos + 1, yPos, false, 'TOP', path, generationSettings, startPoint);
 				return;
 			}
-			roomLines(grid, xPos, yPos, false, "RIGHT", path, generationSettings, startPoint);
+			roomLines(grid, xPos, yPos, false, 'RIGHT', path, generationSettings, startPoint);
 			return;
-		case "BOTTOM":
+		case 'BOTTOM':
 			if (surrounding[2][1] == null || surrounding[2][1].outside) {
 				if (surrounding[2][0] != null && surrounding[3][1] == null) {
 					path.bezierCurveTo(
@@ -316,7 +323,7 @@ function roomLines(
 						bottomRight.x + pixelMod,
 						bottomRight.y + generationSettings.roomSizeMargin + pixelMod,
 						bottomLeft.x + pixelMod,
-						bottomLeft.y + generationSettings.roomSizeMargin + pixelMod
+						bottomLeft.y + generationSettings.roomSizeMargin + pixelMod,
 					);
 				} else {
 					path.lineTo(bottomLeft.x + pixelMod, bottomLeft.y + pixelMod);
@@ -326,19 +333,19 @@ function roomLines(
 				}
 			}
 			if (surrounding[2][0]) {
-				roomLines(grid, xPos - 1, yPos + 1, false, "RIGHT", path, generationSettings, startPoint);
+				roomLines(grid, xPos - 1, yPos + 1, false, 'RIGHT', path, generationSettings, startPoint);
 				return;
 			}
 			if (surrounding[1][0]) {
-				roomLines(grid, xPos - 1, yPos, false, "BOTTOM", path, generationSettings, startPoint);
+				roomLines(grid, xPos - 1, yPos, false, 'BOTTOM', path, generationSettings, startPoint);
 				return;
 			}
-			roomLines(grid, xPos, yPos, false, "LEFT", path, generationSettings, startPoint);
+			roomLines(grid, xPos, yPos, false, 'LEFT', path, generationSettings, startPoint);
 			return;
 	}
 }
 
-function surroundingRooms(grid: roomGrid, x, y) {
+function surroundingRooms(grid: roomGrid, x, y, allowOutside) {
 	let surrounding: roomGrid = [
 		[null, null, null],
 		[null, null, null],
@@ -361,12 +368,20 @@ function surroundingRooms(grid: roomGrid, x, y) {
 	surrounding[3][0] = x > 0 && y < grid.length - 2 ? grid[y + 2][x - 1] : null;
 	surrounding[3][1] = y < grid.length - 2 ? grid[y + 2][x] : null;
 	surrounding[3][2] = x < grid[0].length - 1 && y < grid.length - 2 ? grid[y + 2][x + 1] : null;
+
+	if (!allowOutside) {
+		surrounding = surrounding.map((row) => {
+			return row.map((room) => {
+				return room && room.inside ? room : null;
+			});
+		});
+	}
 	return surrounding;
 }
 
 export function generateMenuShip() {
 	let shipBuilder = Ship.builder();
-	let root = shipBuilder.createRootRoom(1, 1);
-	root.addRoomDown(new Room(2, 1)).addRoomDown(new Room(1, 1));
+	let root = shipBuilder.createRootRoom(new Empty(1, 1));
+	root.addRoomDown(new Empty(2, 1)).addRoomDown(new Empty(1, 1));
 	return generateShipGraphic(shipBuilder.build(), new GenerationSettings(1));
 }

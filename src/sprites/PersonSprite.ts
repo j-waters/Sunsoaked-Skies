@@ -1,23 +1,38 @@
 import Scene = Phaser.Scene;
 import Container = Phaser.GameObjects.Container;
-import Person from "../models/Person";
-import { generateArmTexture, generateBodyTexture, generateHeadGraphic, generateHeadTexture, generateLegTexture } from "../procedural/generatePerson";
-import GenerationSettings from "../procedural/generationSettings";
+import type Person from '../models/Person';
+import { generateArmTexture, generateBodyTexture, generateHeadTexture, generateLegTexture } from '../generation/generatePerson';
+import type GenerationSettings from '../generation/generationSettings';
 import Rectangle = Phaser.GameObjects.Rectangle;
-import RoomSprite from "./RoomSprite";
+import type RoomSprite from './RoomSprite';
+import type Selectable from './components/Selectable';
+import type ShipHull from './ShipHull';
+import pathfind from '../generation/pathfinding';
+import type Room from '../models/Room';
+import Point = Phaser.Geom.Point;
+import dat from 'dat.gui';
 
-export default class PersonSprite extends Phaser.GameObjects.Container {
-	private person: Person;
-	private head: Phaser.GameObjects.Image;
-	private _body: Phaser.GameObjects.Image;
-	private arm1: Phaser.GameObjects.Image;
-	private arm2: Phaser.GameObjects.Image;
-	private leg1: Phaser.GameObjects.Image;
-	private leg2: Phaser.GameObjects.Image;
-	private generationSettings: GenerationSettings;
-	private highlightBox: Phaser.GameObjects.Rectangle;
-	constructor(scene: Scene, person: Person, generationSettings: GenerationSettings) {
+export default class PersonSprite extends Container implements Selectable {
+	private readonly person: Person;
+	private readonly head: Phaser.GameObjects.Image;
+	private readonly _body: Phaser.GameObjects.Image;
+	private readonly arm1: Phaser.GameObjects.Image;
+	private readonly arm2: Phaser.GameObjects.Image;
+	private readonly leg1: Phaser.GameObjects.Image;
+	private readonly leg2: Phaser.GameObjects.Image;
+	private readonly generationSettings: GenerationSettings;
+	private debugGui;
+
+	protected parent: ShipHull;
+	protected highlightBox: Phaser.GameObjects.Rectangle;
+	private movementQueue: { room: Room; position: Point }[] = [];
+	private _compHeight: number;
+	private _compWidth: number;
+
+	constructor(scene: Scene, parent: ShipHull, person: Person, generationSettings: GenerationSettings) {
 		super(scene, 0, 0, null);
+
+		this.parent = parent;
 
 		this.person = person;
 
@@ -48,9 +63,21 @@ export default class PersonSprite extends Phaser.GameObjects.Container {
 
 		this.setForward();
 
-		let rect = new Phaser.Geom.Rectangle(-this.getBounds().width / 2, -this.getBounds().height / 2, this.getBounds().width, this.getBounds().height);
+		let rect = new Phaser.Geom.Rectangle(0, 0, this.compWidth, this.compHeight);
 
 		this.setInteractive(rect, Phaser.Geom.Rectangle.Contains);
+
+		this.on(Phaser.Input.Events.POINTER_DOWN, (pointer, x, y, event) => {
+			this.parent.select(this);
+			event.stopPropagation();
+			console.log('Clicked:', this);
+		});
+
+		if (true) {
+			this.debugGui = new dat.GUI();
+			this.debugGui.add(this.person.roomPosition, 'x');
+			this.debugGui.hide();
+		}
 	}
 
 	private setForward() {
@@ -75,31 +102,111 @@ export default class PersonSprite extends Phaser.GameObjects.Container {
 
 	private setupHover() {
 		let thickness = this.generationSettings.strokeThickness / 2;
-		this.highlightBox = new Rectangle(this.scene, 0, 0, this.getBounds().width, this.getBounds().height);
-		this.highlightBox.setStrokeStyle(thickness, 0xffff00);
+		this.highlightBox = new Rectangle(this.scene, 0, 0, this.compWidth, this.compHeight);
+
 		this.highlightBox.setVisible(false);
 		// this.highlightBox.setOrigin(0, 0);
 		this.add(this.highlightBox);
 
-		this.on("pointerover", (event) => {
-			console.log("hover", this.highlightBox.x);
+		this.on(Phaser.Input.Events.POINTER_OVER, (event) => {
+			this.highlightBox.setStrokeStyle(thickness, 0xffff00);
 			this.highlightBox.setVisible(true);
 		});
-		this.on("pointerout", (event) => {
-			console.log("nohover", this.highlightBox.x);
-			this.highlightBox.setVisible(false);
-		});
-	}
-
-	public setRoomPosition(roomSprites: RoomSprite[]) {
-		roomSprites.forEach((roomSprite) => {
-			let room = roomSprite.room;
-			if (room == this.person.room) {
-				let positions = room.width == 1 ? 2 : room.width == 2 ? 3 : 5;
-				let divisor = positions * 2;
-				let xPos = roomSprite.x + (roomSprite.width / divisor) * (roomSprite.room.people.indexOf(this.person) * 2 + 1);
-				this.setPosition(xPos, roomSprite.y + roomSprite.height - this.getBounds().height / 2);
+		this.on(Phaser.Input.Events.POINTER_OUT, (event) => {
+			if (this.selected) {
+				this.highlightBox.setStrokeStyle(this.highlightBox.lineWidth, 0xffaa00);
+			} else {
+				this.highlightBox.setVisible(false);
 			}
 		});
 	}
+
+	get selected() {
+		return this.parent.selected === this;
+	}
+
+	select() {
+		this.highlightBox.setStrokeStyle(this.highlightBox.lineWidth, 0xffaa00);
+		this.highlightBox.setVisible(true);
+		this.debugGui.show();
+	}
+	deselect() {
+		this.highlightBox.setVisible(false);
+		this.debugGui.hide();
+	}
+
+	public moveToPosition() {
+		let position = this.roomSprite.personWorldPosition(this.person.roomPosition);
+		this.setPosition(position.x, position.y - this.compHeight / 2);
+	}
+
+	setPosition(x?: number, y?: number, z?: number, w?: number): this {
+		return super.setPosition(x, y, z, w);
+	}
+
+	get roomSprite() {
+		return this.parent.getRoomSprite(this.room);
+	}
+
+	get room() {
+		return this.person.room;
+	}
+
+	toRoom(roomSprite: RoomSprite) {
+		let route = pathfind(this.person, roomSprite.room);
+		console.log(
+			'Specific route:',
+			route.map((i) => i),
+		);
+		this.movementQueue = route;
+	}
+
+	get bottom() {
+		return this.y + this.compHeight / 2;
+	}
+
+	get compWidth() {
+		this._compWidth = this._compWidth ?? this.getBounds().width;
+		return this._compWidth;
+	}
+
+	get compHeight() {
+		this._compHeight = this._compHeight ?? this.getBounds().height;
+		return this._compHeight;
+	}
+
+	incrementMovement(movement?: number) {
+		// return;
+		if (this.movementQueue.length == 0) {
+			return;
+		}
+		if (movement == undefined) {
+			movement = 3;
+		}
+		let currentTarget = this.movementQueue[0].room;
+		let currentTargetSprite = this.parent.getRoomSprite(currentTarget);
+		let currentTargetPosition = currentTargetSprite.personWorldPosition(this.movementQueue[0].position);
+		let curPos = new Point(this.x, this.bottom);
+		let diff = pointDiff(curPos, currentTargetPosition);
+		let distanceToTarget = Point.GetMagnitude(diff);
+
+		if (distanceToTarget > movement) {
+			diff = Point.SetMagnitude(diff, movement);
+		}
+		this.setPosition(this.x + diff.x, this.y + diff.y);
+		if (distanceToTarget < movement) {
+			console.log('got to', this.movementQueue[0], currentTargetPosition, curPos, diff);
+			this.person.setRoom(this.movementQueue[0].room, this.movementQueue[0].position);
+			this.movementQueue.shift();
+			this.incrementMovement(Point.GetMagnitude(diff));
+		}
+	}
+
+	update(time: number, delta: number) {
+		this.incrementMovement();
+	}
+}
+
+function pointDiff(pointA: Point, pointB: Point) {
+	return new Point(pointB.x - pointA.x, pointB.y - pointA.y);
 }

@@ -1,12 +1,12 @@
-import Person from "../models/Person";
+import type Person from '../models/Person';
 import Scene = Phaser.Scene;
-import GenerationSettings from "./generationSettings";
+import type GenerationSettings from './generationSettings';
 
 export function generatePersonGraphic(person: Person, generationSettings: GenerationSettings): HTMLImageElement {
-	let canvas = document.createElement("canvas");
+	let canvas = document.createElement('canvas');
 	canvas.width = generationSettings.personWidth;
 	canvas.height = generationSettings.personHeight;
-	let context = canvas.getContext("2d");
+	let context = canvas.getContext('2d');
 
 	let head = generateHeadGraphic(person, generationSettings);
 	let body = generateBodyGraphic(person, generationSettings);
@@ -22,20 +22,20 @@ export function generatePersonGraphic(person: Person, generationSettings: Genera
 	context.drawImage(arm1, generationSettings.armConfig.xOffset, generationSettings.armConfig.yOffset);
 	context.drawImage(arm2, generationSettings.personWidth - generationSettings.armConfig.xOffset - generationSettings.armConfig.width, generationSettings.armConfig.yOffset);
 
-	let img = document.createElement("img");
+	let img = document.createElement('img');
 	img.src = canvas.toDataURL();
 	return img;
 }
 
 export function generateHeadGraphic(person: Person, generationSettings: GenerationSettings) {
-	let canvas = document.createElement("canvas");
+	let canvas = document.createElement('canvas');
 
 	canvas.width = generationSettings.headConfig.width;
 	canvas.height = generationSettings.headConfig.height;
-	let context = canvas.getContext("2d");
+	let context = canvas.getContext('2d');
 
-	context.strokeStyle = "#000000";
-	context.fillStyle = "#ba826b";
+	context.strokeStyle = '#000000';
+	context.fillStyle = '#ba826b';
 	roundedRectangle(context, 0, 0, generationSettings.headConfig.width, generationSettings.headConfig.height, generationSettings.personRoundingRadius);
 	context.fill();
 	return canvas;
@@ -46,14 +46,14 @@ export function generateHeadTexture(scene: Scene, person: Person, generationSett
 }
 
 export function generateBodyGraphic(person: Person, generationSettings: GenerationSettings) {
-	let canvas = document.createElement("canvas");
+	let canvas = document.createElement('canvas');
 
 	canvas.width = generationSettings.bodyConfig.width;
 	canvas.height = generationSettings.bodyConfig.height;
-	let context = canvas.getContext("2d");
+	let context = canvas.getContext('2d');
 
-	context.strokeStyle = "#000000";
-	context.fillStyle = "#3b2678";
+	context.strokeStyle = '#000000';
+	context.fillStyle = '#3b2678';
 	roundedRectangle(context, 0, 0, generationSettings.bodyConfig.width, generationSettings.bodyConfig.height, generationSettings.personRoundingRadius);
 	context.fill();
 	return canvas;
@@ -64,14 +64,14 @@ export function generateBodyTexture(scene: Scene, person: Person, generationSett
 }
 
 export function generateLegGraphic(person: Person, generationSettings: GenerationSettings) {
-	let canvas = document.createElement("canvas");
+	let canvas = document.createElement('canvas');
 
 	canvas.width = generationSettings.legConfig.width;
 	canvas.height = generationSettings.legConfig.height;
-	let context = canvas.getContext("2d");
+	let context = canvas.getContext('2d');
 
-	context.strokeStyle = "#000000";
-	context.fillStyle = "#361a0e";
+	context.strokeStyle = '#000000';
+	context.fillStyle = '#361a0e';
 	roundedRectangle(context, 0, 0, generationSettings.legConfig.width, generationSettings.legConfig.height, generationSettings.personRoundingRadius);
 	context.fill();
 	return canvas;
@@ -82,14 +82,14 @@ export function generateLegTexture(scene: Scene, person: Person, generationSetti
 }
 
 export function generateArmGraphic(person: Person, generationSettings: GenerationSettings) {
-	let canvas = document.createElement("canvas");
+	let canvas = document.createElement('canvas');
 
 	canvas.width = generationSettings.armConfig.width;
 	canvas.height = generationSettings.armConfig.height;
-	let context = canvas.getContext("2d");
+	let context = canvas.getContext('2d');
 
-	context.strokeStyle = "#000000";
-	context.fillStyle = "#493092";
+	context.strokeStyle = '#000000';
+	context.fillStyle = '#493092';
 	roundedRectangle(context, 0, 0, generationSettings.armConfig.width, generationSettings.armConfig.height, generationSettings.personRoundingRadius);
 	context.fill();
 	return canvas;
