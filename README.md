@@ -1,37 +1,24 @@
-<h1 align="center">
-  <br>
-  <a href="https://github.com/geocine/phaser3-rollup-typescript#readme"><img src="https://i.imgur.com/6lcIxDs.png" alt="header" width="600"/></a>
-  <br>
-  Phaser 3 TypeScript Starter
-  <br>
-</h1>
+# New Project
 
-This is a [Phaser 3](https://github.com/photonstorm/phaser) starter with [TypeScript](https://www.typescriptlang.org/), [Rollup](https://rollupjs.org) for bundling and [nollup](https://github.com/PepsRyuu/nollup) as development server.
+> ✨ Bootstrapped with Create Snowpack App (CSA).
 
-## Available Commands
+## Available Scripts
 
-| Command | Description |
-|---------|-------------|
-| `yarn install` | Install project dependencies |
-| `yarn dev` | Builds project and open web server, watching for changes |
-| `yarn build` | Builds code bundle with production settings (minification, no source maps, etc..) |
-| `yarn start` | Run a web server to serve built code bundle |
+### npm start
 
-## Development
+Runs the app in the development mode.
+Open http://localhost:8080 to view it in the browser.
 
-After cloning the repo, run `yarn install` from your project directory. Then, you can start the local development
-server by running `yarn dev`.
+The page will reload if you make edits.
+You will also see any lint errors in the console.
 
-After starting the development server with `yarn dev`, you can edit any files in the `src` folder
-and **nollup** will automatically recompile and reload your browser (available at `http://localhost:8080`
-by default).
+### npm run build
 
-The development server makes use of [nollup](https://github.com/PepsRyuu/nollup) which makes hot reload very fast.
+Builds a static copy of your site to the `build/` folder.
+Your app is ready to be deployed!
 
-<div align="center" markdown="1">
-  <img src="https://i.imgur.com/qXntDUS.gif" width="600"/>
-</div>
+**For the best production performance:** Add a build bundler plugin like "@snowpack/plugin-webpack" or "@snowpack/plugin-parcel" to your `snowpack.config.json` config file.
 
-## Production
+### Q: What about Eject?
 
-After running `yarn build`, the files you need for production will be on the `dist` folder. To test code on your `dist` folder, run `yarn start` and navigate to `http://localhost:5000`
+No eject needed! Snowpack guarantees zero lock-in, and CSA strives for the same.
