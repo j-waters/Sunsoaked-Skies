@@ -1,17 +1,12 @@
-import { generateRoomBackground } from '../generation/generateRoom';
-import Scene = Phaser.Scene;
-import type Room from '../models/Room';
-import type GenerationSettings from '../generation/generationSettings';
-import Container = Phaser.GameObjects.Container;
-import Rectangle = Phaser.GameObjects.Rectangle;
-import { ShipScene } from '../scenes/ShipScene';
-import type ShipHull from './ShipHull';
+import { generateRoomBackground } from '../../generation/generateRoom';
+import type Room from '../../models/Room';
+import type GenerationSettings from '../../generation/generationSettings';
+import type ShipHull from '../../scenes/ShipHull';
 import Sprite = Phaser.GameObjects.Sprite;
-import type Selectable from './components/Selectable';
+import type Selectable from './Selectable';
 import Point = Phaser.Geom.Point;
-import { possiblePositions } from '../generation/pathfinding';
+import { possiblePositions } from '../../generation/pathfinding';
 import dat from 'dat.gui';
-// import * as dat from "dat.gui/build/dat.gui.module";
 
 export default class RoomSprite extends Sprite implements Selectable {
 	public room: Room;
@@ -19,11 +14,11 @@ export default class RoomSprite extends Sprite implements Selectable {
 	protected parent: ShipHull;
 	protected highlightBox: Phaser.GameObjects.Rectangle;
 	private debugGui;
-	constructor(scene: Scene, parent: ShipHull, roomData: Room, generationSettings: GenerationSettings) {
-		let texture = scene.textures.addCanvas(null, generateRoomBackground(roomData, generationSettings), true);
-		super(scene, 0, 0, texture);
+	constructor(parent: ShipHull, roomData: Room, generationSettings: GenerationSettings) {
+		let texture = parent.textures.addCanvas(null, generateRoomBackground(roomData, generationSettings), true);
+		super(parent, 0, 0, texture);
 
-		this.setInteractive();
+		this.setInteractive({ useHandCursor: true });
 
 		this.parent = parent;
 
@@ -63,11 +58,10 @@ export default class RoomSprite extends Sprite implements Selectable {
 
 	public setupHover() {
 		let thickness = this.generationSettings.strokeThickness / 2;
-		this.highlightBox = new Rectangle(this.scene, this.x + thickness / 2, this.y + thickness / 2, this.width - thickness, this.height - thickness);
+		this.highlightBox = this.parent.add.rectangle(this.x + thickness / 2, this.y + thickness / 2, this.width - thickness, this.height - thickness);
 		this.highlightBox.setStrokeStyle(thickness, 0xffff00);
 		this.highlightBox.setVisible(false);
 		this.highlightBox.setOrigin(0, 0);
-		this.parent.add(this.highlightBox);
 
 		this.on(Phaser.Input.Events.POINTER_OVER, (event) => {
 			this.highlightBox.setStrokeStyle(thickness, 0xffff00);

@@ -58,6 +58,8 @@ function generateText(room: Room, width: number, height: number) {
 	context.textAlign = 'center';
 	context.textBaseline = 'top';
 
+	context.fillStyle = 'rgba(0,0,0,0.5)';
+
 	fitText(context, room.name, 'Artifika', width - 10, height - 10, width / 2, 10);
 
 	return canvas;

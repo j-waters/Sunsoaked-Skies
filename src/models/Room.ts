@@ -2,9 +2,7 @@ import type Person from './Person';
 import type Ship from './Ship';
 import Point = Phaser.Geom.Point;
 
-(function () {})();
-
-console.log('what');
+console.log('');
 
 export interface RoomRelation {
 	room: Room;
@@ -68,7 +66,20 @@ export default abstract class Room {
 	addRoom(room: Room, direction: Direction, thisPosition?: Point | Coord, theirPosition?: Point | Coord) {
 		room.setShip(this.ship);
 		if (thisPosition == undefined) {
-			thisPosition = new Point(0, 0);
+			switch (direction) {
+				case 'UP':
+					thisPosition = new Point(0, 0);
+					break;
+				case 'DOWN':
+					thisPosition = new Point(0, this.height - 1);
+					break;
+				case 'LEFT':
+					thisPosition = new Point(0, 0);
+					break;
+				case 'RIGHT':
+					thisPosition = new Point(this.width - 1, 0);
+					break;
+			}
 		}
 		if (thisPosition instanceof Array) {
 			thisPosition = new Point(thisPosition[0], thisPosition[1]);

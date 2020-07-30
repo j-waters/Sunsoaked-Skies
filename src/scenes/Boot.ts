@@ -1,12 +1,12 @@
 import { SceneBase } from './SceneBase';
+import { Background } from './Background';
+import { Preloader } from './Preloader';
 
 export class Boot extends SceneBase {
 	constructor() {
 		super('Boot');
 	}
 	public create(): void {
-		console.log('Boot');
-
-		this.scene.start('Preloader');
+		this.scene.start(Preloader.name);
 	}
 }

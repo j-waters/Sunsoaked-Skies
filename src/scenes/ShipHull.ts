@@ -1,32 +1,30 @@
 import type Ship from '../models/Ship';
 import { generateHullGraphic } from '../generation/generateShip';
-import RoomSprite from './RoomSprite';
+import RoomSprite from '../sprites/ship/RoomSprite';
 import GenerationSettings from '../generation/generationSettings';
 import type Room from '../models/Room';
-import PersonSprite from './PersonSprite';
+import PersonSprite from '../sprites/ship/PersonSprite';
 import type Person from '../models/Person';
-import type Selectable from './components/Selectable';
+import type Selectable from '../sprites/ship/Selectable';
+import { SceneBase } from './SceneBase';
 
-export default class ShipHull extends Phaser.GameObjects.Container {
-	private readonly generationSettings: GenerationSettings;
+export default class ShipHull extends SceneBase {
+	private generationSettings: GenerationSettings;
 	private background: Phaser.GameObjects.Image;
 	roomSprites: RoomSprite[] = [];
 	personSprites: PersonSprite[] = [];
 	selected: Selectable = null;
 	private ship: Ship;
-	constructor(scene: Phaser.Scene, ship: Ship) {
-		super(scene, 0, 0);
 
-		this.ship = ship;
+	create(data: { ship: Ship }) {
+		this.ship = data.ship;
 
 		this.generationSettings = new GenerationSettings(2);
 
-		let shipCanvas = generateHullGraphic(ship, this.generationSettings);
-		scene.textures.addCanvas('ship', shipCanvas);
-		this.background = new Phaser.GameObjects.Image(scene, 0, 0, 'ship');
+		let shipCanvas = generateHullGraphic(this.ship, this.generationSettings);
+		this.textures.addCanvas('ship', shipCanvas);
+		this.background = this.add.image(this.gameWidth / 2, this.gameHeight / 2, 'ship');
 		// image.setOrigin(0.5, 0.5);
-
-		this.add(this.background);
 
 		this.ship.rooms.forEach((room) => {
 			this.addRoom(room);
@@ -36,7 +34,7 @@ export default class ShipHull extends Phaser.GameObjects.Container {
 			this.addPeople(room.people);
 		});
 
-		scene.input.on(Phaser.Input.Events.POINTER_DOWN, (event) => {
+		this.input.on(Phaser.Input.Events.POINTER_DOWN, (event) => {
 			console.log('deselect');
 			this.deselect();
 		});
@@ -49,25 +47,25 @@ export default class ShipHull extends Phaser.GameObjects.Container {
 	}
 
 	private addRoom(room: Room) {
-		let roomSprite = new RoomSprite(this.scene, this, room, this.generationSettings);
+		let roomSprite = new RoomSprite(this, room, this.generationSettings);
 		let xOffset = this.background.width / 2;
 		let yOffset = this.background.height / 2;
 		roomSprite.setPosition(
-			room.gridPosition.x * this.generationSettings.roomSizeMargin - xOffset + this.generationSettings.margin,
-			room.gridPosition.y * this.generationSettings.roomSizeMargin - yOffset + this.generationSettings.margin,
+			room.gridPosition.x * this.generationSettings.roomSizeMargin - xOffset + this.generationSettings.margin + this.gameWidth / 2,
+			room.gridPosition.y * this.generationSettings.roomSizeMargin - yOffset + this.generationSettings.margin + this.gameHeight / 2,
 		);
 		roomSprite.setOrigin(0, 0);
 		this.roomSprites.push(roomSprite);
-		this.add(roomSprite);
+		this.add.existing(roomSprite);
 		roomSprite.setupHover();
 	}
 
 	private addPeople(people: Person[]) {
 		people.forEach((person) => {
-			let personSprite = new PersonSprite(this.scene, this, person, this.generationSettings);
+			let personSprite = new PersonSprite(this, person, this.generationSettings);
 			this.personSprites.push(personSprite);
-			this.add(personSprite);
-			this.bringToTop(personSprite);
+			this.add.existing(personSprite);
+			// this.bringToTop(personSprite);
 			personSprite.moveToPosition();
 		});
 	}

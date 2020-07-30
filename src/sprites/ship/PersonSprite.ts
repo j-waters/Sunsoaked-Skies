@@ -1,14 +1,14 @@
 import Scene = Phaser.Scene;
 import Container = Phaser.GameObjects.Container;
-import type Person from '../models/Person';
-import { generateArmTexture, generateBodyTexture, generateHeadTexture, generateLegTexture } from '../generation/generatePerson';
-import type GenerationSettings from '../generation/generationSettings';
+import type Person from '../../models/Person';
+import { generateArmTexture, generateBodyTexture, generateHeadTexture, generateLegTexture } from '../../generation/generatePerson';
+import type GenerationSettings from '../../generation/generationSettings';
 import Rectangle = Phaser.GameObjects.Rectangle;
 import type RoomSprite from './RoomSprite';
-import type Selectable from './components/Selectable';
-import type ShipHull from './ShipHull';
-import pathfind from '../generation/pathfinding';
-import type Room from '../models/Room';
+import type Selectable from './Selectable';
+import type ShipHull from '../../scenes/ShipHull';
+import pathfind from '../../generation/pathfinding';
+import type Room from '../../models/Room';
 import Point = Phaser.Geom.Point;
 import dat from 'dat.gui';
 
@@ -29,8 +29,8 @@ export default class PersonSprite extends Container implements Selectable {
 	private _compHeight: number;
 	private _compWidth: number;
 
-	constructor(scene: Scene, parent: ShipHull, person: Person, generationSettings: GenerationSettings) {
-		super(scene, 0, 0, null);
+	constructor(parent: ShipHull, person: Person, generationSettings: GenerationSettings) {
+		super(parent, 0, 0, null);
 
 		this.parent = parent;
 
@@ -63,9 +63,10 @@ export default class PersonSprite extends Container implements Selectable {
 
 		this.setForward();
 
-		let rect = new Phaser.Geom.Rectangle(0, 0, this.compWidth, this.compHeight);
+		let rect = new Phaser.Geom.Rectangle(-this.compWidth / 2, -this.compHeight / 2, this.compWidth, this.compHeight);
+		this.setSize(this.compWidth, this.compHeight);
 
-		this.setInteractive(rect, Phaser.Geom.Rectangle.Contains);
+		this.setInteractive({ useHandCursor: true }, Phaser.Geom.Rectangle.Contains);
 
 		this.on(Phaser.Input.Events.POINTER_DOWN, (pointer, x, y, event) => {
 			this.parent.select(this);
@@ -195,7 +196,7 @@ export default class PersonSprite extends Container implements Selectable {
 		}
 		this.setPosition(this.x + diff.x, this.y + diff.y);
 		if (distanceToTarget < movement) {
-			console.log('got to', this.movementQueue[0], currentTargetPosition, curPos, diff);
+			// console.log('got to', this.movementQueue[0], currentTargetPosition, curPos, diff);
 			this.person.setRoom(this.movementQueue[0].room, this.movementQueue[0].position);
 			this.movementQueue.shift();
 			this.incrementMovement(Point.GetMagnitude(diff));

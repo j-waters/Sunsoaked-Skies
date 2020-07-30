@@ -2,6 +2,7 @@ import type Person from '../models/Person';
 import type Room from '../models/Room';
 import type { RoomRelation } from '../models/Room';
 import Point = Phaser.Geom.Point;
+import Quarters from '../models/rooms/Quarters';
 
 export default function pathfind(person: Person, targetRoom: Room) {
 	let graph = buildGraph(person.room.ship.rooms, person, targetRoom);
@@ -37,16 +38,18 @@ function getSpecificRoute(person: Person, path: Node[]) {
 		}
 		let nextPos = roomToPersonPos(nextNode.room, nextNode.position);
 
-		if (nextPos.y < curPos.y) {
-			queue.push({
-				room: curNode.room,
-				position: new Point(nextPos.x, curPos.y),
-			});
-		} else if (nextPos.y > curPos.y) {
-			queue.push({
-				room: curNode.room,
-				position: new Point(curPos.x, nextPos.y),
-			});
+		if (curNode.room == nextNode.room) {
+			if (nextPos.y < curPos.y) {
+				queue.push({
+					room: curNode.room,
+					position: new Point(nextPos.x, curPos.y),
+				});
+			} else if (nextPos.y > curPos.y) {
+				queue.push({
+					room: curNode.room,
+					position: new Point(curPos.x, nextPos.y),
+				});
+			}
 		}
 
 		curNode = nextNode;
@@ -83,7 +86,7 @@ function getGeneralRoute(graph: Node[], target: Room): Node[] {
 
 function dijkstra(graph: Node[], person: Person) {
 	getNode(graph, person.room, personToRoomPos(person.room, person.roomPosition)).distance = 0;
-	console.log('start node:', getNode(graph, person.room, personToRoomPos(person.room, person.roomPosition)));
+	// console.log('start node:', getNode(graph, person.room, personToRoomPos(person.room, person.roomPosition)));
 
 	let queue = graph.map((item) => item);
 	while (queue.length > 0) {
@@ -150,9 +153,9 @@ function createDoorNode(room: Room, relation: RoomRelation): Node {
 			break;
 	}
 	let node = Node.create(room, position);
-	if (room.gridPosition.x == 4) {
-		console.log('==', node, position);
-	}
+	// if (room instanceof Quarters) {
+	// 	console.log('==', node, position, relation);
+	// }
 	return node;
 }
 
