@@ -1,0 +1,1 @@
+export function createBackground(a){let c=a.textures.createCanvas("gradient_background",a.gameWidth,a.gameHeight),d=c.getContext(),b=d.createLinearGradient(0,0,0,a.gameHeight);return b.addColorStop(0,"#DEB2FF"),b.addColorStop(.5,"#FFB2BF"),b.addColorStop(1,"#FFE9B2"),d.fillStyle=b,d.fillRect(0,0,a.gameWidth,a.gameHeight),c.refresh(),c}

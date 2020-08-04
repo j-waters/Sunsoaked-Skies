@@ -1,0 +1,8 @@
+{
+  "imports": {
+    "dat.gui": "./dat.gui.js",
+    "phaser": "./phaser.js",
+    "simplex-noise": "./simplex-noise.js",
+    "webfontloader": "./webfontloader.js"
+  }
+}

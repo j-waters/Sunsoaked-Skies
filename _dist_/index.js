@@ -1,0 +1,1 @@
+import"../web_modules/phaser.js";import a from"./config.js";import{Boot as b}from"./scenes/Boot.js";import{Preloader as c}from"./scenes/Preloader.js";import{StateManager as d}from"./states/StateManager.js";let e=new Phaser.Game(Object.assign(a,{scene:[b,c]}));d.sceneManager=e.scene;
