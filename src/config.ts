@@ -1,7 +1,7 @@
 import 'phaser';
 
-export default {
-	type: Phaser.AUTO,
+export default <Phaser.Types.Core.GameConfig>{
+	type: Phaser.WEBGL,
 	parent: 'game',
 	// backgroundColor: "#33A5E7",
 	// render: {

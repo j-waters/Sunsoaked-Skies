@@ -1,13 +1,14 @@
 import type Person from './Person';
 import type Ship from './Ship';
 import Point = Phaser.Geom.Point;
+import Vector2 = Phaser.Math.Vector2;
 
 console.log('');
 
 export interface RoomRelation {
 	room: Room;
-	thisPosition: Point;
-	theirPosition: Point;
+	thisPosition: Vector2;
+	theirPosition: Vector2;
 	direction: Direction;
 	automatic?: boolean;
 	mirror: RoomRelation;
@@ -63,32 +64,26 @@ export default abstract class Room {
 		return !this.inside;
 	}
 
-	addRoom(room: Room, direction: Direction, thisPosition?: Point | Coord, theirPosition?: Point | Coord) {
+	addRoom(room: Room, direction: Direction, thisPosition?: Vector2, theirPosition?: Vector2) {
 		room.setShip(this.ship);
 		if (thisPosition == undefined) {
 			switch (direction) {
 				case 'UP':
-					thisPosition = new Point(0, 0);
+					thisPosition = new Vector2(0, 0);
 					break;
 				case 'DOWN':
-					thisPosition = new Point(0, this.height - 1);
+					thisPosition = new Vector2(0, this.height - 1);
 					break;
 				case 'LEFT':
-					thisPosition = new Point(0, 0);
+					thisPosition = new Vector2(0, 0);
 					break;
 				case 'RIGHT':
-					thisPosition = new Point(this.width - 1, 0);
+					thisPosition = new Vector2(this.width - 1, 0);
 					break;
 			}
 		}
-		if (thisPosition instanceof Array) {
-			thisPosition = new Point(thisPosition[0], thisPosition[1]);
-		}
 		if (theirPosition == undefined) {
-			theirPosition = new Point(0, 0);
-		}
-		if (theirPosition instanceof Array) {
-			theirPosition = new Point(theirPosition[0], theirPosition[1]);
+			theirPosition = new Vector2(0, 0);
 		}
 		// if (
 		// 	this.neighbours.filter((roomPosition) => {
@@ -130,19 +125,19 @@ export default abstract class Room {
 		return room;
 	}
 
-	addRoomUp(room: Room, thisPosition?: Point | Coord, theirPosition?: Point | Coord) {
+	addRoomUp(room: Room, thisPosition?: Vector2, theirPosition?: Vector2) {
 		return this.addRoom(room, 'UP', thisPosition, theirPosition);
 	}
 
-	addRoomDown(room: Room, thisPosition?: Point | Coord, theirPosition?: Point | Coord) {
+	addRoomDown(room: Room, thisPosition?: Vector2, theirPosition?: Vector2) {
 		return this.addRoom(room, 'DOWN', thisPosition, theirPosition);
 	}
 
-	addRoomLeft(room: Room, thisPosition?: Point | Coord, theirPosition?: Point | Coord) {
+	addRoomLeft(room: Room, thisPosition?: Vector2, theirPosition?: Vector2) {
 		return this.addRoom(room, 'LEFT', thisPosition, theirPosition);
 	}
 
-	addRoomRight(room: Room, thisPosition?: Point | Coord, theirPosition?: Point | Coord) {
+	addRoomRight(room: Room, thisPosition?: Vector2, theirPosition?: Vector2) {
 		return this.addRoom(room, 'RIGHT', thisPosition, theirPosition);
 	}
 
@@ -159,7 +154,7 @@ export default abstract class Room {
 		});
 	}
 
-	addPerson(person: Person, position?: Point) {
+	addPerson(person: Person, position?: Vector2) {
 		if (!this.people.includes(person)) {
 			this.people.push(person);
 		}
@@ -167,7 +162,7 @@ export default abstract class Room {
 		if (position) {
 			person.roomPosition = position;
 		} else {
-			person.roomPosition = new Point(this.people.length - 1, this.height - 1);
+			person.roomPosition = new Vector2(this.people.length - 1, this.height - 1);
 		}
 		return this;
 	}

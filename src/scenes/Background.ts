@@ -16,6 +16,9 @@ export class Background extends SceneBase {
 	update() {}
 
 	private generateTexture() {
+		if (this.textures.exists('gradient_background')) {
+			return this.textures.get('gradient_background');
+		}
 		let texture = this.textures.createCanvas('gradient_background', this.gameWidth, this.gameHeight);
 		let context = texture.getContext();
 		let grd = context.createLinearGradient(0, 0, 0, this.gameHeight);

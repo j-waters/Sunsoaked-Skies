@@ -11,6 +11,7 @@ import pathfind from '../../generation/pathfinding';
 import type Room from '../../models/Room';
 import Point = Phaser.Geom.Point;
 import dat from 'dat.gui';
+import Vector2 = Phaser.Math.Vector2;
 
 export default class PersonSprite extends Container implements Selectable {
 	private readonly person: Person;
@@ -25,7 +26,7 @@ export default class PersonSprite extends Container implements Selectable {
 
 	protected parent: ShipHull;
 	protected highlightBox: Phaser.GameObjects.Rectangle;
-	private movementQueue: { room: Room; position: Point }[] = [];
+	private movementQueue: { room: Room; position: Vector2 }[] = [];
 	private _compHeight: number;
 	private _compWidth: number;
 
@@ -187,19 +188,19 @@ export default class PersonSprite extends Container implements Selectable {
 		let currentTarget = this.movementQueue[0].room;
 		let currentTargetSprite = this.parent.getRoomSprite(currentTarget);
 		let currentTargetPosition = currentTargetSprite.personWorldPosition(this.movementQueue[0].position);
-		let curPos = new Point(this.x, this.bottom);
-		let diff = pointDiff(curPos, currentTargetPosition);
-		let distanceToTarget = Point.GetMagnitude(diff);
+		let curPos = new Vector2(this.x, this.bottom);
+		let diff = curPos.subtract(currentTargetPosition);
+		let distanceToTarget = diff.length();
 
 		if (distanceToTarget > movement) {
-			diff = Point.SetMagnitude(diff, movement);
+			diff.setLength(movement);
 		}
 		this.setPosition(this.x + diff.x, this.y + diff.y);
 		if (distanceToTarget < movement) {
 			// console.log('got to', this.movementQueue[0], currentTargetPosition, curPos, diff);
 			this.person.setRoom(this.movementQueue[0].room, this.movementQueue[0].position);
 			this.movementQueue.shift();
-			this.incrementMovement(Point.GetMagnitude(diff));
+			this.incrementMovement(diff.length());
 		}
 	}
 
@@ -209,5 +210,5 @@ export default class PersonSprite extends Container implements Selectable {
 }
 
 function pointDiff(pointA: Point, pointB: Point) {
-	return new Point(pointB.x - pointA.x, pointB.y - pointA.y);
+	return new Vector2(pointB.x - pointA.x, pointB.y - pointA.y);
 }

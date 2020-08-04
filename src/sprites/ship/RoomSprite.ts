@@ -7,6 +7,7 @@ import type Selectable from './Selectable';
 import Point = Phaser.Geom.Point;
 import { possiblePositions } from '../../generation/pathfinding';
 import dat from 'dat.gui';
+import Vector2 = Phaser.Math.Vector2;
 
 export default class RoomSprite extends Sprite implements Selectable {
 	public room: Room;
@@ -89,6 +90,6 @@ export default class RoomSprite extends Sprite implements Selectable {
 		let divisor = positions * 2;
 		let xPos = this.x + (this.width / divisor) * (roomPosition.x * 2 + 1);
 		let yPos = this.y + (roomPosition.y + 1) * (this.height / this.room.height); // this.height - roomPosition.y * (this.height / this.room.height);
-		return new Point(xPos, yPos);
+		return new Vector2(xPos, yPos);
 	}
 }

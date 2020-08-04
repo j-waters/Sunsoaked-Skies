@@ -7,6 +7,7 @@ import RandomDataGenerator = Phaser.Math.RandomDataGenerator;
 import GenerationSettings from './generationSettings';
 import generationSettings from './generationSettings';
 import Empty from '../models/rooms/Empty';
+import Vector2 = Phaser.Math.Vector2;
 
 type roomGrid = Array<Array<Room>>;
 type direction = 'LEFT' | 'RIGHT' | 'TOP' | 'BOTTOM';
@@ -72,6 +73,19 @@ export function generateGrid(room: Room, grid?: roomGrid, x?: number, y?: number
 			}
 		});
 	return grid;
+}
+
+export function generateTopDownShipGraphic(ship: Ship): HTMLCanvasElement {
+	let canvas = document.createElement('canvas');
+
+	canvas.width = 20;
+	canvas.height = 30;
+	let context = canvas.getContext('2d');
+
+	context.fillStyle = 'brown';
+	context.fillRect(0, 0, 20, 30);
+
+	return canvas;
 }
 
 export function generateShipGraphic(ship: Ship, generationSettings): HTMLCanvasElement {
@@ -216,16 +230,16 @@ function roomLines(
 	direction: direction,
 	path: Path2D,
 	generationSettings: GenerationSettings,
-	startPoint?: Phaser.Geom.Point,
+	startPoint?: Vector2,
 ) {
 	let room = grid[yPos][xPos];
 	let surrounding = surroundingRooms(grid, xPos, yPos, false);
 
-	let topLeft = new Point(
+	let topLeft = new Vector2(
 		generationSettings.margin + xPos * generationSettings.roomSizeMargin + generationSettings.strokeThickness / 2,
 		generationSettings.margin + yPos * generationSettings.roomSizeMargin + generationSettings.strokeThickness / 2,
 	);
-	let bottomRight = new Point(topLeft.x + generationSettings.roomSizeMargin, topLeft.y + generationSettings.roomSizeMargin);
+	let bottomRight = new Vector2(topLeft.x + generationSettings.roomSizeMargin, topLeft.y + generationSettings.roomSizeMargin);
 
 	if (surrounding[0][1] == null || surrounding[0][1].outside) {
 		topLeft.y -= generationSettings.margin;
@@ -242,8 +256,8 @@ function roomLines(
 	if (surrounding[2][1] == null) {
 		bottomRight.y += generationSettings.margin - generationSettings.roomMargin;
 	}
-	let topRight = new Point(bottomRight.x, topLeft.y);
-	let bottomLeft = new Point(topLeft.x, bottomRight.y);
+	let topRight = new Vector2(bottomRight.x, topLeft.y);
+	let bottomLeft = new Vector2(topLeft.x, bottomRight.y);
 
 	if (surrounding[2][0]) {
 		bottomLeft.x += generationSettings.margin - generationSettings.roomMargin;
@@ -266,7 +280,7 @@ function roomLines(
 		case 'LEFT':
 			if (surrounding[1][0] == null || surrounding[1][0].outside) {
 				path.lineTo(topLeft.x + pixelMod, topLeft.y + pixelMod);
-				if (!starting && Point.Equals(startPoint, topLeft)) {
+				if (!starting && startPoint.equals(topLeft)) {
 					return;
 				}
 			}
@@ -283,7 +297,7 @@ function roomLines(
 		case 'RIGHT':
 			if (surrounding[1][2] == null || surrounding[1][2].outside) {
 				path.lineTo(bottomRight.x + pixelMod, bottomRight.y + pixelMod);
-				if (!starting && Point.Equals(startPoint, bottomRight)) {
+				if (!starting && startPoint.equals(bottomRight)) {
 					return;
 				}
 			}
@@ -300,7 +314,7 @@ function roomLines(
 		case 'TOP':
 			if (surrounding[0][1] == null || surrounding[0][1].outside) {
 				path.lineTo(topRight.x + pixelMod, topRight.y + pixelMod);
-				if (!starting && Point.Equals(startPoint, topRight)) {
+				if (!starting && startPoint.equals(topRight)) {
 					return;
 				}
 			}
@@ -327,7 +341,7 @@ function roomLines(
 					);
 				} else {
 					path.lineTo(bottomLeft.x + pixelMod, bottomLeft.y + pixelMod);
-					if (!starting && Point.Equals(startPoint, bottomLeft)) {
+					if (!starting && startPoint.equals(bottomLeft)) {
 						return;
 					}
 				}

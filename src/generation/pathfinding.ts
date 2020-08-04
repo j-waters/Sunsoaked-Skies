@@ -3,6 +3,7 @@ import type Room from '../models/Room';
 import type { RoomRelation } from '../models/Room';
 import Point = Phaser.Geom.Point;
 import Quarters from '../models/rooms/Quarters';
+import Vector2 = Phaser.Math.Vector2;
 
 export default function pathfind(person: Person, targetRoom: Room) {
 	let graph = buildGraph(person.room.ship.rooms, person, targetRoom);
@@ -20,7 +21,7 @@ export default function pathfind(person: Person, targetRoom: Room) {
 }
 
 function getSpecificRoute(person: Person, path: Node[]) {
-	let queue: { room: Room; position: Point }[] = [];
+	let queue: { room: Room; position: Vector2 }[] = [];
 
 	let curNode = path.shift();
 	// let curRoom = curNode.room;
@@ -32,7 +33,7 @@ function getSpecificRoute(person: Person, path: Node[]) {
 		if (nextNode == null) {
 			queue.push({
 				room: curNode.room,
-				position: new Point(curNode.room.people.length, curNode.room.height - 1),
+				position: new Vector2(curNode.room.people.length, curNode.room.height - 1),
 			});
 			break;
 		}
@@ -42,29 +43,29 @@ function getSpecificRoute(person: Person, path: Node[]) {
 			if (nextPos.y < curPos.y) {
 				queue.push({
 					room: curNode.room,
-					position: new Point(nextPos.x, curPos.y),
+					position: new Vector2(nextPos.x, curPos.y),
 				});
 			} else if (nextPos.y > curPos.y) {
 				queue.push({
 					room: curNode.room,
-					position: new Point(curPos.x, nextPos.y),
+					position: new Vector2(curPos.x, nextPos.y),
 				});
 			}
 		}
 
 		curNode = nextNode;
 		// if (nextRoom == null) {
-		// 	queue.push({ room: curRoom, position: new Point(curRoom.people.length, 0) });
+		// 	queue.push({ room: curRoom, position: new Vector2(curRoom.people.length, 0) });
 		// }
 		// let nextRoomRelation = curRoom.neighbours.find((roomPos) => roomPos.room == nextRoom);
 		// if (!nextRoomRelation) break;
 		// let nextPositionInCurrentRoom = doorPosToPersonPos(nextRoomRelation, curRoom);
 		//
 		// if (nextPositionInCurrentRoom.y > curPos.y) {
-		// 	queue.push({ room: curRoom, position: new Point(nextPositionInCurrentRoom.x, curPos.y) });
+		// 	queue.push({ room: curRoom, position: new Vector2(nextPositionInCurrentRoom.x, curPos.y) });
 		// }
 		// if (nextPositionInCurrentRoom.y < curPos.y) {
-		// 	queue.push({ room: curRoom, position: new Point(curPos.x, nextPositionInCurrentRoom.y) });
+		// 	queue.push({ room: curRoom, position: new Vector2(curPos.x, nextPositionInCurrentRoom.y) });
 		// }
 		//
 		// queue.push({ room: curRoom, position: nextPositionInCurrentRoom });
@@ -76,7 +77,7 @@ function getSpecificRoute(person: Person, path: Node[]) {
 
 function getGeneralRoute(graph: Node[], target: Room): Node[] {
 	let route: Node[] = [];
-	let curNode = getNode(graph, target, personToRoomPos(target, new Point(target.people.length, target.height - 1)));
+	let curNode = getNode(graph, target, personToRoomPos(target, new Vector2(target.people.length, target.height - 1)));
 	while (curNode != null) {
 		route.unshift(curNode);
 		curNode = curNode.routeNode;
@@ -115,7 +116,7 @@ function buildGraph(rooms: Room[], person: Person, targetRoom: Room) {
 			roomNodes.push(newNode);
 		}
 		if (room == targetRoom) {
-			let newNode = Node.create(room, personToRoomPos(room, new Point(room.people.length, room.height - 1)));
+			let newNode = Node.create(room, personToRoomPos(room, new Vector2(room.people.length, room.height - 1)));
 			roomNodes.push(newNode);
 		}
 		room.neighbours.forEach((neighbour) => {
@@ -144,10 +145,10 @@ function createDoorNode(room: Room, relation: RoomRelation): Node {
 
 	switch (relation.direction) {
 		case 'LEFT':
-			position = personToRoomPos(room, new Point(0, position.y));
+			position = personToRoomPos(room, new Vector2(0, position.y));
 			break;
 		case 'RIGHT':
-			position = personToRoomPos(room, new Point(possiblePositions(room.width) - 1, position.y));
+			position = personToRoomPos(room, new Vector2(possiblePositions(room.width) - 1, position.y));
 			break;
 		default:
 			break;
@@ -159,30 +160,30 @@ function createDoorNode(room: Room, relation: RoomRelation): Node {
 	return node;
 }
 
-function getNode(graph: Node[], room: Room, position?: Point) {
+function getNode(graph: Node[], room: Room, position?: Vector2) {
 	return graph.find((node) => {
-		return node.room == room && (!position || Point.Equals(node.position, position));
+		return node.room == room && (!position || node.position.equals(position));
 	});
 }
 
 class Node {
 	room: Room;
-	position: Point;
+	position: Vector2;
 	distance: number;
 	children: Set<Node>;
 	routeNode: Node;
 
 	static nodes: Node[] = [];
 
-	private constructor(room: Room, position: Point) {
+	private constructor(room: Room, position: Vector2) {
 		this.room = room;
 		this.position = position;
 		this.distance = Infinity;
 		this.children = new Set<Node>();
 	}
 
-	static create(room: Room, position: Point): Node {
-		let existing = this.nodes.find((node) => node.room == room && Point.Equals(node.position, position));
+	static create(room: Room, position: Vector2): Node {
+		let existing = this.nodes.find((node) => node.room == room && node.position.equals(position));
 		if (existing) {
 			return existing;
 		}
@@ -196,27 +197,27 @@ export function possiblePositions(size: number) {
 	return size == 1 ? 2 : size == 2 ? 3 : 5;
 }
 
-function roomToPersonPos(room: Room, position: Point) {
+function roomToPersonPos(room: Room, position: Vector2) {
 	if (room.width == 1) {
-		return new Point((1 + 4 * position.x) / 2, position.y);
+		return new Vector2((1 + 4 * position.x) / 2, position.y);
 	}
 	if (room.width == 2) {
-		return new Point(position.x * 2, position.y);
+		return new Vector2(position.x * 2, position.y);
 	}
 	if (room.width == 3) {
-		// return new Point(((position.x + 1) / 4) * possiblePositions(3), position.y);
-		return new Point((5 * room.width + 10 * room.width * position.x - 6) / (6 * room.width), position.y);
+		// return new Vector2(((position.x + 1) / 4) * possiblePositions(3), position.y);
+		return new Vector2((5 * room.width + 10 * room.width * position.x - 6) / (6 * room.width), position.y);
 	}
 }
 
-function personToRoomPos(room: Room, position: Point) {
+function personToRoomPos(room: Room, position: Vector2) {
 	if (room.width == 1) {
-		return new Point((2 * position.x - 1) / 4, position.y);
+		return new Vector2((2 * position.x - 1) / 4, position.y);
 	}
 	if (room.width == 2) {
-		return new Point(position.x / 2, position.y);
+		return new Vector2(position.x / 2, position.y);
 	}
 	if (room.width == 3) {
-		return new Point((6 * position.x * room.width + 6 - 5 * room.width) / (10 * room.width), position.y);
+		return new Vector2((6 * position.x * room.width + 6 - 5 * room.width) / (10 * room.width), position.y);
 	}
 }

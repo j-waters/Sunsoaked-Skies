@@ -21,9 +21,7 @@ export default class ShipHull extends SceneBase {
 
 		this.generationSettings = new GenerationSettings(2);
 
-		let shipCanvas = generateHullGraphic(this.ship, this.generationSettings);
-		this.textures.addCanvas('ship', shipCanvas);
-		this.background = this.add.image(this.gameWidth / 2, this.gameHeight / 2, 'ship');
+		this.background = this.add.image(this.gameWidth / 2, this.gameHeight / 2, this.ship.generateTexture(this, this.generationSettings));
 		// image.setOrigin(0.5, 0.5);
 
 		this.ship.rooms.forEach((room) => {
@@ -38,6 +36,8 @@ export default class ShipHull extends SceneBase {
 			console.log('deselect');
 			this.deselect();
 		});
+
+		this.input.setDefaultCursor(`initial`);
 	}
 
 	update(time: number, delta: number) {

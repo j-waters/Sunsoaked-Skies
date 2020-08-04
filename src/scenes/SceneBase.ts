@@ -1,4 +1,5 @@
 ﻿import { StateManager } from '../states/StateManager';
+import DataStore from '../DataStore';
 
 export abstract class SceneBase extends Phaser.Scene {
 	state: StateManager;
@@ -18,5 +19,9 @@ export abstract class SceneBase extends Phaser.Scene {
 	protected setView(): void {
 		// focus on center
 		this.cameras.main.centerOn(0, 0);
+	}
+
+	get dataStore() {
+		return DataStore.create();
 	}
 }

@@ -10,36 +10,45 @@
     <select />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="59aac075-e575-4944-a7af-9da6af2ce2a0" name="Default Changelist" comment="Prettier reformat">
-      <change afterPath="$PROJECT_DIR$/public/assets/images/ui/compass.svg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/generation/generateWorld.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/models/Location.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/models/World.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/scenes/Background.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/scenes/ShipUI.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/scenes/WorldMap.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/scenes/WorldMapTester.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/states/MapState.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/states/ShipState.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/states/StateManager.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/utils.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/codeStyles/Project.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/codeStyles/Project.xml" afterDir="false" />
+    <list default="true" id="59aac075-e575-4944-a7af-9da6af2ce2a0" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/public/assets/images/map/blank.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/assets/images/map/move-target.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/assets/images/map/ruin.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/snowpack/import-glsl.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/DataStore.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/scenes/BaseUI.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/scenes/MapUI.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/shaders/OutlinePipeline.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/shaders/outline.glsl" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/sprites/map/MapLocationSprite.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/sprites/map/MapShipSprite.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/states/NewGameState.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/patches/phaser+3.23.0.patch" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/assets/menu/hill.png" beforeDir="false" afterPath="$PROJECT_DIR$/public/assets/images/menu/hill.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/generation/generateRoom.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/generation/generateRoom.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/snowpack.config.json" beforeDir="false" afterPath="$PROJECT_DIR$/snowpack.config.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/config.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/config.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/generation/generateShip.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/generation/generateShip.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/generation/generateWorld.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/generation/generateWorld.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/generation/pathfinding.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/generation/pathfinding.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/index.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/index.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/models/Location.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/models/Location.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/models/Person.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/models/Person.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/models/Room.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/models/Room.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/scenes/Boot.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/scenes/Boot.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/models/Ship.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/models/Ship.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/models/World.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/models/World.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/scenes/Background.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/scenes/Background.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/scenes/Preloader.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/scenes/Preloader.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/scenes/SceneBase.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/scenes/SceneBase.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/scenes/ShipScene.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/sprites/PersonSprite.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/sprites/ship/PersonSprite.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/sprites/RoomSprite.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/sprites/ship/RoomSprite.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/sprites/ShipHull.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/scenes/ShipHull.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/sprites/components/Selectable.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/sprites/ship/Selectable.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/scenes/ShipHull.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/scenes/ShipHull.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/scenes/ShipUI.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/scenes/ShipUI.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/scenes/WorldMap.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/scenes/WorldMap.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/scenes/WorldMapTester.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/scenes/WorldMapTester.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/sprites/ship/PersonSprite.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/sprites/ship/PersonSprite.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/sprites/ship/RoomSprite.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/sprites/ship/RoomSprite.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/states/MapState.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/states/MapState.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/states/ShipState.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/states/ShipState.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/states/StateManager.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/states/StateManager.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/yarn.lock" beforeDir="false" afterPath="$PROJECT_DIR$/yarn.lock" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -52,6 +61,7 @@
       <list>
         <option value="HTML File" />
         <option value="CSS File" />
+        <option value="GLSL Shader" />
         <option value="TypeScript File" />
       </list>
     </option>
@@ -66,7 +76,9 @@
     <auto-save>true</auto-save>
   </component>
   <component name="ProjectId" id="1dKeZ7mFD6FINtpDISehryfxm4o" />
-  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true">
+    <ConfirmationsSetting value="2" id="Add" />
+  </component>
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
@@ -77,7 +89,7 @@
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/src/scenes" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/public/assets/images/map" />
     <property name="list.type.of.created.stylesheet" value="CSS" />
     <property name="node.js.detected.package.eslint" value="true" />
     <property name="node.js.detected.package.tslint" value="true" />
@@ -96,6 +108,7 @@
   </component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/public/assets/images/map" />
       <recent name="$PROJECT_DIR$/src/scenes" />
       <recent name="$PROJECT_DIR$/public/assets" />
       <recent name="$PROJECT_DIR$/src" />
@@ -191,7 +204,13 @@
       <workItem from="1593954748029" duration="46768000" />
       <workItem from="1595172522956" duration="29617000" />
       <workItem from="1595769440467" duration="44284000" />
-      <workItem from="1596045625314" duration="13877000" />
+      <workItem from="1596045625314" duration="15369000" />
+      <workItem from="1596150196047" duration="6024000" />
+      <workItem from="1596228357692" duration="6664000" />
+      <workItem from="1596240804958" duration="3654000" />
+      <workItem from="1596280780423" duration="27527000" />
+      <workItem from="1596364403341" duration="4098000" />
+      <workItem from="1596375441626" duration="19272000" />
     </task>
     <task id="LOCAL-00001" summary="Init basic structure">
       <created>1592242264845</created>
@@ -249,7 +268,14 @@
       <option name="project" value="LOCAL" />
       <updated>1595777142121</updated>
     </task>
-    <option name="localTasksCounter" value="9" />
+    <task id="LOCAL-00009" summary="Add world generation and states system&#10;&#10;The world gen is kinda bad at the moment,&#10;but I'm committing now to save it before I make it simpler.&#10;&#10;Improved the person pathfinding.&#10;&#10;Made the ship a scene instead of a container, and added the&#10;ship ui scene.&#10;&#10;Added the map and test map scenes.&#10;&#10;Added the state manager.">
+      <created>1596131441870</created>
+      <option name="number" value="00009" />
+      <option name="presentableId" value="LOCAL-00009" />
+      <option name="project" value="LOCAL" />
+      <updated>1596131441870</updated>
+    </task>
+    <option name="localTasksCounter" value="10" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -282,7 +308,8 @@
     <MESSAGE value="Use Snowpack not Rollup" />
     <MESSAGE value="Prettier reformat" />
     <MESSAGE value="Add person pahfinding and selecting&#10;&#10;Also made Room abstract&#10;&#10;Changed some tsconfig + formatter options&#10;&#10;Added webfont loading&#10;&#10;Added room name to rooms" />
-    <option name="LAST_COMMIT_MESSAGE" value="Add person pahfinding and selecting&#10;&#10;Also made Room abstract&#10;&#10;Changed some tsconfig + formatter options&#10;&#10;Added webfont loading&#10;&#10;Added room name to rooms" />
+    <MESSAGE value="Add world generation and states system&#10;&#10;The world gen is kinda bad at the moment,&#10;but I'm committing now to save it before I make it simpler.&#10;&#10;Improved the person pathfinding.&#10;&#10;Made the ship a scene instead of a container, and added the&#10;ship ui scene.&#10;&#10;Added the map and test map scenes.&#10;&#10;Added the state manager." />
+    <option name="LAST_COMMIT_MESSAGE" value="Add world generation and states system&#10;&#10;The world gen is kinda bad at the moment,&#10;but I'm committing now to save it before I make it simpler.&#10;&#10;Improved the person pathfinding.&#10;&#10;Made the ship a scene instead of a container, and added the&#10;ship ui scene.&#10;&#10;Added the map and test map scenes.&#10;&#10;Added the state manager." />
   </component>
   <component name="WindowStateProjectService">
     <state x="659" y="201" key="#TypeScript" timestamp="1593645832743">
@@ -293,47 +320,52 @@
       <screen x="0" y="0" width="1920" height="1080" />
     </state>
     <state x="420" y="234" key="#com.intellij.execution.impl.EditConfigurationsDialog/0.0.1920.1080@0.0.1920.1080" timestamp="1593954812539" />
-    <state x="624" y="369" key="#com.intellij.fileTypes.FileTypeChooser" timestamp="1595709797583">
+    <state x="624" y="369" key="#com.intellij.fileTypes.FileTypeChooser" timestamp="1596240698258">
       <screen x="0" y="0" width="1920" height="1080" />
     </state>
-    <state x="624" y="369" key="#com.intellij.fileTypes.FileTypeChooser/0.0.1920.1080@0.0.1920.1080" timestamp="1595709797583" />
-    <state x="769" y="295" key="#com.intellij.ide.util.MemberChooser" timestamp="1596053119475">
+    <state x="624" y="369" key="#com.intellij.fileTypes.FileTypeChooser/0.0.1920.1080@0.0.1920.1080" timestamp="1596240698258" />
+    <state x="769" y="295" key="#com.intellij.ide.util.MemberChooser" timestamp="1596575481433">
       <screen x="0" y="0" width="1920" height="1080" />
     </state>
-    <state x="769" y="295" key="#com.intellij.ide.util.MemberChooser/0.0.1920.1080@0.0.1920.1080" timestamp="1596053119475" />
+    <state x="769" y="295" key="#com.intellij.ide.util.MemberChooser/0.0.1920.1080@0.0.1920.1080" timestamp="1596575481433" />
+    <state x="1538" y="295" key="#com.intellij.ide.util.MemberChooser/0.0.3840.1080@0.0.3840.1080" timestamp="1596280298671" />
     <state x="625" y="247" key="#dev" timestamp="1593954841262">
       <screen x="0" y="0" width="1920" height="1080" />
     </state>
     <state x="625" y="247" key="#dev/0.0.1920.1080@0.0.1920.1080" timestamp="1593954841262" />
-    <state x="516" y="60" key="CommitChangelistDialog2" timestamp="1595777141594">
+    <state x="516" y="60" key="CommitChangelistDialog2" timestamp="1596131440980">
       <screen x="0" y="0" width="1920" height="1080" />
     </state>
-    <state x="516" y="60" key="CommitChangelistDialog2/0.0.1920.1080@0.0.1920.1080" timestamp="1595777141594" />
+    <state x="516" y="60" key="CommitChangelistDialog2/0.0.1920.1080@0.0.1920.1080" timestamp="1596131440980" />
     <state x="2360" y="-36" key="CommitChangelistDialog2/0.0.3840.1080@0.0.3840.1080" timestamp="1593269213585" />
-    <state x="964" y="63" width="936" height="997" key="DiffContextDialog" timestamp="1595773308174">
+    <state x="964" y="63" width="936" height="997" key="DiffContextDialog" timestamp="1596573873312">
       <screen x="0" y="0" width="1920" height="1080" />
     </state>
-    <state x="964" y="63" width="936" height="997" key="DiffContextDialog/0.0.1920.1080@0.0.1920.1080" timestamp="1595773308174" />
-    <state width="1844" height="210" key="GridCell.Tab.0.bottom" timestamp="1595892093554">
-      <screen x="0" y="0" width="1920" height="1080" />
+    <state x="964" y="63" width="936" height="997" key="DiffContextDialog/0.0.1920.1080@0.0.1920.1080" timestamp="1596573873312" />
+    <state width="1844" height="211" key="GridCell.Tab.0.bottom" timestamp="1596297601594">
+      <screen x="1920" y="0" width="1920" height="1080" />
     </state>
-    <state width="1844" height="210" key="GridCell.Tab.0.bottom/0.0.1920.1080@0.0.1920.1080" timestamp="1595892093554" />
+    <state width="1844" height="210" key="GridCell.Tab.0.bottom/0.0.1920.1080@0.0.1920.1080" timestamp="1596242258263" />
     <state width="1844" height="323" key="GridCell.Tab.0.bottom/0.0.3840.1080@0.0.3840.1080" timestamp="1593271664143" />
-    <state width="1844" height="210" key="GridCell.Tab.0.center" timestamp="1595892093553">
-      <screen x="0" y="0" width="1920" height="1080" />
+    <state width="1844" height="211" key="GridCell.Tab.0.bottom/1920.0.1920.1080/0.0.1920.1080@1920.0.1920.1080" timestamp="1596297601594" />
+    <state width="1844" height="211" key="GridCell.Tab.0.center" timestamp="1596297601591">
+      <screen x="1920" y="0" width="1920" height="1080" />
     </state>
-    <state width="1844" height="210" key="GridCell.Tab.0.center/0.0.1920.1080@0.0.1920.1080" timestamp="1595892093553" />
+    <state width="1844" height="210" key="GridCell.Tab.0.center/0.0.1920.1080@0.0.1920.1080" timestamp="1596242258263" />
     <state width="1844" height="323" key="GridCell.Tab.0.center/0.0.3840.1080@0.0.3840.1080" timestamp="1593271664142" />
-    <state width="1844" height="210" key="GridCell.Tab.0.left" timestamp="1595892093552">
-      <screen x="0" y="0" width="1920" height="1080" />
+    <state width="1844" height="211" key="GridCell.Tab.0.center/1920.0.1920.1080/0.0.1920.1080@1920.0.1920.1080" timestamp="1596297601591" />
+    <state width="1844" height="211" key="GridCell.Tab.0.left" timestamp="1596297601590">
+      <screen x="1920" y="0" width="1920" height="1080" />
     </state>
-    <state width="1844" height="210" key="GridCell.Tab.0.left/0.0.1920.1080@0.0.1920.1080" timestamp="1595892093552" />
+    <state width="1844" height="210" key="GridCell.Tab.0.left/0.0.1920.1080@0.0.1920.1080" timestamp="1596242258263" />
     <state width="1844" height="323" key="GridCell.Tab.0.left/0.0.3840.1080@0.0.3840.1080" timestamp="1593271664142" />
-    <state width="1844" height="210" key="GridCell.Tab.0.right" timestamp="1595892093553">
-      <screen x="0" y="0" width="1920" height="1080" />
+    <state width="1844" height="211" key="GridCell.Tab.0.left/1920.0.1920.1080/0.0.1920.1080@1920.0.1920.1080" timestamp="1596297601590" />
+    <state width="1844" height="211" key="GridCell.Tab.0.right" timestamp="1596297601594">
+      <screen x="1920" y="0" width="1920" height="1080" />
     </state>
-    <state width="1844" height="210" key="GridCell.Tab.0.right/0.0.1920.1080@0.0.1920.1080" timestamp="1595892093553" />
+    <state width="1844" height="210" key="GridCell.Tab.0.right/0.0.1920.1080@0.0.1920.1080" timestamp="1596242258263" />
     <state width="1844" height="323" key="GridCell.Tab.0.right/0.0.3840.1080@0.0.3840.1080" timestamp="1593271664142" />
+    <state width="1844" height="211" key="GridCell.Tab.0.right/1920.0.1920.1080/0.0.1920.1080@1920.0.1920.1080" timestamp="1596297601594" />
     <state width="1844" height="323" key="GridCell.Tab.1.bottom" timestamp="1594837398230">
       <screen x="0" y="0" width="1920" height="1080" />
     </state>
@@ -379,22 +411,24 @@
     </state>
     <state x="450" y="211" key="SettingsEditor/0.0.1920.1080@0.0.1920.1080" timestamp="1595786953776" />
     <state x="2370" y="211" key="SettingsEditor/1920.0.1920.1080/0.0.1920.1080@1920.0.1920.1080" timestamp="1593272406903" />
-    <state x="650" y="240" width="612" height="592" key="find.popup" timestamp="1592180223767">
-      <screen x="0" y="0" width="1920" height="1080" />
+    <state x="2570" y="240" width="612" height="592" key="find.popup" timestamp="1596298504492">
+      <screen x="1920" y="0" width="1920" height="1080" />
     </state>
     <state x="650" y="240" width="612" height="592" key="find.popup/0.0.1920.1080@0.0.1920.1080" timestamp="1592180223767" />
+    <state x="2570" y="240" width="612" height="592" key="find.popup/1920.0.1920.1080/0.0.1920.1080@1920.0.1920.1080" timestamp="1596298504492" />
     <state x="740" y="315" key="refactoring.ChangeSignatureDialog" timestamp="1592565771110">
       <screen x="0" y="0" width="1920" height="1080" />
     </state>
     <state x="740" y="315" key="refactoring.ChangeSignatureDialog/0.0.1920.1080@0.0.1920.1080" timestamp="1592565771110" />
-    <state x="1270" y="265" width="672" height="677" key="run.anything.popup" timestamp="1595769468365">
+    <state x="1270" y="265" width="672" height="677" key="run.anything.popup" timestamp="1596227477586">
       <screen x="0" y="0" width="1920" height="1080" />
     </state>
-    <state x="1270" y="265" width="672" height="677" key="run.anything.popup/0.0.1920.1080@0.0.1920.1080" timestamp="1595769468365" />
+    <state x="1270" y="265" width="672" height="677" key="run.anything.popup/0.0.1920.1080@0.0.1920.1080" timestamp="1596227477586" />
     <state x="2540" y="265" width="672" height="677" key="run.anything.popup/0.0.3840.1080@0.0.3840.1080" timestamp="1593271591772" />
-    <state x="619" y="281" width="672" height="678" key="search.everywhere.popup" timestamp="1596063593805">
+    <state x="619" y="281" width="672" height="678" key="search.everywhere.popup" timestamp="1596577640126">
       <screen x="0" y="0" width="1920" height="1080" />
     </state>
-    <state x="619" y="281" width="672" height="678" key="search.everywhere.popup/0.0.1920.1080@0.0.1920.1080" timestamp="1596063593805" />
+    <state x="619" y="281" width="672" height="678" key="search.everywhere.popup/0.0.1920.1080@0.0.1920.1080" timestamp="1596577640126" />
+    <state x="2539" y="281" width="672" height="678" key="search.everywhere.popup/1920.0.1920.1080/0.0.1920.1080@1920.0.1920.1080" timestamp="1596297829301" />
   </component>
 </project>

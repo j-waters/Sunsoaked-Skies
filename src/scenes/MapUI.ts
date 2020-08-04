@@ -1,12 +1,13 @@
 import { SceneBase } from './SceneBase';
 import BaseUI from './BaseUI';
 import MapState from '../states/MapState';
+import ShipState from '../states/ShipState';
 
-export default class ShipUI extends BaseUI {
+export default class MapUI extends BaseUI {
 	largeButton = {
 		texture: 'ui/compass',
 		action: () => {
-			this.state.start(MapState);
+			this.state.start(ShipState);
 		},
 	};
 

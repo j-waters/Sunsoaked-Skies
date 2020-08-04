@@ -1,13 +1,30 @@
 import State from './StateManager';
-import { generateWorld } from '../generation/generateWorld';
 import WorldMap from '../scenes/WorldMap';
 import WorldMapTester from '../scenes/WorldMapTester';
+import ShipUI from '../scenes/ShipUI';
+import MapUI from '../scenes/MapUI';
 
 export default class MapState extends State {
+	private uiScene: MapUI;
+	private mapScene: WorldMap;
 	start(previousState: State) {
-		let world = generateWorld();
-		this.scene.add('map', WorldMapTester, true, { world: world });
+		this.scene.run('map', { world: this.dataStore.playerShip.world });
+		this.scene.run('map_ui');
+		this.getScenes();
 	}
 
-	end(nextState: State) {}
+	end(nextState: State) {
+		this.scene.sleep('map');
+		this.scene.sleep('map_ui');
+	}
+
+	initScenes() {
+		this.mapScene = <WorldMap>this.scene.add('map', WorldMap);
+		this.uiScene = <MapUI>this.scene.add('map_ui', MapUI);
+	}
+
+	getScenes() {
+		this.mapScene = <WorldMap>this.scene.getScene('map');
+		this.uiScene = <MapUI>this.scene.getScene('map_ui');
+	}
 }

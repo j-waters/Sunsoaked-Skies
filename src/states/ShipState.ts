@@ -10,31 +10,36 @@ import Storage from '../models/rooms/Storage';
 import Engine from '../models/rooms/Engine';
 import Empty from '../models/rooms/Empty';
 import ShipUI from '../scenes/ShipUI';
+import MapState from './MapState';
 
 export default class ShipState extends State {
 	private uiScene: ShipUI;
 	private shipScene: ShipHull;
+	private background: Phaser.Scene;
+
+	initScenes() {
+		console.log('init');
+		this.background = this.scene.add('background', Background);
+		this.shipScene = <ShipHull>this.scene.add('ship', ShipHull);
+		this.uiScene = <ShipUI>this.scene.add('ship_ui', ShipUI);
+	}
+
+	getScenes() {
+		console.log('get');
+		this.background = this.scene.getScene('background');
+		this.shipScene = <ShipHull>this.scene.getScene('ship');
+		this.uiScene = <ShipUI>this.scene.getScene('ship_ui');
+	}
+
 	start(previousState) {
-		let builder = Ship.builder();
+		this.scene.run('background');
+		this.scene.run('ship', { ship: this.dataStore.playerShip });
+		this.scene.run('ship_ui');
+		this.getScenes();
 
-		let r1 = builder
-			.createRootRoom(new Helm(1, 1, false)) //
-			.addRoomDown(new Quarters(1, 2))
-			.addPerson(new Person())
-			.addPerson(new Person());
-
-		r1.addRoomRight(new Gunnery(3, 1)).addPerson(new Person()).addPerson(new Person());
-
-		r1.addRoomRight(new Storage(2, 1), [0, 1]).addPerson(new Person());
-		r1.addRoomDown(new Engine(1, 1)).addPerson(new Person()).addRoomRight(new Empty(1, 1));
-		let ship = builder.build();
-
-		let background = this.scene.add('background', Background, true);
-		this.shipScene = <ShipHull>this.scene.add('ship', ShipHull, true, { ship });
-
-		this.uiScene = <ShipUI>this.scene.add('ship_ui', ShipUI, true);
-
-		this.panIn();
+		if (!(previousState instanceof MapState)) {
+			this.panIn();
+		}
 
 		this.shipBob();
 	}
@@ -81,5 +86,10 @@ export default class ShipState extends State {
 		});
 	}
 
-	end(newState) {}
+	end(newState) {
+		console.log('end');
+		this.scene.sleep('ship');
+		this.scene.sleep('ship_ui');
+		this.scene.sleep('background');
+	}
 }

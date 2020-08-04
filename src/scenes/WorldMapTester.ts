@@ -11,7 +11,7 @@ export default class WorldMapTester extends SceneBase {
 	create(data: { world: World }) {
 		console.log('hello');
 		this.world = data.world;
-		this.map = this.add.image(0, 0, generateWorldTexture(this, this.world));
+		this.map = this.add.image(0, 0, generateWorldTexture(this, this.world, 512));
 		this.map.setOrigin(0, 0);
 		this.map.setDisplaySize(this.gameHeight, this.gameHeight);
 
@@ -35,7 +35,7 @@ export default class WorldMapTester extends SceneBase {
 	reload() {
 		console.log('refreshing...');
 		// @ts-ignore
-		this.map.setTexture(generateWorldTexture(this, this.world, this.gs));
+		this.map.setTexture(generateWorldTexture(this, this.world, 512, this.gs));
 		console.log('done');
 	}
 }

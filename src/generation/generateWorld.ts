@@ -1,17 +1,17 @@
-import World, { WorldType } from '../models/World';
+import type World from '../models/World';
+import type { WorldType } from '../models/World';
 import SimplexNoise from 'simplex-noise';
 import Scene = Phaser.Scene;
 import Point = Phaser.Geom.Point;
 import Location from '../models/Location';
-
-console.log('');
+import Vector2 = Phaser.Math.Vector2;
 
 export const worldTypes: { [key in WorldType]: WorldGenerationSettings } = {
 	ISLANDS: {
-		zoom: 100,
-		threshold: 0.4,
-		exp: 1.4,
-		gradientZoom: 0.5,
+		zoom: 130,
+		threshold: 0.5,
+		exp: 1.5,
+		gradientZoom: 1.5,
 		elev2proportion: 0.8,
 		elevationMod: 1.7,
 	},
@@ -61,7 +61,7 @@ const biomes = asBiomes({
 	FOREST: {
 		temperature: 0b010,
 		moisture: 0b1000,
-		colour: 'rgb(34,153,36)',
+		colour: 'rgb(41,177,43)',
 	},
 	PLAINS: {
 		temperature: 0b110,
@@ -112,21 +112,21 @@ const biomes = asBiomes({
 		moisture: 0b0000,
 		colour: 'rgb(101,101,101)',
 	},
+	HILLS: {
+		temperature: 0b000,
+		moisture: 0b0000,
+		colour: 'rgb(34,153,36)',
+	},
 });
 
 type BiomeName = keyof typeof biomes;
 
 export function generateSeed() {
-	return Math.random().toString();
+	return Array.from({ length: 5 }, () => Math.random().toString(36)[2]).join('');
 }
 
-export function generateWorld() {
-	let worldType: WorldType = 'ISLANDS';
-	return new World(worldType, generateSeed());
-}
-
-function generateLocations(world: World) {
-	let worldGenerator = new WorldGenerator(world);
+export function generateLocations(world: World) {
+	let worldGenerator = new WorldGenerator(world, 512);
 	let locations: Location[] = [];
 	let tries = 0;
 	while (locations.length < 15) {
@@ -134,7 +134,7 @@ function generateLocations(world: World) {
 		let point = worldGenerator.randomPoint();
 		if (!point.details.biome.nonSolid) {
 			for (const location of locations) {
-				if (Phaser.Math.Distance.BetweenPoints(location.position, point.position) < worldGenerator.size * 0.07) {
+				if (Phaser.Math.Distance.BetweenPoints(location.position, point.position) < 50) {
 					tries++;
 					skip = true;
 					break;
@@ -153,21 +153,27 @@ function generateLocations(world: World) {
 	return locations;
 }
 
-export function generateWorldTexture(scene: Scene, world: World) {
-	return scene.textures.addCanvas(null, generateWorldGraphic(world), true);
+export function generateWorldTexture(scene: Scene, world: World, size: number, gs?: WorldGenerationSettings) {
+	if (scene.textures.exists(`_world/${world.seed}/${size}`)) {
+		console.log('reusing texture');
+		return scene.textures.get(`_world/${world.seed}/${size}`);
+	}
+	return scene.textures.addCanvas(`_world/${world.seed}/${size}`, generateWorldGraphic(world, size, gs));
 }
 
-export function generateWorldGraphic(world: World) {
+export function generateWorldGraphic(world: World, textureSize, gs?: WorldGenerationSettings) {
 	let canvas = document.createElement('canvas');
 	let context = canvas.getContext('2d');
-	let worldGen = new WorldGenerator(world);
+	let worldGen = new WorldGenerator(world, textureSize, gs);
 
-	canvas.width = worldGen.size * worldGen.tileSize;
-	canvas.height = worldGen.size * worldGen.tileSize;
+	canvas.width = worldGen.textureSize * worldGen.tileSize;
+	canvas.height = worldGen.textureSize * worldGen.tileSize;
 
-	for (let x = 0; x < worldGen.size; x++) {
-		for (let y = 0; y < worldGen.size; y++) {
-			let p = worldGen.getAt(x, y);
+	let div = worldGen.worldSize / worldGen.textureSize;
+
+	for (let x = 0; x < worldGen.textureSize; x++) {
+		for (let y = 0; y < worldGen.textureSize; y++) {
+			let p = worldGen.getAt(x * div, y * div);
 			context.fillStyle = p.biome.colour;
 			context.fillRect(x * worldGen.tileSize, y * worldGen.tileSize, worldGen.tileSize, worldGen.tileSize);
 		}
@@ -175,9 +181,9 @@ export function generateWorldGraphic(world: World) {
 
 	context.fillStyle = 'red';
 
-	generateLocations(world).forEach((location) => {
-		context.fillRect(location.position.x * worldGen.tileSize, location.position.y * worldGen.tileSize, 10, 10);
-	});
+	// generateLocations(world).forEach((location) => {
+	// 	context.fillRect(location.position.x * worldGen.tileSize, location.position.y * worldGen.tileSize, 10, 10);
+	// });
 	return canvas;
 }
 
@@ -205,17 +211,17 @@ class WorldPixel {
 				biome = 'WATER';
 			}
 		} else {
-			// if (elevation < 0.1) {
-			// 	biome = 'BEACH';
-			// } else if (elevation < 0.6) {
-			// 	biome = 'PLAINS';
-			// } else if (elevation < 0.8) {
-			// 	biome = 'FOREST';
-			// } else if (elevation < 0.95) {
-			// 	biome = 'BARE';
-			// } else {
-			// 	biome = 'SNOW';
-			// }
+			if (elevation < 0.1) {
+				biome = 'BEACH';
+			} else if (elevation < 0.6) {
+				biome = this.moisture > 0.5 ? 'FOREST' : 'PLAINS';
+			} else if (elevation < 0.8) {
+				biome = 'HILLS';
+			} else if (elevation < 0.95) {
+				biome = 'BARE';
+			} else {
+				biome = 'SNOW';
+			}
 			let value = Object.values(biomes)
 				.filter((biome) => biome.moisture & this.snappedMoisture)
 				.find((biome) => biome.temperature & this.snappedTemperature);
@@ -229,7 +235,7 @@ class WorldPixel {
 			// 	this.snappedTemperature.toString(2),
 			// );
 
-			biome = (Object.keys(biomes) as Array<keyof typeof biomes>).find((key) => biomes[key] === value);
+			// biome = (Object.keys(biomes) as Array<keyof typeof biomes>).find((key) => biomes[key] === value);
 		}
 		return biome;
 	}
@@ -251,16 +257,17 @@ class WorldGenerator {
 	private gs: WorldGenerationSettings;
 	private elevationNoise: SimplexNoise;
 	private elevationNoise2: SimplexNoise;
-	resolution: number = 512;
 	tileSize: number = 2;
-	private readonly seed: string;
 	private pointRandom: Phaser.Math.RandomDataGenerator;
 	private moistureNoise: SimplexNoise;
 	private temperatureNoise: SimplexNoise;
+	private world: World;
+	textureSize: number;
 
-	constructor(world: World) {
-		this.gs = worldTypes[world.worldType];
-		this.seed = world.seed;
+	constructor(world: World, textureSize: number, gs?: WorldGenerationSettings) {
+		this.world = world;
+		this.textureSize = textureSize;
+		this.gs = gs || worldTypes[this.world.worldType];
 		this.elevationNoise = new SimplexNoise(this.seed + 'e1');
 		this.elevationNoise2 = new SimplexNoise(this.seed + 'e2');
 		this.moistureNoise = new SimplexNoise(this.seed + 'm');
@@ -268,15 +275,21 @@ class WorldGenerator {
 		this.pointRandom = new Phaser.Math.RandomDataGenerator(this.seed + 'p');
 	}
 
-	get size() {
-		return this.resolution;
+	get seed() {
+		return this.world.seed;
+	}
+
+	get worldSize() {
+		return this.world.size;
 	}
 
 	get zoom() {
-		return this.gs.zoom * (this.resolution / 512);
+		return this.gs.zoom; // * (this.worldSize / 512);
 	}
 
 	public getAt(x: number, y: number): WorldPixel {
+		// x /= this.worldSize / this.textureSize;
+		// y /= this.worldSize / this.textureSize;
 		let elevation = this.elevationAt(x, y);
 		if (elevation < 0) {
 			elevation = 0.01;
@@ -297,15 +310,20 @@ class WorldGenerator {
 	}
 
 	public randomPoint() {
-		let p = new Point(this.pointRandom.between(0, this.size), this.pointRandom.between(0, this.size));
+		let p = new Vector2(this.pointRandom.between(0, this.worldSize), this.pointRandom.between(0, this.worldSize));
 		return { position: p, details: this.getAt(p.x, p.y) };
 	}
 
 	private gradientAt(x: number, y: number) {
-		x = x / this.size;
-		y = y / this.size;
-		let intercept = 1 + this.gs.gradientZoom;
-		return ((intercept - Math.pow(2 * x - 1, 2)) * (intercept - Math.pow(2 * y - 1, 2))) / (intercept * intercept);
+		x = x / this.worldSize;
+		y = y / this.worldSize;
+
+		const f = (n) => -(4 * this.gs.gradientZoom) * (n - 1) * n;
+		// let intercept = 1 + this.gs.gradientZoom;
+		// −37.5 * x^4 + 75x^3 − 50.875x^2 + 13.375x
+		let g = f(x) * f(y);
+		if (g > 1) g = 1;
+		return g;
 	}
 
 	private elevationAt(x: number, y: number) {
@@ -317,7 +335,7 @@ class WorldGenerator {
 	}
 
 	private moistureAt(x: number, y: number) {
-		let m = normalise(this.moistureNoise.noise2D(x / this.zoom, y / this.zoom));
+		let m = normalise(this.moistureNoise.noise2D((x / this.zoom) * 2, (y / this.zoom) * 2));
 
 		return m;
 	}
