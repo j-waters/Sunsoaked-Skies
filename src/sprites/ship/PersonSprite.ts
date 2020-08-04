@@ -189,7 +189,7 @@ export default class PersonSprite extends Container implements Selectable {
 		let currentTargetSprite = this.parent.getRoomSprite(currentTarget);
 		let currentTargetPosition = currentTargetSprite.personWorldPosition(this.movementQueue[0].position);
 		let curPos = new Vector2(this.x, this.bottom);
-		let diff = curPos.subtract(currentTargetPosition);
+		let diff = curPos.subtract(currentTargetPosition).negate();
 		let distanceToTarget = diff.length();
 
 		if (distanceToTarget > movement) {
@@ -207,8 +207,4 @@ export default class PersonSprite extends Container implements Selectable {
 	update(time: number, delta: number) {
 		this.incrementMovement();
 	}
-}
-
-function pointDiff(pointA: Point, pointB: Point) {
-	return new Vector2(pointB.x - pointA.x, pointB.y - pointA.y);
 }
