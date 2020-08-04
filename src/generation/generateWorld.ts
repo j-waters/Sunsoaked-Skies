@@ -6,6 +6,7 @@ import Point = Phaser.Geom.Point;
 import Location from '../models/Location';
 import Vector2 = Phaser.Math.Vector2;
 
+console.log('');
 export const worldTypes: { [key in WorldType]: WorldGenerationSettings } = {
 	ISLANDS: {
 		zoom: 130,

@@ -4,7 +4,6 @@ import MapLocationSprite from '../sprites/map/MapLocationSprite';
 import type Ship from '../models/Ship';
 import MapShipSprite from '../sprites/map/MapShipSprite';
 
-import 'bezier-js';
 import QuadraticBezier = Phaser.Curves.QuadraticBezier;
 import Point = Phaser.Geom.Point;
 import Vector2 = Phaser.Math.Vector2;

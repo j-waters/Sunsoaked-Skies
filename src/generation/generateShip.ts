@@ -9,6 +9,8 @@ import generationSettings from './generationSettings';
 import Empty from '../models/rooms/Empty';
 import Vector2 = Phaser.Math.Vector2;
 
+console.log('');
+
 type roomGrid = Array<Array<Room>>;
 type direction = 'LEFT' | 'RIGHT' | 'TOP' | 'BOTTOM';
 

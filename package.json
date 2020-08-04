@@ -18,7 +18,7 @@
 		"@types/canvas-confetti": "^1.0.0",
 		"@types/dat.gui": "^0.7.5",
 		"prettier": "^2.0.5",
-		"snowpack": "https://gitpkg.now.sh/pikapkg/snowpack/packages/snowpack?master",
+		"snowpack": "^2.7.6",
 		"typescript": "^3.9.6",
 		"webfontloader": "^1.6.28"
 	}
