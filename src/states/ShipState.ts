@@ -25,7 +25,6 @@ export default class ShipState extends State {
 	}
 
 	getScenes() {
-		console.log('get');
 		this.background = this.scene.getScene('background');
 		this.shipScene = <ShipHull>this.scene.getScene('ship');
 		this.uiScene = <ShipUI>this.scene.getScene('ship_ui');

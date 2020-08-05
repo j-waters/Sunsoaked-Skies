@@ -30,6 +30,8 @@ export default class WorldMap extends SceneBase {
 		this.map.setDisplaySize(this.mapSize, this.mapSize);
 		this.map.texture.setFilter(Phaser.Textures.FilterMode.NEAREST);
 
+		this.input.setDefaultCursor(`url(assets/images/map/blank.svg), pointer`);
+
 		// let locationSprite = new MapLocationSprite(this, this.world.locations[0]);
 		// this.add.existing(locationSprite);
 		// locationSprite.setDisplaySize(700, 700);
@@ -46,8 +48,6 @@ export default class WorldMap extends SceneBase {
 
 		this.cameras.main.startFollow(this.playerShip);
 		this.cameras.main.setZoom(5 * (this.gameHeight / this.mapSize));
-
-		this.input.setDefaultCursor(`url(assets/images/map/blank.svg), pointer`);
 
 		this.input.on(Phaser.Input.Events.POINTER_WHEEL, (pointer, gameObjects, deltaX, deltaY, deltaZ) => {
 			this.cameras.main.zoom += -deltaY * (this.gameHeight / this.mapSize) * 0.01;
@@ -68,6 +68,13 @@ export default class WorldMap extends SceneBase {
 		this.input.on(Phaser.Input.Events.POINTER_DOWN, (pointer: Phaser.Input.Pointer) => this.pointerDown(pointer));
 
 		this.input.on(Phaser.Input.Events.POINTER_MOVE, (pointer: Phaser.Input.Pointer, gameObjects) => this.pointerMove(pointer, gameObjects));
+
+		this.events.on(Phaser.Scenes.Events.WAKE, () => this.wake());
+		this.wake();
+	}
+
+	wake() {
+		this.input.setDefaultCursor(`url(assets/images/map/blank.svg), pointer`);
 	}
 
 	pointerMove(pointer: Phaser.Input.Pointer, gameObjects) {

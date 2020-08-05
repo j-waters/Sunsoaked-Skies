@@ -10,6 +10,14 @@ module.exports = {
 	installOptions: {
 		installTypes: true,
 	},
+	plugins: [
+		[
+			'@snowpack/plugin-webpack',
+			{
+				/* see "Plugin Options" below */
+			},
+		],
+	],
 	installOptions: {
 		rollup: {
 			plugins: [

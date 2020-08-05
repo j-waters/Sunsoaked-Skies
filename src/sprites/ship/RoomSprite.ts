@@ -1,11 +1,9 @@
 import { generateRoomBackground } from '../../generation/generateRoom';
-import type Room from '../../models/Room';
+import Room from '../../models/Room';
 import type GenerationSettings from '../../generation/generationSettings';
 import type ShipHull from '../../scenes/ShipHull';
 import Sprite = Phaser.GameObjects.Sprite;
 import type Selectable from './Selectable';
-import Point = Phaser.Geom.Point;
-import { possiblePositions } from '../../generation/pathfinding';
 import dat from 'dat.gui';
 import Vector2 = Phaser.Math.Vector2;
 
@@ -86,7 +84,7 @@ export default class RoomSprite extends Sprite implements Selectable {
 	}
 
 	personWorldPosition(roomPosition: { x: number; y: number }) {
-		let positions = possiblePositions(this.room.width);
+		let positions = Room.possiblePositions(this.room.width);
 		let divisor = positions * 2;
 		let xPos = this.x + (this.width / divisor) * (roomPosition.x * 2 + 1);
 		let yPos = this.y + (roomPosition.y + 1) * (this.height / this.room.height); // this.height - roomPosition.y * (this.height / this.room.height);

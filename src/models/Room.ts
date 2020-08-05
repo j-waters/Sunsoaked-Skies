@@ -85,23 +85,6 @@ export default abstract class Room {
 		if (theirPosition == undefined) {
 			theirPosition = new Vector2(0, 0);
 		}
-		// if (
-		// 	this.neighbours.filter((roomPosition) => {
-		// 		return roomPosition.room == room || (roomPosition.direction == direction && roomPosition.position == thisPosition);
-		// 	}).length > 0
-		// ) {
-		// 	console.warn(
-		// 		"Invalid room placement",
-		// 		{ room, direction, position },
-		// 		"at",
-		// 		room,
-		// 		"- room spot taken by",
-		// 		this.neighbours.filter((roomPosition) => {
-		// 			return !(roomPosition.room == room || (roomPosition.direction == direction && roomPosition.position == position));
-		// 		})
-		// 	);
-		// 	return;
-		// }
 		let thisRelation = {
 			room,
 			direction,
@@ -171,5 +154,36 @@ export default abstract class Room {
 		this.people.splice(this.people.indexOf(person), 1);
 	}
 
+	onPersonLeave() {
+		this.people.forEach((person) => {
+			if (person.roomPosition.x > this.firstAvailableSpace) {
+				person.tasks.addMoveTo(this);
+			}
+		});
+	}
+
+	get firstAvailableSpace() {
+		for (let x = 0; x < this.personSlots[this.personSlots.length - 1].length; x++) {
+			if (this.personSlots[this.personSlots.length - 1][x] == null) {
+				return x;
+			}
+		}
+	}
+
+	get personSlots(): Person[][] {
+		let slots = Array(this.height);
+		slots.fill(Array(Room.possiblePositions(this.width)).fill(null));
+		this.people.forEach((person) => {
+			if (person.roomPosition.x % 1 == 0 && person.roomPosition.y % 1 == 0) {
+				slots[person.roomPosition.y][person.roomPosition.x] = person;
+			}
+		});
+		return slots;
+	}
+
 	abstract get name(): string;
+
+	static possiblePositions(size: number) {
+		return size == 1 ? 2 : size == 2 ? 3 : 5;
+	}
 }

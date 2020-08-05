@@ -35,14 +35,14 @@ export class StateManager {
 	}
 
 	start(stateClass: StateConstructor) {
-		let state = new stateClass(StateManager.sceneManager);
-		this.current?.end(state);
+		let old = this.current;
+		this.current = new stateClass(StateManager.sceneManager);
+		old?.end(this.current);
 		if (!this.initialised.has(stateClass)) {
-			state.initScenes();
+			this.current.initScenes();
 			this.initialised.add(stateClass);
 		}
-		state.start(this.current);
-		this.current = state;
+		this.current.start(old);
 	}
 }
 

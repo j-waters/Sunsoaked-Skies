@@ -37,6 +37,11 @@ export default class ShipHull extends SceneBase {
 			this.deselect();
 		});
 
+		this.events.on(Phaser.Scenes.Events.WAKE, () => this.wake());
+		this.wake();
+	}
+
+	wake() {
 		this.input.setDefaultCursor(`initial`);
 	}
 
@@ -72,7 +77,8 @@ export default class ShipHull extends SceneBase {
 
 	select(object: Selectable) {
 		if (this.selected instanceof PersonSprite && object instanceof RoomSprite) {
-			this.selected.toRoom(object);
+			this.selected.tasks.addMoveTo(object.room);
+			// this.selected.toRoom(object);
 			return;
 		}
 		this.deselect();

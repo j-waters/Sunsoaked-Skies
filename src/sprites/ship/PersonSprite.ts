@@ -12,6 +12,7 @@ import type Room from '../../models/Room';
 import Point = Phaser.Geom.Point;
 import dat from 'dat.gui';
 import Vector2 = Phaser.Math.Vector2;
+import { MoveTask } from '../../models/Task';
 
 export default class PersonSprite extends Container implements Selectable {
 	private readonly person: Person;
@@ -26,7 +27,6 @@ export default class PersonSprite extends Container implements Selectable {
 
 	protected parent: ShipHull;
 	protected highlightBox: Phaser.GameObjects.Rectangle;
-	private movementQueue: { room: Room; position: Vector2 }[] = [];
 	private _compHeight: number;
 	private _compWidth: number;
 
@@ -154,13 +154,8 @@ export default class PersonSprite extends Container implements Selectable {
 		return this.person.room;
 	}
 
-	toRoom(roomSprite: RoomSprite) {
-		let route = pathfind(this.person, roomSprite.room);
-		console.log(
-			'Specific route:',
-			route.map((i) => i),
-		);
-		this.movementQueue = route;
+	get tasks() {
+		return this.person.tasks;
 	}
 
 	get bottom() {
@@ -177,17 +172,16 @@ export default class PersonSprite extends Container implements Selectable {
 		return this._compHeight;
 	}
 
-	incrementMovement(movement?: number) {
-		// return;
-		if (this.movementQueue.length == 0) {
+	incrementMovement(task: MoveTask, movement?: number) {
+		if (task.isComplete) {
 			return;
 		}
 		if (movement == undefined) {
 			movement = 3;
 		}
-		let currentTarget = this.movementQueue[0].room;
+		let currentTarget: Room = task.currentTarget.room;
 		let currentTargetSprite = this.parent.getRoomSprite(currentTarget);
-		let currentTargetPosition = currentTargetSprite.personWorldPosition(this.movementQueue[0].position);
+		let currentTargetPosition = currentTargetSprite.personWorldPosition(task.currentTarget.position);
 		let curPos = new Vector2(this.x, this.bottom);
 		let diff = curPos.subtract(currentTargetPosition).negate();
 		let distanceToTarget = diff.length();
@@ -197,14 +191,14 @@ export default class PersonSprite extends Container implements Selectable {
 		}
 		this.setPosition(this.x + diff.x, this.y + diff.y);
 		if (distanceToTarget < movement) {
-			// console.log('got to', this.movementQueue[0], currentTargetPosition, curPos, diff);
-			this.person.setRoom(this.movementQueue[0].room, this.movementQueue[0].position);
-			this.movementQueue.shift();
-			this.incrementMovement(diff.length());
+			task.completeStep();
+			this.incrementMovement(task, diff.length());
 		}
 	}
 
 	update(time: number, delta: number) {
-		this.incrementMovement();
+		if (this.tasks.current instanceof MoveTask) {
+			this.incrementMovement(this.tasks.current);
+		}
 	}
 }
