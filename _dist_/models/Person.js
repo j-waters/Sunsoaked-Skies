@@ -1,14 +1,1 @@
-var Point = Phaser.Geom.Point;
-var Vector2 = Phaser.Math.Vector2;
-import {TaskManager} from "./Task.js";
-export default class Person {
-  constructor() {
-    this.tasks = new TaskManager(this);
-  }
-  setRoom(room, position) {
-    if (this.room) {
-      this.room.removePerson(this);
-    }
-    room.addPerson(this, position);
-  }
-}
+var d=Phaser.Geom.Point,e=Phaser.Math.Vector2;import{TaskManager as a}from"./Task.js";export default class g{constructor(){this.tasks=new a(this)}setRoom(b,c){this.room&&this.room.removePerson(this),b.addPerson(this,c)}}

@@ -1,9 +1,1 @@
-import "../web_modules/phaser.js";
-import config2 from "./config.js";
-import {Boot as Boot2} from "./scenes/Boot.js";
-import {Preloader as Preloader2} from "./scenes/Preloader.js";
-import {StateManager as StateManager2} from "./states/StateManager.js";
-let game = new Phaser.Game(Object.assign(config2, {
-  scene: [Boot2, Preloader2]
-}));
-StateManager2.sceneManager = game.scene;
+import"../web_modules/phaser.js";import a from"./config.js";import{Boot as b}from"./scenes/Boot.js";import{Preloader as c}from"./scenes/Preloader.js";import{StateManager as d}from"./states/StateManager.js";let e=new Phaser.Game(Object.assign(a,{scene:[b,c]}));d.sceneManager=e.scene;

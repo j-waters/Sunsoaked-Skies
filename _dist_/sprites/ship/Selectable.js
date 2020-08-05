@@ -1,2 +1,1 @@
-export default class Selectable {
-}
+export default class a{}

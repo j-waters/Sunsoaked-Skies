@@ -1,8 +1,1 @@
-var Point = Phaser.Geom.Point;
-var Vector2 = Phaser.Math.Vector2;
-export default class Location {
-  constructor(position, config) {
-    this.position = position;
-    this.config = config;
-  }
-}
+var c=Phaser.Geom.Point,d=Phaser.Math.Vector2;export default class e{constructor(a,b){this.position=a,this.config=b}}
