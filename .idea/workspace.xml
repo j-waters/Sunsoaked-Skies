@@ -11,20 +11,8 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="59aac075-e575-4944-a7af-9da6af2ce2a0" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/src/models/Task.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/snowpack.config.js" beforeDir="false" afterPath="$PROJECT_DIR$/snowpack.config.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/generation/pathfinding.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/generation/pathfinding.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/models/Person.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/models/Person.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/models/Room.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/models/Room.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/scenes/ShipHull.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/scenes/ShipHull.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/scenes/WorldMap.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/scenes/WorldMap.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/sprites/ship/PersonSprite.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/sprites/ship/PersonSprite.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/sprites/ship/RoomSprite.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/sprites/ship/RoomSprite.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/states/ShipState.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/states/ShipState.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/states/StateManager.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/states/StateManager.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/yarn.lock" beforeDir="false" afterPath="$PROJECT_DIR$/yarn.lock" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -284,7 +272,14 @@
       <option name="project" value="LOCAL" />
       <updated>1596586223100</updated>
     </task>
-    <option name="localTasksCounter" value="13" />
+    <task id="LOCAL-00013" summary="Add person task system&#10;&#10;Also fixed some issues switching between states.">
+      <created>1596663656944</created>
+      <option name="number" value="00013" />
+      <option name="presentableId" value="LOCAL-00013" />
+      <option name="project" value="LOCAL" />
+      <updated>1596663656944</updated>
+    </task>
+    <option name="localTasksCounter" value="14" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -321,7 +316,8 @@
     <MESSAGE value="Add ship movement system&#10;&#10;Also improved world generation&#10;&#10;Switched out points for vector2 objects&#10;&#10;Added data store system" />
     <MESSAGE value="Fix pathfinding" />
     <MESSAGE value="Push font" />
-    <option name="LAST_COMMIT_MESSAGE" value="Push font" />
+    <MESSAGE value="Add person task system&#10;&#10;Also fixed some issues switching between states." />
+    <option name="LAST_COMMIT_MESSAGE" value="Add person task system&#10;&#10;Also fixed some issues switching between states." />
   </component>
   <component name="WindowStateProjectService">
     <state x="659" y="201" key="#TypeScript" timestamp="1593645832743">
@@ -345,10 +341,10 @@
       <screen x="0" y="0" width="1920" height="1080" />
     </state>
     <state x="625" y="247" key="#dev/0.0.1920.1080@0.0.1920.1080" timestamp="1593954841262" />
-    <state x="516" y="0" key="CommitChangelistDialog2" timestamp="1596586222963">
+    <state x="516" y="0" key="CommitChangelistDialog2" timestamp="1596663656510">
       <screen x="0" y="0" width="1920" height="1080" />
     </state>
-    <state x="516" y="0" key="CommitChangelistDialog2/0.0.1920.1080@0.0.1920.1080" timestamp="1596586222963" />
+    <state x="516" y="0" key="CommitChangelistDialog2/0.0.1920.1080@0.0.1920.1080" timestamp="1596663656510" />
     <state x="2360" y="-36" key="CommitChangelistDialog2/0.0.3840.1080@0.0.3840.1080" timestamp="1593269213585" />
     <state x="964" y="63" width="936" height="997" key="DiffContextDialog" timestamp="1596585811429">
       <screen x="0" y="0" width="1920" height="1080" />
@@ -431,10 +427,10 @@
     </state>
     <state x="450" y="211" key="SettingsEditor/0.0.1920.1080@0.0.1920.1080" timestamp="1595786953776" />
     <state x="2370" y="211" key="SettingsEditor/1920.0.1920.1080/0.0.1920.1080@1920.0.1920.1080" timestamp="1593272406903" />
-    <state x="556" y="308" key="Vcs.Push.Dialog.v2" timestamp="1596586244544">
+    <state x="556" y="308" key="Vcs.Push.Dialog.v2" timestamp="1596663833975">
       <screen x="0" y="0" width="1920" height="1080" />
     </state>
-    <state x="556" y="308" key="Vcs.Push.Dialog.v2/0.0.1920.1080@0.0.1920.1080" timestamp="1596586244544" />
+    <state x="556" y="308" key="Vcs.Push.Dialog.v2/0.0.1920.1080@0.0.1920.1080" timestamp="1596663833975" />
     <state x="650" y="240" width="612" height="592" key="find.popup" timestamp="1596579196017">
       <screen x="0" y="0" width="1920" height="1080" />
     </state>
