@@ -13,6 +13,7 @@ jobs:
         run: |
           yarn install
           yarn build
+          touch build/.nojekyll
 
       - name: Deploy 🚀
         uses: JamesIves/github-pages-deploy-action@3.5.9
