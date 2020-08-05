@@ -1,1 +1,11 @@
-export default class a{constructor(){this.worlds=[]}static create(){return this.instance||(this.instance=new a()),this.instance}}
+export default class DataStore {
+  constructor() {
+    this.worlds = [];
+  }
+  static create() {
+    if (!this.instance) {
+      this.instance = new DataStore();
+    }
+    return this.instance;
+  }
+}

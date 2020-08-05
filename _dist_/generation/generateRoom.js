@@ -1,1 +1,68 @@
-export function generateRoomBackground(d,a){let g=document.createElement("canvas"),b=a.roomSizeMargin*d.width-a.roomMargin,f=a.roomSizeMargin*d.height-a.roomMargin;g.width=b,g.height=f;let c=g.getContext("2d");c.lineWidth=a.strokeThickness,c.lineJoin="bevel",c.strokeStyle="#6b4a31",c.fillStyle="#ecb07f",c.rect(0,0,b,f),d.inside&&c.fill(),c.stroke();let j=k(d,b,f);c.drawImage(j,0,0),c.fillStyle="black";const h=a.strokeThickness/2;return d.neighbours.forEach(e=>{switch(e.direction){case"UP":c.fillRect(e.thisPosition.x*a.roomSizeMargin,0,a.roomSize,h);break;case"DOWN":c.fillRect(e.thisPosition.x*a.roomSizeMargin,f-h,a.roomSize,h);break;case"LEFT":c.fillRect(0,e.thisPosition.y*a.roomSizeMargin,h,a.roomSize);break;case"RIGHT":c.fillRect(b-h,e.thisPosition.y*a.roomSizeMargin,h,a.roomSize);break}}),g}function k(d,a,g){let b=document.createElement("canvas");b.width=a,b.height=g;if(d.name==="")return b;let f=b.getContext("2d");return f.textAlign="center",f.textBaseline="top",f.fillStyle="rgba(0,0,0,0.5)",l(f,d.name,"Artifika",a-10,g-10,a/2,10),b}function l(d,a,g,b,f,c,j){let h=1,e=5;for(;;){d.font=`${h}px ${g}`;let i=d.measureText(a);h+=e,(i.width<b&&e<0||i.width>b&&e>0)&&(e=-e/2);if(b-i.width<.3&&b-i.width>0){d.fillText(a,c,j);return}}}
+export function generateRoomBackground(room, generationSettings) {
+  let canvas = document.createElement("canvas");
+  let width = generationSettings.roomSizeMargin * room.width - generationSettings.roomMargin;
+  let height = generationSettings.roomSizeMargin * room.height - generationSettings.roomMargin;
+  canvas.width = width;
+  canvas.height = height;
+  let context = canvas.getContext("2d");
+  context.lineWidth = generationSettings.strokeThickness;
+  context.lineJoin = "bevel";
+  context.strokeStyle = "#6b4a31";
+  context.fillStyle = "#ecb07f";
+  context.rect(0, 0, width, height);
+  if (room.inside) {
+    context.fill();
+  }
+  context.stroke();
+  let text = generateText(room, width, height);
+  context.drawImage(text, 0, 0);
+  context.fillStyle = "black";
+  const doorThickness = generationSettings.strokeThickness / 2;
+  room.neighbours.forEach((neighbour) => {
+    switch (neighbour.direction) {
+      case "UP":
+        context.fillRect(neighbour.thisPosition.x * generationSettings.roomSizeMargin, 0, generationSettings.roomSize, doorThickness);
+        break;
+      case "DOWN":
+        context.fillRect(neighbour.thisPosition.x * generationSettings.roomSizeMargin, height - doorThickness, generationSettings.roomSize, doorThickness);
+        break;
+      case "LEFT":
+        context.fillRect(0, neighbour.thisPosition.y * generationSettings.roomSizeMargin, doorThickness, generationSettings.roomSize);
+        break;
+      case "RIGHT":
+        context.fillRect(width - doorThickness, neighbour.thisPosition.y * generationSettings.roomSizeMargin, doorThickness, generationSettings.roomSize);
+        break;
+    }
+  });
+  return canvas;
+}
+function generateText(room, width, height) {
+  let canvas = document.createElement("canvas");
+  canvas.width = width;
+  canvas.height = height;
+  if (room.name === "") {
+    return canvas;
+  }
+  let context = canvas.getContext("2d");
+  context.textAlign = "center";
+  context.textBaseline = "top";
+  context.fillStyle = "rgba(0,0,0,0.5)";
+  fitText(context, room.name, "Artifika", width - 10, height - 10, width / 2, 10);
+  return canvas;
+}
+function fitText(context, text, font, width, height, x, y) {
+  let fontSize = 1;
+  let diff = 5;
+  while (true) {
+    context.font = `${fontSize}px ${font}`;
+    let metrics = context.measureText(text);
+    fontSize += diff;
+    if (metrics.width < width && diff < 0 || metrics.width > width && diff > 0) {
+      diff = -diff / 2;
+    }
+    if (width - metrics.width < 0.3 && width - metrics.width > 0) {
+      context.fillText(text, x, y);
+      return;
+    }
+  }
+}

@@ -1,4 +1,9 @@
-export default class d extends Phaser.Renderer.WebGL.Pipelines.TextureTintPipeline{constructor(b,a,c){super({game:b,renderer:b.renderer,fragShader:`
+export default class OutlinePipeline extends Phaser.Renderer.WebGL.Pipelines.TextureTintPipeline {
+  constructor(game, colour, thickness) {
+    super({
+      game,
+      renderer: game.renderer,
+      fragShader: `
 			precision mediump float;
 			uniform sampler2D uMainSampler;
 			uniform vec2 uTextureSize;
@@ -37,4 +42,9 @@ export default class d extends Phaser.Renderer.WebGL.Pipelines.TextureTintPipeli
 				}
 				gl_FragColor = color;
 			}
-			`});this.setFloat4("outlineColour",a.redGL,a.greenGL,a.blueGL,a.alphaGL),this.setFloat1("outlineThickness",c)}}
+			`
+    });
+    this.setFloat4("outlineColour", colour.redGL, colour.greenGL, colour.blueGL, colour.alphaGL);
+    this.setFloat1("outlineThickness", thickness);
+  }
+}

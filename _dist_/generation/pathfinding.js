@@ -1,1 +1,155 @@
-var v=Phaser.Geom.Point,h=Phaser.Math.Vector2;export default function w(a,b){let d=u(a.room.ship.rooms,a,b);console.log("Graph:",d);let c=t(d,a),e=s(c,b);return console.log("Route:",e.map(f=>f)),r(a,e)}function r(a,b){let d=[],c=b.shift();for(;;){let e=p(c.room,c.position);d.push({room:c.room,position:e});let f=b.shift();if(f==null){d.push({room:c.room,position:new h(c.room.people.length,c.room.height-1)});break}let g=p(f.room,f.position);c.room==f.room&&(g.y<e.y?d.push({room:c.room,position:new h(g.x,e.y)}):g.y>e.y&&d.push({room:c.room,position:new h(e.x,g.y)})),c=f}return d}function s(a,b){let d=[],c=o(a,b,k(b,new h(b.people.length,b.height-1)));for(;c!=null;)d.unshift(c),c=c.routeNode;return d}function t(a,b){o(a,b.room,k(b.room,b.roomPosition)).distance=0;let d=a.map(c=>c);for(;d.length>0;){d=d.sort((e,f)=>e.distance-f.distance);let c=d.shift();c.children.forEach(e=>{let f=c.distance+1;f<e.distance&&(e.distance=f,e.routeNode=c)})}return a}function u(a,b,d){j.nodes=[];let c=b.room,e=k(c,b.roomPosition),f=[];return a.forEach(g=>{let l=[];if(g===c){let i=j.create(g,e);l.push(i)}if(g==d){let i=j.create(g,k(g,new h(g.people.length,g.height-1)));l.push(i)}g.neighbours.forEach(i=>{let m=n(g,i);m.children.add(n(i.room,i.mirror)),l.forEach(q=>{q.children.add(m),m.children.add(q)}),l.push(m)}),f.push(...l)}),f}function n(a,b){let d=b.thisPosition;switch(b.direction){case"LEFT":d=k(a,new h(0,d.y));break;case"RIGHT":d=k(a,new h(possiblePositions(a.width)-1,d.y));break;default:break}let c=j.create(a,d);return c}function o(a,b,d){return a.find(c=>c.room==b&&(!d||c.position.equals(d)))}class j{constructor(a,b){this.room=a,this.position=b,this.distance=Infinity,this.children=new Set()}static create(a,b){let d=this.nodes.find(e=>e.room==a&&e.position.equals(b));if(d)return d;let c=new j(a,b);return this.nodes.push(c),c}}j.nodes=[];export function possiblePositions(a){return a==1?2:a==2?3:5}function p(a,b){if(a.width==1)return new h((1+4*b.x)/2,b.y);if(a.width==2)return new h(b.x*2,b.y);if(a.width==3)return new h((5*a.width+10*a.width*b.x-6)/(6*a.width),b.y)}function k(a,b){if(a.width==1)return new h((2*b.x-1)/4,b.y);if(a.width==2)return new h(b.x/2,b.y);if(a.width==3)return new h((6*b.x*a.width+6-5*a.width)/(10*a.width),b.y)}
+import Room2 from "../models/Room.js";
+var Point = Phaser.Geom.Point;
+var Vector2 = Phaser.Math.Vector2;
+export default function pathfind(person, targetRoom, targetPosition) {
+  let target = {
+    room: targetRoom,
+    position: targetPosition || new Vector2(targetRoom.firstAvailableSpace, targetRoom.height - 1)
+  };
+  let graph = buildGraph(person.room.ship.rooms, person, target);
+  let distanceGraph = dijkstra(graph, person);
+  let route = getGeneralRoute(distanceGraph, target);
+  console.log("Route:", route.map((i) => i));
+  return getSpecificRoute(person, route);
+}
+function getSpecificRoute(person, path) {
+  let queue = [];
+  let curNode = path.shift();
+  while (true) {
+    let curPos = roomToPersonPos(curNode.room, curNode.position);
+    queue.push({room: curNode.room, position: curPos});
+    let nextNode = path.shift();
+    if (nextNode == null) {
+      break;
+    }
+    let nextPos = roomToPersonPos(nextNode.room, nextNode.position);
+    if (curNode.room == nextNode.room) {
+      if (nextPos.y < curPos.y) {
+        queue.push({
+          room: curNode.room,
+          position: new Vector2(nextPos.x, curPos.y)
+        });
+      } else if (nextPos.y > curPos.y) {
+        queue.push({
+          room: curNode.room,
+          position: new Vector2(curPos.x, nextPos.y)
+        });
+      }
+    }
+    curNode = nextNode;
+  }
+  return queue;
+}
+function getGeneralRoute(graph, target) {
+  let route = [];
+  let curNode = getNode(graph, target.room, personToRoomPos(target.room, target.position));
+  while (curNode != null) {
+    route.unshift(curNode);
+    curNode = curNode.routeNode;
+  }
+  return route;
+}
+function dijkstra(graph, person) {
+  getNode(graph, person.room, personToRoomPos(person.room, person.roomPosition)).distance = 0;
+  let queue = graph.map((item) => item);
+  while (queue.length > 0) {
+    queue = queue.sort((a, b) => a.distance - b.distance);
+    let node = queue.shift();
+    node.children.forEach((childNode) => {
+      let newDistance = node.distance + 1;
+      if (newDistance < childNode.distance) {
+        childNode.distance = newDistance;
+        childNode.routeNode = node;
+      }
+    });
+  }
+  return graph;
+}
+function buildGraph(rooms, person, target) {
+  Node.nodes = [];
+  let startRoom = person.room;
+  let startPosition = personToRoomPos(startRoom, person.roomPosition);
+  let graph = [];
+  rooms.forEach((room) => {
+    let roomNodes = [];
+    if (room === startRoom) {
+      let newNode = Node.create(room, startPosition);
+      roomNodes.push(newNode);
+    }
+    if (room == target.room) {
+      let newNode = Node.create(room, personToRoomPos(room, target.position));
+      roomNodes.push(newNode);
+    }
+    room.neighbours.forEach((neighbour) => {
+      let newNode = createDoorNode(room, neighbour);
+      newNode.children.add(createDoorNode(neighbour.room, neighbour.mirror));
+      roomNodes.forEach((roomNode) => {
+        roomNode.children.add(newNode);
+        newNode.children.add(roomNode);
+      });
+      roomNodes.push(newNode);
+    });
+    graph.push(...roomNodes);
+  });
+  return graph;
+}
+function createDoorNode(room, relation) {
+  let position = relation.thisPosition;
+  switch (relation.direction) {
+    case "LEFT":
+      position = personToRoomPos(room, new Vector2(0, position.y));
+      break;
+    case "RIGHT":
+      position = personToRoomPos(room, new Vector2(Room2.possiblePositions(room.width) - 1, position.y));
+      break;
+    default:
+      break;
+  }
+  let node = Node.create(room, position);
+  return node;
+}
+function getNode(graph, room, position) {
+  return graph.find((node) => {
+    return node.room == room && (!position || node.position.equals(position));
+  });
+}
+class Node {
+  constructor(room, position) {
+    this.room = room;
+    this.position = position;
+    this.distance = Infinity;
+    this.children = new Set();
+  }
+  static create(room, position) {
+    let existing = this.nodes.find((node) => node.room == room && node.position.equals(position));
+    if (existing) {
+      return existing;
+    }
+    let newNode = new Node(room, position);
+    this.nodes.push(newNode);
+    return newNode;
+  }
+}
+Node.nodes = [];
+function roomToPersonPos(room, position) {
+  if (room.width == 1) {
+    return new Vector2((1 + 4 * position.x) / 2, position.y);
+  }
+  if (room.width == 2) {
+    return new Vector2(position.x * 2, position.y);
+  }
+  if (room.width == 3) {
+    return new Vector2((5 * room.width + 10 * room.width * position.x - 6) / (6 * room.width), position.y);
+  }
+}
+function personToRoomPos(room, position) {
+  if (room.width == 1) {
+    return new Vector2((2 * position.x - 1) / 4, position.y);
+  }
+  if (room.width == 2) {
+    return new Vector2(position.x / 2, position.y);
+  }
+  if (room.width == 3) {
+    return new Vector2((6 * position.x * room.width + 6 - 5 * room.width) / (10 * room.width), position.y);
+  }
+}
