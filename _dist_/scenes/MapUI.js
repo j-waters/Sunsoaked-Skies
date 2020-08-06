@@ -1,1 +1,1 @@
-import a from"./BaseUI.js";import b from"../states/ShipState.js";export default class e extends a{constructor(){super(...arguments);this.largeButton={texture:"ui/compass",action:()=>{this.state.start(b)}}}create(){super.create()}}
+import b from"./BaseUI.js";import c from"../states/ShipState.js";import d from"../sprites/ui/Button.js";export default class h extends b{create(){let a=new d(this,this.gameWidth-100,this.gameHeight-100,200,"ui/compass");a.setOnClick(()=>{this.state.start(c)}),this.add.existing(a)}}

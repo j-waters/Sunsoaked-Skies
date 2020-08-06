@@ -1,1 +1,1 @@
-var c=Phaser.Geom.Point,d=Phaser.Math.Vector2;export default class e{constructor(a,b){this.position=a,this.config=b}}
+var b=Phaser.Geom.Point,c=Phaser.Math.Vector2;export class Location{constructor(a){this.position=a}}export class RuinLocation extends Location{constructor(a){super(a);this.icon="map/ruin"}}export class VillageLocation extends Location{constructor(a){super(a);this.icon="map/village"}}
