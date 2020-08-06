@@ -1,4 +1,4 @@
-import type Location from '../../models/Location';
+import type { Location } from '../../models/Location';
 import type WorldMap from '../../scenes/WorldMap';
 import OutlinePipeline from '../../shaders/OutlinePipeline';
 import Scene = Phaser.Scene;
@@ -11,11 +11,10 @@ export default class MapLocationSprite extends Phaser.GameObjects.Image {
 	private parent: WorldMap;
 
 	constructor(parent: WorldMap, location: Location) {
-		super(parent, 0, 0, null);
+		super(parent, 0, 0, location.icon);
 		this.location = location;
 		this.parent = parent;
 
-		this.setTexture(this.icon);
 		let mod = parent.mapSize / parent.world.size;
 		this.setDisplaySize(16 * mod, 16 * mod);
 		this.setPosition(this.location.position.x * mod, this.location.position.y * mod);

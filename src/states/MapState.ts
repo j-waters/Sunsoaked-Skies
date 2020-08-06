@@ -1,7 +1,5 @@
 import State from './StateManager';
 import WorldMap from '../scenes/WorldMap';
-import WorldMapTester from '../scenes/WorldMapTester';
-import ShipUI from '../scenes/ShipUI';
 import MapUI from '../scenes/MapUI';
 
 export default class MapState extends State {

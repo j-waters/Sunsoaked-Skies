@@ -14,6 +14,7 @@ export class Preloader extends SceneBase {
 		this.load.image('menu/hill', 'assets/images/menu/hill.png');
 		this.load.svg('ui/compass', 'assets/images/ui/compass.svg', { width: 512, height: 512 });
 		this.load.svg('map/ruin', 'assets/images/map/ruin.svg', { width: 512, height: 512 });
+		this.load.svg('map/village', 'assets/images/map/village.svg', { width: 512, height: 512 });
 		this.load.svg('map/move-target', 'assets/images/map/move-target.svg', { width: 512, height: 512 });
 
 		this.load.addFile(new WebFontFile(this.load, ['Artifika']));

@@ -5,6 +5,7 @@ import Vector2 = Phaser.Math.Vector2;
 import { POSITIVE_ZERO } from '../sprites/map/MapShipSprite';
 import Scene = Phaser.Scene;
 import type GenerationSettings from '../generation/generationSettings';
+import Curve = Phaser.Curves.Curve;
 
 export default class Ship {
 	rootRoom: Room;
@@ -12,8 +13,10 @@ export default class Ship {
 	position: Vector2;
 	velocity: Vector2;
 	turningModifier: number = 100;
-	speed: number = 5;
+	speed: number = 2;
 	acceleration: number = 0.01;
+	targetCurve: Curve;
+	distance: number;
 
 	constructor(rootRoom: Room) {
 		this.rootRoom = rootRoom;
@@ -21,7 +24,7 @@ export default class Ship {
 	}
 
 	public get decelerationDistance() {
-		return this.velocity.length() / (2 * this.acceleration);
+		return Math.pow(this.velocity.length(), 2) / (2 * this.acceleration);
 	}
 
 	public generateTexture(scene: Scene, gs: GenerationSettings) {
@@ -63,6 +66,50 @@ export default class Ship {
 			});
 		});
 		return rooms;
+	}
+
+	iterateMovement() {
+		if (this.targetCurve) {
+			let percentage = this.targetCurve.getTFromDistance(this.distance);
+
+			let point = this.targetCurve.getPointAt(percentage);
+			this.velocity.setAngle(this.targetCurve.getTangentAt(percentage).angle());
+			this.position = point;
+
+			this.distance += this.velocity.length();
+
+			this.accelerate(this.targetCurve.getLength() - this.distance < this.decelerationDistance);
+
+			if (this.distance >= this.targetCurve.getLength()) {
+				this.targetCurve = null;
+			}
+		} else {
+			this.accelerate(true);
+			if (this.velocity.length() > POSITIVE_ZERO) {
+				this.position.add(this.velocity);
+			}
+		}
+	}
+
+	accelerate(decelerate: boolean = false) {
+		if (!decelerate && this.velocity.length() < this.speed) {
+			this.velocity.setLength(this.velocity.length() + this.acceleration);
+		} else if (decelerate && this.velocity.length() > 0.001) {
+			let change = this.velocity.length() - this.acceleration;
+			if (change < POSITIVE_ZERO) {
+				this.velocity.setLength(POSITIVE_ZERO);
+			} else {
+				this.velocity.setLength(change);
+			}
+		}
+		if (this.velocity.length() > this.speed) {
+			this.velocity.setLength(this.speed);
+		}
+	}
+
+	get movementProgress() {
+		if (!this.targetCurve) return 0;
+		return this.distance / this.targetCurve.getLength();
 	}
 }
 

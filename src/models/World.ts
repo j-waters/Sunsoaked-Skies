@@ -1,4 +1,4 @@
-import type Location from './Location';
+import type { Location } from './Location';
 import { generateSeed, generateWorldTexture, generateLocations } from '../generation/generateWorld';
 import Scene = Phaser.Scene;
 

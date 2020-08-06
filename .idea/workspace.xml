@@ -11,8 +11,18 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="59aac075-e575-4944-a7af-9da6af2ce2a0" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/public/assets/images/map/village.svg" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/airships2.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/airships2.iml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/snowpack.config.js" beforeDir="false" afterPath="$PROJECT_DIR$/snowpack.config.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/generation/generateWorld.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/generation/generateWorld.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/models/Location.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/models/Location.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/models/Ship.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/models/Ship.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/models/World.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/models/World.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/scenes/Preloader.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/scenes/Preloader.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/scenes/WorldMap.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/scenes/WorldMap.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/sprites/map/MapLocationSprite.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/sprites/map/MapLocationSprite.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/sprites/map/MapShipSprite.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/sprites/map/MapShipSprite.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/states/MapState.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/states/MapState.ts" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -53,7 +63,7 @@
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/src/models/Room.ts" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/public/assets/images/map" />
     <property name="list.type.of.created.stylesheet" value="CSS" />
     <property name="node.js.detected.package.eslint" value="true" />
     <property name="node.js.detected.package.tslint" value="true" />
@@ -72,10 +82,10 @@
   </component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/public/assets/images/map" />
       <recent name="$PROJECT_DIR$/src/generation" />
       <recent name="$PROJECT_DIR$/src-nope/generation" />
       <recent name="$PROJECT_DIR$/src" />
-      <recent name="$PROJECT_DIR$/public/assets/images/map" />
       <recent name="$PROJECT_DIR$/src/scenes" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
@@ -279,7 +289,14 @@
       <option name="project" value="LOCAL" />
       <updated>1596663656944</updated>
     </task>
-    <option name="localTasksCounter" value="14" />
+    <task id="LOCAL-00014" summary="Remove webpack plugin">
+      <created>1596665008175</created>
+      <option name="number" value="00014" />
+      <option name="presentableId" value="LOCAL-00014" />
+      <option name="project" value="LOCAL" />
+      <updated>1596665008175</updated>
+    </task>
+    <option name="localTasksCounter" value="15" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -317,7 +334,8 @@
     <MESSAGE value="Fix pathfinding" />
     <MESSAGE value="Push font" />
     <MESSAGE value="Add person task system&#10;&#10;Also fixed some issues switching between states." />
-    <option name="LAST_COMMIT_MESSAGE" value="Add person task system&#10;&#10;Also fixed some issues switching between states." />
+    <MESSAGE value="Remove webpack plugin" />
+    <option name="LAST_COMMIT_MESSAGE" value="Remove webpack plugin" />
   </component>
   <component name="WindowStateProjectService">
     <state x="659" y="201" key="#TypeScript" timestamp="1593645832743">
@@ -341,10 +359,10 @@
       <screen x="0" y="0" width="1920" height="1080" />
     </state>
     <state x="625" y="247" key="#dev/0.0.1920.1080@0.0.1920.1080" timestamp="1593954841262" />
-    <state x="516" y="0" key="CommitChangelistDialog2" timestamp="1596663656510">
+    <state x="516" y="0" key="CommitChangelistDialog2" timestamp="1596665008058">
       <screen x="0" y="0" width="1920" height="1080" />
     </state>
-    <state x="516" y="0" key="CommitChangelistDialog2/0.0.1920.1080@0.0.1920.1080" timestamp="1596663656510" />
+    <state x="516" y="0" key="CommitChangelistDialog2/0.0.1920.1080@0.0.1920.1080" timestamp="1596665008058" />
     <state x="2360" y="-36" key="CommitChangelistDialog2/0.0.3840.1080@0.0.3840.1080" timestamp="1593269213585" />
     <state x="964" y="63" width="936" height="997" key="DiffContextDialog" timestamp="1596585811429">
       <screen x="0" y="0" width="1920" height="1080" />
@@ -427,10 +445,10 @@
     </state>
     <state x="450" y="211" key="SettingsEditor/0.0.1920.1080@0.0.1920.1080" timestamp="1595786953776" />
     <state x="2370" y="211" key="SettingsEditor/1920.0.1920.1080/0.0.1920.1080@1920.0.1920.1080" timestamp="1593272406903" />
-    <state x="556" y="308" key="Vcs.Push.Dialog.v2" timestamp="1596663833975">
+    <state x="556" y="308" key="Vcs.Push.Dialog.v2" timestamp="1596665012664">
       <screen x="0" y="0" width="1920" height="1080" />
     </state>
-    <state x="556" y="308" key="Vcs.Push.Dialog.v2/0.0.1920.1080@0.0.1920.1080" timestamp="1596663833975" />
+    <state x="556" y="308" key="Vcs.Push.Dialog.v2/0.0.1920.1080@0.0.1920.1080" timestamp="1596665012664" />
     <state x="650" y="240" width="612" height="592" key="find.popup" timestamp="1596579196017">
       <screen x="0" y="0" width="1920" height="1080" />
     </state>
@@ -445,10 +463,10 @@
     </state>
     <state x="1270" y="265" width="672" height="677" key="run.anything.popup/0.0.1920.1080@0.0.1920.1080" timestamp="1596227477586" />
     <state x="2540" y="265" width="672" height="677" key="run.anything.popup/0.0.3840.1080@0.0.3840.1080" timestamp="1593271591772" />
-    <state x="619" y="281" width="672" height="678" key="search.everywhere.popup" timestamp="1596660711523">
+    <state x="619" y="281" width="672" height="678" key="search.everywhere.popup" timestamp="1596744848854">
       <screen x="0" y="0" width="1920" height="1080" />
     </state>
-    <state x="619" y="281" width="672" height="678" key="search.everywhere.popup/0.0.1920.1080@0.0.1920.1080" timestamp="1596660711523" />
+    <state x="619" y="281" width="672" height="678" key="search.everywhere.popup/0.0.1920.1080@0.0.1920.1080" timestamp="1596744848854" />
     <state x="2539" y="281" width="672" height="678" key="search.everywhere.popup/1920.0.1920.1080/0.0.1920.1080@1920.0.1920.1080" timestamp="1596297829301" />
   </component>
 </project>

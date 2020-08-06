@@ -43,11 +43,11 @@ export default class WorldMap extends SceneBase {
 
 		this.playerShip = new MapShipSprite(this, this.dataStore.playerShip);
 		let mod = this.mapSize / this.world.size;
-		this.playerShip.setDisplaySize(10 * mod, 13 * mod);
+		this.playerShip.setDisplaySize(5 * mod, 8 * mod);
 		this.add.existing(this.playerShip);
 
 		this.cameras.main.startFollow(this.playerShip);
-		this.cameras.main.setZoom(5 * (this.gameHeight / this.mapSize));
+		this.cameras.main.setZoom(2 * (this.gameHeight / this.mapSize));
 
 		this.input.on(Phaser.Input.Events.POINTER_WHEEL, (pointer, gameObjects, deltaX, deltaY, deltaZ) => {
 			this.cameras.main.zoom += -deltaY * (this.gameHeight / this.mapSize) * 0.01;
@@ -56,11 +56,10 @@ export default class WorldMap extends SceneBase {
 			} else if (this.cameras.main.zoom < 1) {
 				this.cameras.main.zoom = 1;
 			}
-			console.log(this.cameras.main.zoom);
 		});
 
 		this.cursor = this.add.image(0, 0, this.dataStore.playerShip.generateTopDownTexture(this));
-		this.cursor.setDisplaySize(10 * mod, 13 * mod);
+		this.cursor.setDisplaySize(5 * mod, 8 * mod);
 		this.cursor.setAlpha(0.5);
 
 		this.curve = this.add.graphics();
@@ -84,8 +83,12 @@ export default class WorldMap extends SceneBase {
 		let curve = calculateCurve(this.playerShip.getCenter(), this.playerShip.ship.velocity.clone().setLength(this.playerShip.ship.turningModifier), pointerPosition);
 
 		this.curve.clear();
-		this.curve.lineStyle(1, 0x000000, 1);
-		this.playerShip.targetCurve?.draw(this.curve);
+		let lineAlpha = 1;
+		if (this.playerShip.ship.movementProgress > 0.8) {
+			lineAlpha *= (1 - this.playerShip.ship.movementProgress) / 0.2;
+		}
+		this.curve.lineStyle(1, 0x000000, lineAlpha);
+		this.playerShip.ship.targetCurve?.draw(this.curve);
 		this.curve.lineStyle(1, 0x000000, 0.5);
 		curve.draw(this.curve);
 
@@ -94,12 +97,9 @@ export default class WorldMap extends SceneBase {
 
 	pointerDown(pointer: Phaser.Input.Pointer) {
 		let pointerPosition: Vector2 = <Vector2>pointer.positionToCamera(this.cameras.main);
-		this.playerShip.targetCurve = calculateCurve(
-			this.playerShip.getCenter(),
-			this.playerShip.ship.velocity.clone().setLength(this.playerShip.ship.turningModifier),
-			pointerPosition,
-		);
-		this.playerShip.progress = 0;
+		let curve = calculateCurve(this.playerShip.getCenter(), this.playerShip.ship.velocity.clone().setLength(this.playerShip.ship.turningModifier), pointerPosition);
+
+		this.playerShip.moveTo(curve);
 	}
 
 	update(time: number, delta: number): void {

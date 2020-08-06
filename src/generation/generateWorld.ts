@@ -3,7 +3,7 @@ import type { WorldType } from '../models/World';
 import SimplexNoise from 'simplex-noise';
 import Scene = Phaser.Scene;
 import Point = Phaser.Geom.Point;
-import Location from '../models/Location';
+import { Location, RuinLocation, VillageLocation } from '../models/Location';
 import Vector2 = Phaser.Math.Vector2;
 
 console.log('');
@@ -144,7 +144,13 @@ export function generateLocations(world: World) {
 			if (skip) {
 				continue;
 			}
-			locations.push(new Location(point.position, {}));
+			let location: Location;
+			if (point.details.biomeName === 'BEACH') {
+				location = new VillageLocation(point.position);
+			} else {
+				location = new RuinLocation(point.position);
+			}
+			locations.push(location);
 			tries = 0;
 		}
 		if (tries > 1000) {
