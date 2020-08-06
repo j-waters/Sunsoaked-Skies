@@ -11,18 +11,12 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="59aac075-e575-4944-a7af-9da6af2ce2a0" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/public/assets/images/map/village.svg" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/airships2.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/airships2.iml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/sprites/ui/Button.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/generation/generateWorld.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/generation/generateWorld.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/models/Location.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/models/Location.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/models/Ship.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/models/Ship.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/models/World.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/models/World.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/scenes/Preloader.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/scenes/Preloader.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/scenes/WorldMap.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/scenes/WorldMap.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/scenes/BaseUI.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/scenes/BaseUI.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/scenes/MapUI.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/scenes/MapUI.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/scenes/ShipUI.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/scenes/ShipUI.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/sprites/map/MapLocationSprite.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/sprites/map/MapLocationSprite.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/sprites/map/MapShipSprite.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/sprites/map/MapShipSprite.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/states/MapState.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/states/MapState.ts" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -296,7 +290,14 @@
       <option name="project" value="LOCAL" />
       <updated>1596665008175</updated>
     </task>
-    <option name="localTasksCounter" value="15" />
+    <task id="LOCAL-00015" summary="Fix ship movement&#10;&#10;Also added new map icon, and fade the current&#10;ship curve as we near the end">
+      <created>1596752659113</created>
+      <option name="number" value="00015" />
+      <option name="presentableId" value="LOCAL-00015" />
+      <option name="project" value="LOCAL" />
+      <updated>1596752659113</updated>
+    </task>
+    <option name="localTasksCounter" value="16" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -335,7 +336,8 @@
     <MESSAGE value="Push font" />
     <MESSAGE value="Add person task system&#10;&#10;Also fixed some issues switching between states." />
     <MESSAGE value="Remove webpack plugin" />
-    <option name="LAST_COMMIT_MESSAGE" value="Remove webpack plugin" />
+    <MESSAGE value="Fix ship movement&#10;&#10;Also added new map icon, and fade the current&#10;ship curve as we near the end" />
+    <option name="LAST_COMMIT_MESSAGE" value="Fix ship movement&#10;&#10;Also added new map icon, and fade the current&#10;ship curve as we near the end" />
   </component>
   <component name="WindowStateProjectService">
     <state x="659" y="201" key="#TypeScript" timestamp="1593645832743">
@@ -359,10 +361,10 @@
       <screen x="0" y="0" width="1920" height="1080" />
     </state>
     <state x="625" y="247" key="#dev/0.0.1920.1080@0.0.1920.1080" timestamp="1593954841262" />
-    <state x="516" y="0" key="CommitChangelistDialog2" timestamp="1596665008058">
+    <state x="516" y="0" key="CommitChangelistDialog2" timestamp="1596752658889">
       <screen x="0" y="0" width="1920" height="1080" />
     </state>
-    <state x="516" y="0" key="CommitChangelistDialog2/0.0.1920.1080@0.0.1920.1080" timestamp="1596665008058" />
+    <state x="516" y="0" key="CommitChangelistDialog2/0.0.1920.1080@0.0.1920.1080" timestamp="1596752658889" />
     <state x="2360" y="-36" key="CommitChangelistDialog2/0.0.3840.1080@0.0.3840.1080" timestamp="1593269213585" />
     <state x="964" y="63" width="936" height="997" key="DiffContextDialog" timestamp="1596585811429">
       <screen x="0" y="0" width="1920" height="1080" />
@@ -463,10 +465,10 @@
     </state>
     <state x="1270" y="265" width="672" height="677" key="run.anything.popup/0.0.1920.1080@0.0.1920.1080" timestamp="1596227477586" />
     <state x="2540" y="265" width="672" height="677" key="run.anything.popup/0.0.3840.1080@0.0.3840.1080" timestamp="1593271591772" />
-    <state x="619" y="281" width="672" height="678" key="search.everywhere.popup" timestamp="1596744848854">
+    <state x="619" y="281" width="672" height="678" key="search.everywhere.popup" timestamp="1596757602548">
       <screen x="0" y="0" width="1920" height="1080" />
     </state>
-    <state x="619" y="281" width="672" height="678" key="search.everywhere.popup/0.0.1920.1080@0.0.1920.1080" timestamp="1596744848854" />
+    <state x="619" y="281" width="672" height="678" key="search.everywhere.popup/0.0.1920.1080@0.0.1920.1080" timestamp="1596757602548" />
     <state x="2539" y="281" width="672" height="678" key="search.everywhere.popup/1920.0.1920.1080/0.0.1920.1080@1920.0.1920.1080" timestamp="1596297829301" />
   </component>
 </project>
