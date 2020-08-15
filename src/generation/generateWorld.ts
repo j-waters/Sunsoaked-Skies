@@ -1,9 +1,8 @@
 import type World from '../models/World';
 import type { WorldType } from '../models/World';
 import SimplexNoise from 'simplex-noise';
-import Scene = Phaser.Scene;
-import Point = Phaser.Geom.Point;
 import { Location, RuinLocation, VillageLocation } from '../models/Location';
+import Scene = Phaser.Scene;
 import Vector2 = Phaser.Math.Vector2;
 
 console.log('');
@@ -127,12 +126,12 @@ export function generateSeed() {
 }
 
 export function generateLocations(world: World) {
-	let worldGenerator = new WorldGenerator(world, 512);
-	let locations: Location[] = [];
+	const worldGenerator = new WorldGenerator(world, 512);
+	const locations: Location[] = [];
 	let tries = 0;
 	while (locations.length < 15) {
 		let skip = false;
-		let point = worldGenerator.randomPoint();
+		const point = worldGenerator.randomPoint();
 		if (!point.details.biome.nonSolid) {
 			for (const location of locations) {
 				if (Phaser.Math.Distance.BetweenPoints(location.position, point.position) < 50) {
@@ -169,18 +168,18 @@ export function generateWorldTexture(scene: Scene, world: World, size: number, g
 }
 
 export function generateWorldGraphic(world: World, textureSize, gs?: WorldGenerationSettings) {
-	let canvas = document.createElement('canvas');
-	let context = canvas.getContext('2d');
-	let worldGen = new WorldGenerator(world, textureSize, gs);
+	const canvas = document.createElement('canvas');
+	const context = canvas.getContext('2d');
+	const worldGen = new WorldGenerator(world, textureSize, gs);
 
 	canvas.width = worldGen.textureSize * worldGen.tileSize;
 	canvas.height = worldGen.textureSize * worldGen.tileSize;
 
-	let div = worldGen.worldSize / worldGen.textureSize;
+	const div = worldGen.worldSize / worldGen.textureSize;
 
 	for (let x = 0; x < worldGen.textureSize; x++) {
 		for (let y = 0; y < worldGen.textureSize; y++) {
-			let p = worldGen.getAt(x * div, y * div);
+			const p = worldGen.getAt(x * div, y * div);
 			context.fillStyle = p.biome.colour;
 			context.fillRect(x * worldGen.tileSize, y * worldGen.tileSize, worldGen.tileSize, worldGen.tileSize);
 		}
@@ -209,7 +208,7 @@ class WorldPixel {
 
 	get biomeName(): BiomeName {
 		let biome: BiomeName;
-		let elevation = this.elevation;
+		const elevation = this.elevation;
 
 		if (elevation < 0) {
 			if (elevation < -0.5) {
@@ -229,7 +228,7 @@ class WorldPixel {
 			} else {
 				biome = 'SNOW';
 			}
-			let value = Object.values(biomes)
+			const value = Object.values(biomes)
 				.filter((biome) => biome.moisture & this.snappedMoisture)
 				.find((biome) => biome.temperature & this.snappedTemperature);
 			// console.log(
@@ -264,7 +263,7 @@ class WorldGenerator {
 	private gs: WorldGenerationSettings;
 	private elevationNoise: SimplexNoise;
 	private elevationNoise2: SimplexNoise;
-	tileSize: number = 2;
+	tileSize = 2;
 	private pointRandom: Phaser.Math.RandomDataGenerator;
 	private moistureNoise: SimplexNoise;
 	private temperatureNoise: SimplexNoise;
@@ -317,7 +316,7 @@ class WorldGenerator {
 	}
 
 	public randomPoint() {
-		let p = new Vector2(this.pointRandom.between(0, this.worldSize), this.pointRandom.between(0, this.worldSize));
+		const p = new Vector2(this.pointRandom.between(0, this.worldSize), this.pointRandom.between(0, this.worldSize));
 		return { position: p, details: this.getAt(p.x, p.y) };
 	}
 
@@ -334,15 +333,15 @@ class WorldGenerator {
 	}
 
 	private elevationAt(x: number, y: number) {
-		let e1 = this.elevationNoise.noise2D(x / this.zoom, y / this.zoom);
-		let e2 = this.elevationNoise2.noise2D((x * 2) / this.zoom, (y * 2) / this.zoom);
+		const e1 = this.elevationNoise.noise2D(x / this.zoom, y / this.zoom);
+		const e2 = this.elevationNoise2.noise2D((x * 2) / this.zoom, (y * 2) / this.zoom);
 		let e = normalise((e1 + this.gs.elev2proportion * e2) / (1 + this.gs.elev2proportion));
 		e = Math.pow(e, this.gs.exp);
 		return e - (1 - this.gradientAt(x, y));
 	}
 
 	private moistureAt(x: number, y: number) {
-		let m = normalise(this.moistureNoise.noise2D((x / this.zoom) * 2, (y / this.zoom) * 2));
+		const m = normalise(this.moistureNoise.noise2D((x / this.zoom) * 2, (y / this.zoom) * 2));
 
 		return m;
 	}

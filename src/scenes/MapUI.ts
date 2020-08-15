@@ -2,7 +2,6 @@ import BaseUI from './BaseUI';
 import ShipState from '../states/ShipState';
 import Button from '../sprites/ui/Button';
 import MapActionButton from '../sprites/ui/MapActionButton';
-import type Weapon from '../models/weapons/Weapon';
 import type WorldMap from './WorldMap';
 
 export default class MapUI extends BaseUI {
@@ -10,14 +9,14 @@ export default class MapUI extends BaseUI {
 	mapScene: WorldMap;
 
 	create() {
-		let mapButton = new Button(this, this.gameWidth - 100, this.gameHeight - 100, 200, 'ui/ship');
+		const mapButton = new Button(this, this.gameWidth - 100, this.gameHeight - 100, 200, 'ui/ship');
 		mapButton.setOnClick(() => {
 			this.state.start(ShipState);
 		});
 		this.add.existing(mapButton);
 
 		this.ship.weapons.forEach((weapon) => {
-			let button = new MapActionButton(this, 200, this.gameHeight - 100, 200, weapon, 1);
+			const button = new MapActionButton(this, 200, this.gameHeight - 100, 200, weapon, 1);
 			this.add.existing(button);
 		});
 	}

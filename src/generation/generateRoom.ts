@@ -2,13 +2,13 @@ import type Room from '../models/Room';
 import type GenerationSettings from './generationSettings';
 
 export function generateRoomBackground(room: Room, generationSettings: GenerationSettings) {
-	let canvas = document.createElement('canvas');
+	const canvas = document.createElement('canvas');
 
-	let width = generationSettings.roomSizeMargin * room.width - generationSettings.roomMargin;
-	let height = generationSettings.roomSizeMargin * room.height - generationSettings.roomMargin;
+	const width = generationSettings.roomSizeMargin * room.width - generationSettings.roomMargin;
+	const height = generationSettings.roomSizeMargin * room.height - generationSettings.roomMargin;
 	canvas.width = width;
 	canvas.height = height;
-	let context = canvas.getContext('2d');
+	const context = canvas.getContext('2d');
 
 	context.lineWidth = generationSettings.strokeThickness;
 	context.lineJoin = 'bevel';
@@ -21,7 +21,7 @@ export function generateRoomBackground(room: Room, generationSettings: Generatio
 	}
 	context.stroke();
 
-	let text = generateText(room, width, height);
+	const text = generateText(room, width, height);
 	context.drawImage(text, 0, 0);
 
 	context.fillStyle = 'black';
@@ -48,13 +48,13 @@ export function generateRoomBackground(room: Room, generationSettings: Generatio
 }
 
 function generateText(room: Room, width: number, height: number) {
-	let canvas = document.createElement('canvas');
+	const canvas = document.createElement('canvas');
 	canvas.width = width;
 	canvas.height = height;
 	if (room.name === '') {
 		return canvas;
 	}
-	let context = canvas.getContext('2d');
+	const context = canvas.getContext('2d');
 	context.textAlign = 'center';
 	context.textBaseline = 'top';
 
@@ -70,7 +70,7 @@ function fitText(context: CanvasRenderingContext2D, text: string, font: string, 
 	let diff = 5;
 	while (true) {
 		context.font = `${fontSize}px ${font}`;
-		let metrics = context.measureText(text);
+		const metrics = context.measureText(text);
 		fontSize += diff;
 		if ((metrics.width < width && diff < 0) || (metrics.width > width && diff > 0)) {
 			diff = -diff / 2;

@@ -10,7 +10,7 @@ export default class MapShipSprite extends Phaser.GameObjects.Sprite {
 		super(parent, 0, 0, ship.generateTopDownTexture(parent));
 		this.ship = ship;
 		this.parent = parent;
-		let mod = parent.mapSize / 512;
+		const mod = parent.mapSize / 512;
 		this.setPosition(this.ship.position.x * mod, this.ship.position.y * mod);
 	}
 

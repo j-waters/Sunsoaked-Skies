@@ -1,8 +1,8 @@
 import type WorldMap from '../../scenes/WorldMap';
 import type MapAction from '../../models/MapAction';
-import Color = Phaser.Display.Color;
 import { MovementAction } from '../../models/MapAction';
 import Weapon from '../../models/weapons/Weapon';
+import Color = Phaser.Display.Color;
 
 export default class Cursor extends Phaser.GameObjects.Image {
 	private parent: WorldMap;
@@ -22,7 +22,7 @@ export default class Cursor extends Phaser.GameObjects.Image {
 	}
 
 	private movementAction() {
-		let texture = this.parent.dataStore.playerShip.generateTopDownTexture(this.parent);
+		const texture = this.parent.dataStore.playerShip.generateTopDownTexture(this.parent);
 		// @ts-ignore
 		this.setTexture(texture);
 		this.setDisplaySize(5 * 2.5, 8 * 2.5);

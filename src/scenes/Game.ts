@@ -1,7 +1,4 @@
 import { SceneBase } from './SceneBase';
-import Ship from '../models/Ship';
-import Room from '../models/Room';
-import { generateGrid, generateMenuShip, generateShipGraphic } from '../generation/generateShip';
 
 export class GameScene extends SceneBase {
 	constructor() {

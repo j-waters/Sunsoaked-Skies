@@ -1,22 +1,22 @@
 import type Room from './Room';
 import { generateGrid, generateHullGraphic, generateTopDownShipGraphic } from '../generation/generateShip';
 import type World from './World';
-import Vector2 = Phaser.Math.Vector2;
 import { POSITIVE_ZERO } from '../sprites/map/MapShipSprite';
-import Scene = Phaser.Scene;
 import type GenerationSettings from '../generation/generationSettings';
-import Curve = Phaser.Curves.Curve;
 import type Weapon from './weapons/Weapon';
 import { MovementAction } from './MapAction';
+import Vector2 = Phaser.Math.Vector2;
+import Scene = Phaser.Scene;
+import Curve = Phaser.Curves.Curve;
 
 export default class Ship {
 	rootRoom: Room;
 	world: World;
 	position: Vector2;
 	velocity: Vector2;
-	turningModifier: number = 100;
-	speed: number = 0.2;
-	acceleration: number = 0.001;
+	turningModifier = 100;
+	speed = 0.2;
+	acceleration = 0.001;
 	targetCurve: Curve;
 	distance: number;
 	movementAction: MovementAction;
@@ -35,7 +35,7 @@ export default class Ship {
 		if (scene.textures.exists('ship_hull')) {
 			return scene.textures.get('ship_hull');
 		}
-		let shipCanvas = generateHullGraphic(this, gs);
+		const shipCanvas = generateHullGraphic(this, gs);
 		return scene.textures.addCanvas('ship_hull', shipCanvas);
 	}
 
@@ -43,7 +43,7 @@ export default class Ship {
 		if (scene.textures.exists('ship_top_down')) {
 			return scene.textures.get('ship_top_down');
 		}
-		let shipCanvas = generateTopDownShipGraphic(this);
+		const shipCanvas = generateTopDownShipGraphic(this);
 		return scene.textures.addCanvas('ship_top_down', shipCanvas);
 	}
 
@@ -60,7 +60,7 @@ export default class Ship {
 	}
 
 	public get rooms(): Room[] {
-		let rooms = [];
+		const rooms = [];
 		this.roomGrid.forEach((row, y) => {
 			row.forEach((room, x) => {
 				if (room && !rooms.includes(room)) {
@@ -74,9 +74,9 @@ export default class Ship {
 
 	iterateMovement() {
 		if (this.targetCurve) {
-			let percentage = this.targetCurve.getTFromDistance(this.distance);
+			const percentage = this.targetCurve.getTFromDistance(this.distance);
 
-			let point = this.targetCurve.getPointAt(percentage);
+			const point = this.targetCurve.getPointAt(percentage);
 			this.velocity.setAngle(this.targetCurve.getTangentAt(percentage).angle());
 			this.position = point;
 
@@ -95,11 +95,11 @@ export default class Ship {
 		}
 	}
 
-	accelerate(decelerate: boolean = false) {
+	accelerate(decelerate = false) {
 		if (!decelerate && this.velocity.length() < this.speed) {
 			this.velocity.setLength(this.velocity.length() + this.acceleration);
 		} else if (decelerate && this.velocity.length() > 0.001) {
-			let change = this.velocity.length() - this.acceleration;
+			const change = this.velocity.length() - this.acceleration;
 			if (change < POSITIVE_ZERO) {
 				this.velocity.setLength(POSITIVE_ZERO);
 			} else {
@@ -130,7 +130,7 @@ class ShipBuilder {
 	}
 
 	build() {
-		let ship = new Ship(this.rootRoom);
+		const ship = new Ship(this.rootRoom);
 		ship.rootRoom.setShip(ship);
 		return ship;
 	}

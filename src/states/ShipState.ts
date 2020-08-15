@@ -1,14 +1,6 @@
 import State from './StateManager';
 import { Background } from '../scenes/Background';
 import ShipHull from '../scenes/ShipHull';
-import Ship from '../models/Ship';
-import Helm from '../models/rooms/Helm';
-import Quarters from '../models/rooms/Quarters';
-import Person from '../models/Person';
-import Gunnery from '../models/rooms/Gunnery';
-import Storage from '../models/rooms/Storage';
-import Engine from '../models/rooms/Engine';
-import Empty from '../models/rooms/Empty';
 import ShipUI from '../scenes/ShipUI';
 import MapState from './MapState';
 

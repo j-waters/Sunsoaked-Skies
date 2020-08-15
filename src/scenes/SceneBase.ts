@@ -61,14 +61,14 @@ class Debug extends Phaser.GameObjects.Graphics {
 	}
 
 	addAngle(centre: Vector2, angle: number, text?: boolean) {
-		let other = new Vector2(100, 0).setAngle(angle).add(centre);
+		const other = new Vector2(100, 0).setAngle(angle).add(centre);
 		this.lineBetween(centre.x, centre.y, other.x, other.y);
 		this.stroke();
 		if (text) this.addText(other, angle.toString());
 	}
 
 	addText(position: Vector2, text: string) {
-		let t = new Phaser.GameObjects.Text(this.scene, position.x, position.y, text, { fontFamily: 'Arial' });
+		const t = new Phaser.GameObjects.Text(this.scene, position.x, position.y, text, { fontFamily: 'Arial' });
 		this.texts.push(t);
 		this.scene.add.existing(t);
 	}

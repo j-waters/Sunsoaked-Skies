@@ -1,21 +1,19 @@
 import type Person from '../models/Person';
-import Room from '../models/Room';
 import type { RoomRelation } from '../models/Room';
-import Point = Phaser.Geom.Point;
-import Quarters from '../models/rooms/Quarters';
+import Room from '../models/Room';
 import Vector2 = Phaser.Math.Vector2;
 
 export default function pathfind(person: Person, targetRoom: Room, targetPosition?: Vector2): RouteStep[] {
-	let target: Target = {
+	const target: Target = {
 		room: targetRoom,
 		position: targetPosition || new Vector2(targetRoom.firstAvailableSpace, targetRoom.height - 1),
 	};
-	let graph = buildGraph(person.room.ship.rooms, person, target);
+	const graph = buildGraph(person.room.ship.rooms, person, target);
 	// console.log('Graph:', graph);
 
-	let distanceGraph = dijkstra(graph, person);
+	const distanceGraph = dijkstra(graph, person);
 
-	let route = getGeneralRoute(distanceGraph, target);
+	const route = getGeneralRoute(distanceGraph, target);
 	console.log(
 		'Route:',
 		route.map((i) => i),
@@ -28,19 +26,19 @@ export type RouteStep = { room: Room; position: Vector2 };
 type Target = { room: Room; position: Vector2 };
 
 function getSpecificRoute(person: Person, path: Node[]): RouteStep[] {
-	let queue: RouteStep[] = [];
+	const queue: RouteStep[] = [];
 
 	let curNode = path.shift();
 	// let curRoom = curNode.room;
 	// let curPos = curNode.position;
 	while (true) {
-		let curPos = roomToPersonPos(curNode.room, curNode.position);
+		const curPos = roomToPersonPos(curNode.room, curNode.position);
 		queue.push({ room: curNode.room, position: curPos });
-		let nextNode = path.shift();
+		const nextNode = path.shift();
 		if (nextNode == null) {
 			break;
 		}
-		let nextPos = roomToPersonPos(nextNode.room, nextNode.position);
+		const nextPos = roomToPersonPos(nextNode.room, nextNode.position);
 
 		if (curNode.room == nextNode.room) {
 			if (nextPos.y < curPos.y) {
@@ -61,7 +59,7 @@ function getSpecificRoute(person: Person, path: Node[]): RouteStep[] {
 }
 
 function getGeneralRoute(graph: Node[], target: Target): Node[] {
-	let route: Node[] = [];
+	const route: Node[] = [];
 	let curNode = getNode(graph, target.room, personToRoomPos(target.room, target.position));
 	while (curNode != null) {
 		route.unshift(curNode);
@@ -77,9 +75,9 @@ function dijkstra(graph: Node[], person: Person) {
 	let queue = graph.map((item) => item);
 	while (queue.length > 0) {
 		queue = queue.sort((a, b) => a.distance - b.distance);
-		let node = queue.shift();
+		const node = queue.shift();
 		node.children.forEach((childNode) => {
-			let newDistance = node.distance + 1;
+			const newDistance = node.distance + 1;
 			if (newDistance < childNode.distance) {
 				childNode.distance = newDistance;
 				childNode.routeNode = node;
@@ -91,21 +89,21 @@ function dijkstra(graph: Node[], person: Person) {
 
 function buildGraph(rooms: Room[], person: Person, target: Target) {
 	Node.nodes = [];
-	let startRoom = person.room;
-	let startPosition = personToRoomPos(startRoom, person.roomPosition);
-	let graph: Node[] = [];
+	const startRoom = person.room;
+	const startPosition = personToRoomPos(startRoom, person.roomPosition);
+	const graph: Node[] = [];
 	rooms.forEach((room) => {
-		let roomNodes: Node[] = [];
+		const roomNodes: Node[] = [];
 		if (room === startRoom) {
-			let newNode = Node.create(room, startPosition);
+			const newNode = Node.create(room, startPosition);
 			roomNodes.push(newNode);
 		}
 		if (room == target.room) {
-			let newNode = Node.create(room, personToRoomPos(room, target.position));
+			const newNode = Node.create(room, personToRoomPos(room, target.position));
 			roomNodes.push(newNode);
 		}
 		room.neighbours.forEach((neighbour) => {
-			let newNode = createDoorNode(room, neighbour);
+			const newNode = createDoorNode(room, neighbour);
 			newNode.children.add(createDoorNode(neighbour.room, neighbour.mirror));
 			roomNodes.forEach((roomNode) => {
 				roomNode.children.add(newNode);
@@ -131,7 +129,7 @@ function createDoorNode(room: Room, relation: RoomRelation): Node {
 		default:
 			break;
 	}
-	let node = Node.create(room, position);
+	const node = Node.create(room, position);
 	// if (room instanceof Quarters) {
 	// 	console.log('==', node, position, relation);
 	// }
@@ -161,11 +159,11 @@ class Node {
 	}
 
 	static create(room: Room, position: Vector2): Node {
-		let existing = this.nodes.find((node) => node.room == room && node.position.equals(position));
+		const existing = this.nodes.find((node) => node.room == room && node.position.equals(position));
 		if (existing) {
 			return existing;
 		}
-		let newNode = new Node(room, position);
+		const newNode = new Node(room, position);
 		this.nodes.push(newNode);
 		return newNode;
 	}

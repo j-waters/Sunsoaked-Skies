@@ -1,5 +1,4 @@
 import type Ship from '../models/Ship';
-import { generateHullGraphic } from '../generation/generateShip';
 import RoomSprite from '../sprites/ship/RoomSprite';
 import GenerationSettings from '../generation/generationSettings';
 import type Room from '../models/Room';
@@ -52,9 +51,9 @@ export default class ShipHull extends SceneBase {
 	}
 
 	private addRoom(room: Room) {
-		let roomSprite = new RoomSprite(this, room, this.generationSettings);
-		let xOffset = this.background.width / 2;
-		let yOffset = this.background.height / 2;
+		const roomSprite = new RoomSprite(this, room, this.generationSettings);
+		const xOffset = this.background.width / 2;
+		const yOffset = this.background.height / 2;
 		roomSprite.setPosition(
 			room.gridPosition.x * this.generationSettings.roomSizeMargin - xOffset + this.generationSettings.margin + this.gameWidth / 2,
 			room.gridPosition.y * this.generationSettings.roomSizeMargin - yOffset + this.generationSettings.margin + this.gameHeight / 2,
@@ -67,7 +66,7 @@ export default class ShipHull extends SceneBase {
 
 	private addPeople(people: Person[]) {
 		people.forEach((person) => {
-			let personSprite = new ShipPersonSprite(this, person, this.generationSettings);
+			const personSprite = new ShipPersonSprite(this, person, this.generationSettings);
 			this.personSprites.push(personSprite);
 			this.add.existing(personSprite);
 			// this.bringToTop(personSprite);

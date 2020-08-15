@@ -1,7 +1,12 @@
 import Scene = Phaser.Scene;
 import Container = Phaser.GameObjects.Container;
 import type Person from '../models/Person';
-import { generateArmTexture, generateBodyTexture, generateHeadTexture, generateLegTexture } from '../generation/generatePerson';
+import {
+	generateArmTexture,
+	generateBodyTexture,
+	generateHeadTexture,
+	generateLegTexture,
+} from '../generation/generatePerson';
 import type GenerationSettings from '../generation/generationSettings';
 
 export default class PersonSprite extends Container {

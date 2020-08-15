@@ -1,24 +1,18 @@
 import { SceneBase } from './SceneBase';
 import type World from '../models/World';
 import MapLocationSprite from '../sprites/map/MapLocationSprite';
-import type Ship from '../models/Ship';
 import MapShipSprite from '../sprites/map/MapShipSprite';
-
-import QuadraticBezier = Phaser.Curves.QuadraticBezier;
-import Point = Phaser.Geom.Point;
-import Vector2 = Phaser.Math.Vector2;
-import CubicBezier = Phaser.Curves.CubicBezier;
-import { generateTopDownShipGraphic } from '../generation/generateShip';
-import Graphics = Phaser.GameObjects.Graphics;
 import Weapon from '../models/weapons/Weapon';
-import type { WeaponRangeOverlay } from '../sprites/map/WeaponOverlay';
-import Color = Phaser.Display.Color;
+import type { WeaponRangeOverlay, WeaponTargetOverlay } from '../sprites/map/WeaponOverlay';
 import Cursor from '../sprites/map/Cursor';
 import type MapAction from '../models/MapAction';
 import { MovementAction } from '../models/MapAction';
 import GraphicOverlay from '../sprites/map/GraphicOverlay';
-import type { WeaponTargetOverlay } from '../sprites/map/WeaponOverlay';
 import Projectile from '../sprites/map/Projectile';
+import QuadraticBezier = Phaser.Curves.QuadraticBezier;
+import Vector2 = Phaser.Math.Vector2;
+import CubicBezier = Phaser.Curves.CubicBezier;
+import Graphics = Phaser.GameObjects.Graphics;
 
 export default class WorldMap extends SceneBase {
 	private map: Phaser.GameObjects.Image;
@@ -50,12 +44,12 @@ export default class WorldMap extends SceneBase {
 		// locationSprite.setDisplaySize(700, 700);
 
 		this.world.locations.forEach((location) => {
-			let locationSprite = new MapLocationSprite(this, location);
+			const locationSprite = new MapLocationSprite(this, location);
 			this.add.existing(locationSprite);
 		});
 
 		this.playerShip = new MapShipSprite(this, this.dataStore.playerShip);
-		let mod = this.mapSize / this.world.size;
+		const mod = this.mapSize / this.world.size;
 		this.playerShip.setDisplaySize(5 * mod, 8 * mod);
 		this.add.existing(this.playerShip);
 
@@ -95,7 +89,7 @@ export default class WorldMap extends SceneBase {
 	}
 
 	pointerMove(pointer: Phaser.Input.Pointer, gameObjects) {
-		let pointerPosition: Vector2 = <Vector2>pointer.positionToCamera(this.cameras.main);
+		const pointerPosition: Vector2 = <Vector2>pointer.positionToCamera(this.cameras.main);
 		this.cursor.setPosition(pointerPosition.x, pointerPosition.y);
 		if (this.selectedAction instanceof MovementAction) {
 			this.handleMovementAction(pointer);
@@ -109,15 +103,15 @@ export default class WorldMap extends SceneBase {
 	}
 
 	handleMovementAction(pointer: Phaser.Input.Pointer) {
-		let pointerPosition: Vector2 = <Vector2>pointer.positionToCamera(this.cameras.main);
-		let curve = calculateCurve(this.playerShip.getCenter(), this.playerShip.ship.velocity.clone().setLength(this.playerShip.ship.turningModifier), pointerPosition);
+		const pointerPosition: Vector2 = <Vector2>pointer.positionToCamera(this.cameras.main);
+		const curve = calculateCurve(this.playerShip.getCenter(), this.playerShip.ship.velocity.clone().setLength(this.playerShip.ship.turningModifier), pointerPosition);
 		this.overlay.drawProspectiveMovement(curve);
 		this.cursor.setRotation(curve.getTangentAt(1).angle() - Math.PI / 2);
 	}
 
 	pointerDown(pointer: Phaser.Input.Pointer) {
-		let pointerPosition: Vector2 = <Vector2>pointer.positionToCamera(this.cameras.main);
-		let curve = calculateCurve(this.playerShip.getCenter(), this.playerShip.ship.velocity.clone().setLength(this.playerShip.ship.turningModifier), pointerPosition);
+		const pointerPosition: Vector2 = <Vector2>pointer.positionToCamera(this.cameras.main);
+		const curve = calculateCurve(this.playerShip.getCenter(), this.playerShip.ship.velocity.clone().setLength(this.playerShip.ship.turningModifier), pointerPosition);
 
 		if (this.selectedAction instanceof MovementAction) {
 			this.playerShip.moveTo(curve);
@@ -127,7 +121,7 @@ export default class WorldMap extends SceneBase {
 	}
 
 	fire(angle: number) {
-		let projectile = new Projectile(this, this.selectedAction as Weapon, this.playerShip.getCenter(), angle);
+		const projectile = new Projectile(this, this.selectedAction as Weapon, this.playerShip.getCenter(), angle);
 		this.projectiles.add(projectile, true);
 		// this.add.existing(projectile);
 	}
@@ -164,17 +158,17 @@ export default class WorldMap extends SceneBase {
 }
 
 function calculateCurve(startPosition: Vector2, startVelocity: Vector2, endPosition: Vector2, debugGraphic?: Graphics) {
-	let hyp = startPosition.clone().subtract(endPosition);
+	const hyp = startPosition.clone().subtract(endPosition);
 	hyp.x = Math.abs(hyp.x);
 	hyp.y = Math.abs(hyp.y);
-	let angleBetween = Phaser.Math.Angle.Normalize(Phaser.Math.Angle.BetweenPoints(startPosition, endPosition) - startVelocity.angle());
-	let ang = Phaser.Math.Angle.Normalize(Math.PI / 2 - angleBetween);
-	let dis = Phaser.Math.Distance.BetweenPoints(startPosition, endPosition) * Math.sin(ang);
-	let midPoint = startPosition.clone().add(startVelocity.clone().setLength(dis / 2));
-	let quadraticBezier = new QuadraticBezier(startPosition, midPoint, endPosition);
-	let tangent = quadraticBezier.getTangentAt(1);
+	const angleBetween = Phaser.Math.Angle.Normalize(Phaser.Math.Angle.BetweenPoints(startPosition, endPosition) - startVelocity.angle());
+	const ang = Phaser.Math.Angle.Normalize(Math.PI / 2 - angleBetween);
+	const dis = Phaser.Math.Distance.BetweenPoints(startPosition, endPosition) * Math.sin(ang);
+	const midPoint = startPosition.clone().add(startVelocity.clone().setLength(dis / 2));
+	const quadraticBezier = new QuadraticBezier(startPosition, midPoint, endPosition);
+	const tangent = quadraticBezier.getTangentAt(1);
 	let angle = tangent.angle();
-	let angleOffset = startVelocity.angle() - Math.PI * 1.5;
+	const angleOffset = startVelocity.angle() - Math.PI * 1.5;
 	let nAngle = Phaser.Math.Angle.Normalize(angle - angleOffset);
 	if (angleBetween < Math.PI * 1.5 && angleBetween > Math.PI) {
 		nAngle -= Math.PI * 1.5 - angleBetween;
@@ -189,28 +183,28 @@ function calculateCurve(startPosition: Vector2, startVelocity: Vector2, endPosit
 	}
 	angle = nAngle + angleOffset;
 
-	let shipVelocity = startVelocity.clone();
+	const shipVelocity = startVelocity.clone();
 
 	if (shipVelocity.length() > endPosition.clone().distance(startPosition) / 2) {
 		shipVelocity.setLength(endPosition.clone().distance(startPosition) / 2);
 	}
 
-	let newVelocity = shipVelocity.clone().setAngle(angle);
+	const newVelocity = shipVelocity.clone().setAngle(angle);
 
-	let pointA = startPosition;
-	let pointB = startPosition.clone().add(shipVelocity);
+	const pointA = startPosition;
+	const pointB = startPosition.clone().add(shipVelocity);
 	// Probably should change B if target is too far below
-	let pointC = endPosition.clone().subtract(newVelocity);
-	let pointD = endPosition;
+	const pointC = endPosition.clone().subtract(newVelocity);
+	const pointD = endPosition;
 
-	let cubicBezier = new CubicBezier(pointA, pointB, pointC, pointD);
+	const cubicBezier = new CubicBezier(pointA, pointB, pointC, pointD);
 
 	if (debugGraphic) {
 		debugGraphic.clear();
 		debugGraphic.lineStyle(2, 0xff00ff, 1);
 		debugGraphic.lineBetween(startPosition.x, startPosition.y, midPoint.x, midPoint.y);
 		quadraticBezier.draw(debugGraphic);
-		let t = quadraticBezier.getEndPoint().add(tangent.setLength(40));
+		const t = quadraticBezier.getEndPoint().add(tangent.setLength(40));
 		debugGraphic.lineStyle(1, 0xff0000, 1);
 		debugGraphic.lineBetween(quadraticBezier.getEndPoint().x, quadraticBezier.getEndPoint().y, t.x, t.y);
 		debugGraphic.lineStyle(1, 0x00ff00, 1);

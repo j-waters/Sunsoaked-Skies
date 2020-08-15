@@ -51,7 +51,7 @@ export default class GenerationSettings {
 	}
 
 	public get bodyConfig() {
-		let bodyConfig = { width: this.personWidth * 0.7, height: this.personHeight * 0.5, xOffset: undefined, yOffset: this.personHeight * 0.24 };
+		const bodyConfig = { width: this.personWidth * 0.7, height: this.personHeight * 0.5, xOffset: undefined, yOffset: this.personHeight * 0.24 };
 		bodyConfig.xOffset = (this.personWidth - bodyConfig.width) / 2;
 		return bodyConfig;
 	}
@@ -66,7 +66,7 @@ export default class GenerationSettings {
 	}
 
 	public get legConfig() {
-		let legConfig = {
+		const legConfig = {
 			width: this.bodyConfig.width * 0.4,
 			height: this.personHeight * 0.25,
 			xOffset: undefined, //this.bodyConfig.xOffset,

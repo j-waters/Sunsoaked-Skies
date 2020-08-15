@@ -21,7 +21,7 @@ export class Preloader extends SceneBase {
 	}
 
 	public create() {
-		if (import.meta.env.MODE === 'development' && false) {
+		if (this.game.registry.get("DEV")) {
 			this.state.start(NewGameState);
 		} else {
 			this.state.start(StartupState);

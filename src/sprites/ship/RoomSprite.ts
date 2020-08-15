@@ -2,9 +2,9 @@ import { generateRoomBackground } from '../../generation/generateRoom';
 import Room from '../../models/Room';
 import type GenerationSettings from '../../generation/generationSettings';
 import type ShipHull from '../../scenes/ShipHull';
-import Sprite = Phaser.GameObjects.Sprite;
 import type Selectable from './Selectable';
 import dat from 'dat.gui';
+import Sprite = Phaser.GameObjects.Sprite;
 import Vector2 = Phaser.Math.Vector2;
 
 export default class RoomSprite extends Sprite implements Selectable {
@@ -14,7 +14,7 @@ export default class RoomSprite extends Sprite implements Selectable {
 	protected highlightBox: Phaser.GameObjects.Rectangle;
 	private debugGui;
 	constructor(parent: ShipHull, roomData: Room, generationSettings: GenerationSettings) {
-		let texture = parent.textures.addCanvas(null, generateRoomBackground(roomData, generationSettings), true);
+		const texture = parent.textures.addCanvas(null, generateRoomBackground(roomData, generationSettings), true);
 		super(parent, 0, 0, texture);
 
 		this.setInteractive({ useHandCursor: true });
@@ -56,7 +56,7 @@ export default class RoomSprite extends Sprite implements Selectable {
 	// }
 
 	public setupHover() {
-		let thickness = this.generationSettings.strokeThickness / 2;
+		const thickness = this.generationSettings.strokeThickness / 2;
 		this.highlightBox = this.parent.add.rectangle(this.x + thickness / 2, this.y + thickness / 2, this.width - thickness, this.height - thickness);
 		this.highlightBox.setStrokeStyle(thickness, 0xffff00);
 		this.highlightBox.setVisible(false);
@@ -84,10 +84,10 @@ export default class RoomSprite extends Sprite implements Selectable {
 	}
 
 	personWorldPosition(roomPosition: { x: number; y: number }) {
-		let positions = Room.possiblePositions(this.room.width);
-		let divisor = positions * 2;
-		let xPos = this.x + (this.width / divisor) * (roomPosition.x * 2 + 1);
-		let yPos = this.y + (roomPosition.y + 1) * (this.height / this.room.height); // this.height - roomPosition.y * (this.height / this.room.height);
+		const positions = Room.possiblePositions(this.room.width);
+		const divisor = positions * 2;
+		const xPos = this.x + (this.width / divisor) * (roomPosition.x * 2 + 1);
+		const yPos = this.y + (roomPosition.y + 1) * (this.height / this.room.height); // this.height - roomPosition.y * (this.height / this.room.height);
 		return new Vector2(xPos, yPos);
 	}
 }

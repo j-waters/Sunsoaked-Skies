@@ -4,10 +4,10 @@ import type Person from '../../models/Person';
 import type GenerationSettings from '../../generation/generationSettings';
 import { MoveTask } from '../../models/Task';
 import type Room from '../../models/Room';
-import Vector2 = Phaser.Math.Vector2;
-import Rectangle = Phaser.GameObjects.Rectangle;
 import type Selectable from './Selectable';
 import dat from 'dat.gui';
+import Vector2 = Phaser.Math.Vector2;
+import Rectangle = Phaser.GameObjects.Rectangle;
 
 export default class ShipPersonSprite extends PersonSprite implements Selectable {
 	protected parent: ShipHull;
@@ -38,12 +38,12 @@ export default class ShipPersonSprite extends PersonSprite implements Selectable
 		if (movement == undefined) {
 			movement = 3;
 		}
-		let currentTarget: Room = task.currentTarget.room;
-		let currentTargetSprite = this.parent.getRoomSprite(currentTarget);
-		let currentTargetPosition = currentTargetSprite.personWorldPosition(task.currentTarget.position);
-		let curPos = new Vector2(this.x, this.bottom);
-		let diff = curPos.subtract(currentTargetPosition).negate();
-		let distanceToTarget = diff.length();
+		const currentTarget: Room = task.currentTarget.room;
+		const currentTargetSprite = this.parent.getRoomSprite(currentTarget);
+		const currentTargetPosition = currentTargetSprite.personWorldPosition(task.currentTarget.position);
+		const curPos = new Vector2(this.x, this.bottom);
+		const diff = curPos.subtract(currentTargetPosition).negate();
+		const distanceToTarget = diff.length();
 
 		if (distanceToTarget > movement) {
 			diff.setLength(movement);
@@ -70,7 +70,7 @@ export default class ShipPersonSprite extends PersonSprite implements Selectable
 	}
 
 	public moveToPosition() {
-		let position = this.roomSprite.personWorldPosition(this.person.roomPosition);
+		const position = this.roomSprite.personWorldPosition(this.person.roomPosition);
 		this.setPosition(position.x, position.y - this.compHeight / 2);
 	}
 
@@ -89,7 +89,7 @@ export default class ShipPersonSprite extends PersonSprite implements Selectable
 	}
 
 	private setupHover() {
-		let thickness = this.generationSettings.strokeThickness / 2;
+		const thickness = this.generationSettings.strokeThickness / 2;
 		this.highlightBox = new Rectangle(this.scene, 0, 0, this.compWidth, this.compHeight);
 
 		this.highlightBox.setVisible(false);

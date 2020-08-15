@@ -1,5 +1,5 @@
 import type { Location } from './Location';
-import { generateSeed, generateWorldTexture, generateLocations } from '../generation/generateWorld';
+import { generateLocations, generateSeed, generateWorldTexture } from '../generation/generateWorld';
 import Scene = Phaser.Scene;
 
 console.log('');
@@ -17,7 +17,7 @@ export default class World {
 		this.seed = seed;
 	}
 
-	generateTexture(scene: Scene, size: number = 512) {
+	generateTexture(scene: Scene, size = 512) {
 		return generateWorldTexture(scene, this, size);
 	}
 

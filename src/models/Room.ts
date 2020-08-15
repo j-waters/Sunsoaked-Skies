@@ -1,6 +1,5 @@
 import type Person from './Person';
 import type Ship from './Ship';
-import Point = Phaser.Geom.Point;
 import Vector2 = Phaser.Math.Vector2;
 
 console.log('');
@@ -85,14 +84,14 @@ export default abstract class Room {
 		if (theirPosition == undefined) {
 			theirPosition = new Vector2(0, 0);
 		}
-		let thisRelation = {
+		const thisRelation = {
 			room,
 			direction,
 			thisPosition,
 			theirPosition,
 			mirror: undefined,
 		};
-		let theirRelation = {
+		const theirRelation = {
 			room: this,
 			direction: oppositeDirection(direction),
 			automatic: true,
@@ -171,7 +170,7 @@ export default abstract class Room {
 	}
 
 	get personSlots(): Person[][] {
-		let slots = Array(this.height);
+		const slots = Array(this.height);
 		slots.fill(Array(Room.possiblePositions(this.width)).fill(null));
 		this.people.forEach((person) => {
 			if (person.roomPosition.x % 1 == 0 && person.roomPosition.y % 1 == 0) {

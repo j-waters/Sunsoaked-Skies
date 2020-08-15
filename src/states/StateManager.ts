@@ -1,6 +1,4 @@
 import DataStore from '../DataStore';
-import MapState from './MapState';
-import ShipState from './ShipState';
 
 type StateConstructor = new (scenes: Phaser.Scenes.SceneManager) => State;
 
@@ -35,7 +33,7 @@ export class StateManager {
 	}
 
 	start(stateClass: StateConstructor) {
-		let old = this.current;
+		const old = this.current;
 		this.current = new stateClass(StateManager.sceneManager);
 		old?.end(this.current);
 		if (!this.initialised.has(stateClass)) {

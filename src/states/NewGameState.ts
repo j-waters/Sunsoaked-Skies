@@ -9,18 +9,15 @@ import Engine from '../models/rooms/Engine';
 import Empty from '../models/rooms/Empty';
 import MapState from './MapState';
 import World from '../models/World';
-import Point = Phaser.Geom.Point;
 import Vector2 = Phaser.Math.Vector2;
-import ShipState from './ShipState';
-import WorldMap from '../scenes/WorldMap';
 
 export default class NewGameState extends State {
 	getScenes() {}
 	initScenes() {}
 	start(previousState: State) {
-		let builder = Ship.builder();
+		const builder = Ship.builder();
 
-		let r1 = builder
+		const r1 = builder
 			.createRootRoom(new Helm(1, 1, false)) //
 			.addRoomDown(new Quarters(1, 2))
 			.addPerson(new Person())
@@ -32,7 +29,7 @@ export default class NewGameState extends State {
 		r1.addRoomDown(new Engine(1, 1)).addPerson(new Person()).addRoomRight(new Empty(1, 1));
 		this.dataStore.playerShip = builder.build();
 
-		let world = World.generate();
+		const world = World.generate();
 		this.dataStore.worlds.push(world);
 		this.dataStore.playerShip.world = world;
 		this.dataStore.playerShip.position = new Vector2(1024, 1024);

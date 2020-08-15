@@ -1,6 +1,6 @@
 import Scene = Phaser.Scene;
-import type Weapon from '../../models/weapons/Weapon';
 import Vector2 = Phaser.Math.Vector2;
+import type Weapon from '../../models/weapons/Weapon';
 
 const SPEED_DROPOFF = 0.8;
 const ALPHA_DROPOFF = 0.95;
@@ -22,7 +22,7 @@ export default class Projectile extends Phaser.GameObjects.Image {
 	update() {
 		this.setPosition(this.x + this.velocity.x, this.y + this.velocity.y);
 		this.distance += this.velocity.length();
-		let progress = this.distance / this.weapon.range;
+		const progress = this.distance / this.weapon.range;
 		if (progress > ALPHA_DROPOFF) {
 			this.setAlpha((1 - progress) / (1 - ALPHA_DROPOFF));
 			this.setDisplaySize((this.size * (1 - progress)) / (1 - ALPHA_DROPOFF), (this.size * (1 - progress)) / (1 - ALPHA_DROPOFF));

@@ -1,9 +1,9 @@
 import type Weapon from '../../models/weapons/Weapon';
-import Color = Phaser.Display.Color;
 import type MapShipSprite from './MapShipSprite';
 import Segment from '../Segment';
-import Vector2 = Phaser.Math.Vector2;
 import type { SceneBase } from '../../scenes/SceneBase';
+import Color = Phaser.Display.Color;
+import Vector2 = Phaser.Math.Vector2;
 
 export class WeaponRangeOverlay extends Segment {
 	private weapon: Weapon;
@@ -30,14 +30,14 @@ export class WeaponTargetOverlay extends Segment {
 
 	setTo(playerShip: MapShipSprite, pointerPosition: Vector2) {
 		this.setPosition(playerShip.x, playerShip.y);
-		let shipAngle = Phaser.Math.Angle.Normalize(Math.PI / 2);
+		const shipAngle = Phaser.Math.Angle.Normalize(Math.PI / 2);
 		let angle = Phaser.Math.Angle.Normalize(
 			Phaser.Math.Angle.BetweenPoints(playerShip.ship.position, pointerPosition) - Phaser.Math.DegToRad(this.weapon.spread) / 2 - playerShip.rotation,
 		);
-		let startAllowedAngle = Phaser.Math.Angle.Normalize(-Phaser.Math.DegToRad(this.weapon.angle) / 2);
-		let endAllowedAngle = Phaser.Math.Angle.Normalize(+Phaser.Math.DegToRad(this.weapon.angle) / 2 - Phaser.Math.DegToRad(this.weapon.spread));
-		let mirroredStartAngle = Phaser.Math.Angle.Normalize(startAllowedAngle - Math.PI);
-		let mirroredEndAngle = Phaser.Math.Angle.Normalize(endAllowedAngle - Math.PI);
+		const startAllowedAngle = Phaser.Math.Angle.Normalize(-Phaser.Math.DegToRad(this.weapon.angle) / 2);
+		const endAllowedAngle = Phaser.Math.Angle.Normalize(+Phaser.Math.DegToRad(this.weapon.angle) / 2 - Phaser.Math.DegToRad(this.weapon.spread));
+		const mirroredStartAngle = Phaser.Math.Angle.Normalize(startAllowedAngle - Math.PI);
+		const mirroredEndAngle = Phaser.Math.Angle.Normalize(endAllowedAngle - Math.PI);
 		if (angle < startAllowedAngle && angle > Phaser.Math.Angle.Normalize(shipAngle - Math.PI)) {
 			angle = startAllowedAngle;
 		} else if (angle > endAllowedAngle && angle < shipAngle) {

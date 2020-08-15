@@ -1,12 +1,9 @@
 import type Room from '../models/Room';
 import Ship from '../models/Ship';
-import Point = Phaser.Geom.Point;
-import Color = Phaser.Display.Color;
-import RND = Phaser.Math.RND;
-import RandomDataGenerator = Phaser.Math.RandomDataGenerator;
 import GenerationSettings from './generationSettings';
-import generationSettings from './generationSettings';
 import Empty from '../models/rooms/Empty';
+import Color = Phaser.Display.Color;
+import RandomDataGenerator = Phaser.Math.RandomDataGenerator;
 import Vector2 = Phaser.Math.Vector2;
 
 console.log('');
@@ -78,11 +75,11 @@ export function generateGrid(room: Room, grid?: roomGrid, x?: number, y?: number
 }
 
 export function generateTopDownShipGraphic(ship: Ship): HTMLCanvasElement {
-	let canvas = document.createElement('canvas');
+	const canvas = document.createElement('canvas');
 
 	canvas.width = 20;
 	canvas.height = 30;
-	let context = canvas.getContext('2d');
+	const context = canvas.getContext('2d');
 
 	context.fillStyle = 'brown';
 	context.fillRect(0, 0, 20, 30);
@@ -91,15 +88,15 @@ export function generateTopDownShipGraphic(ship: Ship): HTMLCanvasElement {
 }
 
 export function generateShipGraphic(ship: Ship, generationSettings): HTMLCanvasElement {
-	let hull = generateHullGraphic(ship, generationSettings);
-	let balloon = generateBalloonGraphic(ship, generationSettings);
+	const hull = generateHullGraphic(ship, generationSettings);
+	const balloon = generateBalloonGraphic(ship, generationSettings);
 
-	let canvas = document.createElement('canvas');
-	let context = canvas.getContext('2d');
+	const canvas = document.createElement('canvas');
+	const context = canvas.getContext('2d');
 	canvas.width = Math.max(hull.width, balloon.width);
 	canvas.height = hull.height + balloon.height + 20;
 
-	let balloonLines = generateBalloonLines(hull.width, canvas.height);
+	const balloonLines = generateBalloonLines(hull.width, canvas.height);
 
 	context.drawImage(balloonLines, 0, balloon.height / 2);
 	context.drawImage(balloon, 0, 0);
@@ -109,23 +106,23 @@ export function generateShipGraphic(ship: Ship, generationSettings): HTMLCanvasE
 }
 
 export function generateHullGraphic(ship: Ship, generationSettings: GenerationSettings, seed?: string) {
-	let grid = generateGrid(ship.rootRoom);
-	let canvas = document.createElement('canvas');
+	const grid = generateGrid(ship.rootRoom);
+	const canvas = document.createElement('canvas');
 
 	canvas.width = grid[0].length * generationSettings.roomSizeMargin + generationSettings.margin * 2 + generationSettings.strokeThickness;
 	canvas.height = grid.length * generationSettings.roomSizeMargin + generationSettings.margin * 2 + generationSettings.strokeThickness;
-	let context = canvas.getContext('2d');
+	const context = canvas.getContext('2d');
 
 	context.lineWidth = generationSettings.strokeThickness;
 	context.lineJoin = 'bevel';
 	context.strokeStyle = '#6b4a31';
 
-	let path = generateOutlinePath(grid, generationSettings);
+	const path = generateOutlinePath(grid, generationSettings);
 	// context.fill(path);
 	context.stroke(path);
 	context.clip(path);
 
-	let background = generateBackgroundGraphic(canvas.width, canvas.height, seed); // canvas.width, canvas.height
+	const background = generateBackgroundGraphic(canvas.width, canvas.height, seed); // canvas.width, canvas.height
 	context.drawImage(background, 0, 0);
 
 	// grid.forEach((row, yPos) => {
@@ -143,15 +140,15 @@ export function generateHullGraphic(ship: Ship, generationSettings: GenerationSe
 }
 
 function generateBackgroundGraphic(width: number, height: number, seed?: string) {
-	let canvas = document.createElement('canvas');
+	const canvas = document.createElement('canvas');
 
 	canvas.width = width;
 	canvas.height = height;
-	let context = canvas.getContext('2d');
+	const context = canvas.getContext('2d');
 
 	const plankHeight = 15;
 	const maxDarken = 20;
-	let rnd = new RandomDataGenerator(seed);
+	const rnd = new RandomDataGenerator(seed);
 
 	context.strokeStyle = '#6b4a31';
 	context.lineWidth = 0.1;
@@ -159,10 +156,10 @@ function generateBackgroundGraphic(width: number, height: number, seed?: string)
 	for (let y = 0; y < height; y += plankHeight) {
 		let x = 0;
 		while (x < width) {
-			let plankWidth = rnd.integerInRange(50, width * 0.5);
-			let colour = Color.HexStringToColor('#b27450');
+			const plankWidth = rnd.integerInRange(50, width * 0.5);
+			const colour = Color.HexStringToColor('#b27450');
 
-			let darkenAmount = ((y / height) * maxDarken * rnd.realInRange(0.8, 1.5)) / 1.5;
+			const darkenAmount = ((y / height) * maxDarken * rnd.realInRange(0.8, 1.5)) / 1.5;
 			colour.darken(Math.round(darkenAmount) * 1.5);
 			context.fillStyle = colour.rgba;
 			context.fillRect(x, y, plankWidth, plankHeight);
@@ -175,14 +172,14 @@ function generateBackgroundGraphic(width: number, height: number, seed?: string)
 }
 
 function generateBalloonGraphic(ship: Ship, generationSettings: GenerationSettings, seed?: string) {
-	let canvas = document.createElement('canvas');
-	let grid = generateGrid(ship.rootRoom);
+	const canvas = document.createElement('canvas');
+	const grid = generateGrid(ship.rootRoom);
 
 	canvas.width = grid[0].length * generationSettings.roomSizeMargin + generationSettings.margin * 2 + generationSettings.strokeThickness;
 	canvas.height = (grid.length * generationSettings.roomSizeMargin + generationSettings.margin * 2 + generationSettings.strokeThickness) / 2;
-	let context = canvas.getContext('2d');
+	const context = canvas.getContext('2d');
 
-	let colour = Color.RandomRGB();
+	const colour = Color.RandomRGB();
 	context.fillStyle = colour.rgba;
 	context.strokeStyle = colour.darken(10).rgba;
 
@@ -193,14 +190,14 @@ function generateBalloonGraphic(ship: Ship, generationSettings: GenerationSettin
 }
 
 function generateBalloonLines(width, height, seed?: string) {
-	let canvas = document.createElement('canvas');
+	const canvas = document.createElement('canvas');
 
 	canvas.width = width;
 	canvas.height = height / 1.5;
 
-	let context = canvas.getContext('2d');
+	const context = canvas.getContext('2d');
 
-	let rnd = new RandomDataGenerator(seed);
+	const rnd = new RandomDataGenerator(seed);
 
 	for (let i = 0; i < 5; i++) {
 		context.beginPath();
@@ -215,7 +212,7 @@ function generateOutlinePath(grid: roomGrid, generationSettings: GenerationSetti
 	for (let yPos = 0; yPos < grid.length; yPos++) {
 		for (let xPos = 0; xPos < grid[0].length; xPos++) {
 			if (grid[yPos][xPos] != null && grid[yPos][xPos].inside) {
-				let path = new Path2D();
+				const path = new Path2D();
 				roomLines(grid, xPos, yPos, true, 'TOP', path, generationSettings);
 				path.closePath();
 				return path;
@@ -234,14 +231,14 @@ function roomLines(
 	generationSettings: GenerationSettings,
 	startPoint?: Vector2,
 ) {
-	let room = grid[yPos][xPos];
-	let surrounding = surroundingRooms(grid, xPos, yPos, false);
+	const room = grid[yPos][xPos];
+	const surrounding = surroundingRooms(grid, xPos, yPos, false);
 
-	let topLeft = new Vector2(
+	const topLeft = new Vector2(
 		generationSettings.margin + xPos * generationSettings.roomSizeMargin + generationSettings.strokeThickness / 2,
 		generationSettings.margin + yPos * generationSettings.roomSizeMargin + generationSettings.strokeThickness / 2,
 	);
-	let bottomRight = new Vector2(topLeft.x + generationSettings.roomSizeMargin, topLeft.y + generationSettings.roomSizeMargin);
+	const bottomRight = new Vector2(topLeft.x + generationSettings.roomSizeMargin, topLeft.y + generationSettings.roomSizeMargin);
 
 	if (surrounding[0][1] == null || surrounding[0][1].outside) {
 		topLeft.y -= generationSettings.margin;
@@ -258,8 +255,8 @@ function roomLines(
 	if (surrounding[2][1] == null) {
 		bottomRight.y += generationSettings.margin - generationSettings.roomMargin;
 	}
-	let topRight = new Vector2(bottomRight.x, topLeft.y);
-	let bottomLeft = new Vector2(topLeft.x, bottomRight.y);
+	const topRight = new Vector2(bottomRight.x, topLeft.y);
+	const bottomLeft = new Vector2(topLeft.x, bottomRight.y);
 
 	if (surrounding[2][0]) {
 		bottomLeft.x += generationSettings.margin - generationSettings.roomMargin;
@@ -396,8 +393,8 @@ function surroundingRooms(grid: roomGrid, x, y, allowOutside) {
 }
 
 export function generateMenuShip() {
-	let shipBuilder = Ship.builder();
-	let root = shipBuilder.createRootRoom(new Empty(1, 1));
+	const shipBuilder = Ship.builder();
+	const root = shipBuilder.createRootRoom(new Empty(1, 1));
 	root.addRoomDown(new Empty(2, 1)).addRoomDown(new Empty(1, 1));
 	return generateShipGraphic(shipBuilder.build(), new GenerationSettings(1));
 }

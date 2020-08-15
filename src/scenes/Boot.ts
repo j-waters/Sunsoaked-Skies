@@ -1,5 +1,4 @@
 import { SceneBase } from './SceneBase';
-import { Background } from './Background';
 import { Preloader } from './Preloader';
 
 export class Boot extends SceneBase {

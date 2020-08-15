@@ -1,34 +1,33 @@
 ﻿import { SceneBase } from './SceneBase';
 import { generateMenuShip } from '../generation/generateShip';
-import { generatePersonGraphic } from '../generation/generatePerson';
 import Person from '../models/Person';
 import { createBackground } from '../generation/generateBackground';
 import GenerationSettings from '../generation/generationSettings';
 import PersonSprite from '../sprites/PersonSprite';
-import TextStyle = Phaser.GameObjects.TextStyle;
 import NewGameState from '../states/NewGameState';
+import TextStyle = Phaser.GameObjects.TextStyle;
 
 export default class Menu extends SceneBase {
 	private backgroundShips: Phaser.GameObjects.Group;
 
 	public create(): void {
 		createBackground(this);
-		let background = this.add.image(0, 0, 'gradient_background');
+		const background = this.add.image(0, 0, 'gradient_background');
 		background.setOrigin(0, 0);
 
 		this.backgroundShips = this.add.group();
 		this.createBackgroundShips();
 
-		let hill = this.add.image(this.gameWidth / 2, this.gameHeight, 'menu/hill');
+		const hill = this.add.image(this.gameWidth / 2, this.gameHeight, 'menu/hill');
 		hill.setOrigin(0.5, 1);
 		hill.setDisplaySize(this.gameWidth * 0.6, this.gameHeight * 0.15);
 
-		let person = new PersonSprite(this, new Person(), new GenerationSettings());
+		const person = new PersonSprite(this, new Person(), new GenerationSettings());
 		this.add.existing(person);
 		person.setPosition(this.gameWidth / 2, this.gameHeight * 0.85);
 		person.setDisplaySize(this.gameWidth * 0.05, ((this.gameWidth * 0.05) / person.displayWidth) * person.displayHeight);
 
-		let title = this.add.text(this.gameWidth / 2, this.gameHeight * 0.3, 'Sunsoaked\nSkies', {
+		const title = this.add.text(this.gameWidth / 2, this.gameHeight * 0.3, 'Sunsoaked\nSkies', {
 			fontFamily: 'Elder Magic Shadow',
 			color: 'rgb(0, 0, 0)',
 			fontSize: '128px',
@@ -36,7 +35,7 @@ export default class Menu extends SceneBase {
 		} as TextStyle);
 		title.setOrigin(0.5, 0.5);
 
-		let newGameButton = this.add.text(this.gameWidth / 2, this.gameHeight * 0.55, 'New Game', {
+		const newGameButton = this.add.text(this.gameWidth / 2, this.gameHeight * 0.55, 'New Game', {
 			fontFamily: 'Elder Magic',
 			color: 'rgb(0, 0, 0)',
 			fontSize: '64px',
@@ -68,8 +67,8 @@ export default class Menu extends SceneBase {
 	private createBackgroundShips() {
 		this.backgroundShips.clear(true, true);
 		for (let i = 0; i < 25; i++) {
-			let texture = this.textures.addCanvas(null, generateMenuShip(), true);
-			let image = this.add.image(Phaser.Math.FloatBetween(-200, this.gameWidth + 200), Phaser.Math.FloatBetween(0, this.gameHeight), texture);
+			const texture = this.textures.addCanvas(null, generateMenuShip(), true);
+			const image = this.add.image(Phaser.Math.FloatBetween(-200, this.gameWidth + 200), Phaser.Math.FloatBetween(0, this.gameHeight), texture);
 			const direction = Phaser.Math.Between(0, 1) == 0;
 			const scale = Phaser.Math.FloatBetween(0.5, 1.5);
 			image.setDisplaySize(30 * scale, 30 * scale);

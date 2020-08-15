@@ -1,5 +1,4 @@
 import { SceneBase } from './SceneBase';
-import construct = Reflect.construct;
 
 export class Background extends SceneBase {
 	constructor() {
@@ -9,7 +8,7 @@ export class Background extends SceneBase {
 	preload() {}
 
 	create() {
-		let background = this.add.image(0, 0, this.generateTexture());
+		const background = this.add.image(0, 0, this.generateTexture());
 		background.setOrigin(0, 0);
 	}
 
@@ -19,9 +18,9 @@ export class Background extends SceneBase {
 		if (this.textures.exists('gradient_background')) {
 			return this.textures.get('gradient_background');
 		}
-		let texture = this.textures.createCanvas('gradient_background', this.gameWidth, this.gameHeight);
-		let context = texture.getContext();
-		let grd = context.createLinearGradient(0, 0, 0, this.gameHeight);
+		const texture = this.textures.createCanvas('gradient_background', this.gameWidth, this.gameHeight);
+		const context = texture.getContext();
+		const grd = context.createLinearGradient(0, 0, 0, this.gameHeight);
 
 		grd.addColorStop(0, '#DEB2FF');
 		grd.addColorStop(0.5, '#FFB2BF');

@@ -1,19 +1,19 @@
 import type Person from '../models/Person';
-import Scene = Phaser.Scene;
 import type GenerationSettings from './generationSettings';
+import Scene = Phaser.Scene;
 
 export function generatePersonGraphic(person: Person, generationSettings: GenerationSettings): HTMLImageElement {
-	let canvas = document.createElement('canvas');
+	const canvas = document.createElement('canvas');
 	canvas.width = generationSettings.personWidth;
 	canvas.height = generationSettings.personHeight;
-	let context = canvas.getContext('2d');
+	const context = canvas.getContext('2d');
 
-	let head = generateHeadGraphic(person, generationSettings);
-	let body = generateBodyGraphic(person, generationSettings);
-	let leg1 = generateLegGraphic(person, generationSettings);
-	let leg2 = generateLegGraphic(person, generationSettings);
-	let arm1 = generateArmGraphic(person, generationSettings);
-	let arm2 = generateArmGraphic(person, generationSettings);
+	const head = generateHeadGraphic(person, generationSettings);
+	const body = generateBodyGraphic(person, generationSettings);
+	const leg1 = generateLegGraphic(person, generationSettings);
+	const leg2 = generateLegGraphic(person, generationSettings);
+	const arm1 = generateArmGraphic(person, generationSettings);
+	const arm2 = generateArmGraphic(person, generationSettings);
 
 	context.drawImage(leg1, generationSettings.legConfig.xOffset, generationSettings.legConfig.yOffset);
 	context.drawImage(leg2, generationSettings.personWidth - generationSettings.legConfig.xOffset - generationSettings.legConfig.width, generationSettings.legConfig.yOffset);
@@ -22,17 +22,17 @@ export function generatePersonGraphic(person: Person, generationSettings: Genera
 	context.drawImage(arm1, generationSettings.armConfig.xOffset, generationSettings.armConfig.yOffset);
 	context.drawImage(arm2, generationSettings.personWidth - generationSettings.armConfig.xOffset - generationSettings.armConfig.width, generationSettings.armConfig.yOffset);
 
-	let img = document.createElement('img');
+	const img = document.createElement('img');
 	img.src = canvas.toDataURL();
 	return img;
 }
 
 export function generateHeadGraphic(person: Person, generationSettings: GenerationSettings) {
-	let canvas = document.createElement('canvas');
+	const canvas = document.createElement('canvas');
 
 	canvas.width = generationSettings.headConfig.width;
 	canvas.height = generationSettings.headConfig.height;
-	let context = canvas.getContext('2d');
+	const context = canvas.getContext('2d');
 
 	context.strokeStyle = '#000000';
 	context.fillStyle = '#ba826b';
@@ -46,11 +46,11 @@ export function generateHeadTexture(scene: Scene, person: Person, generationSett
 }
 
 export function generateBodyGraphic(person: Person, generationSettings: GenerationSettings) {
-	let canvas = document.createElement('canvas');
+	const canvas = document.createElement('canvas');
 
 	canvas.width = generationSettings.bodyConfig.width;
 	canvas.height = generationSettings.bodyConfig.height;
-	let context = canvas.getContext('2d');
+	const context = canvas.getContext('2d');
 
 	context.strokeStyle = '#000000';
 	context.fillStyle = '#3b2678';
@@ -64,11 +64,11 @@ export function generateBodyTexture(scene: Scene, person: Person, generationSett
 }
 
 export function generateLegGraphic(person: Person, generationSettings: GenerationSettings) {
-	let canvas = document.createElement('canvas');
+	const canvas = document.createElement('canvas');
 
 	canvas.width = generationSettings.legConfig.width;
 	canvas.height = generationSettings.legConfig.height;
-	let context = canvas.getContext('2d');
+	const context = canvas.getContext('2d');
 
 	context.strokeStyle = '#000000';
 	context.fillStyle = '#361a0e';
@@ -82,11 +82,11 @@ export function generateLegTexture(scene: Scene, person: Person, generationSetti
 }
 
 export function generateArmGraphic(person: Person, generationSettings: GenerationSettings) {
-	let canvas = document.createElement('canvas');
+	const canvas = document.createElement('canvas');
 
 	canvas.width = generationSettings.armConfig.width;
 	canvas.height = generationSettings.armConfig.height;
-	let context = canvas.getContext('2d');
+	const context = canvas.getContext('2d');
 
 	context.strokeStyle = '#000000';
 	context.fillStyle = '#493092';

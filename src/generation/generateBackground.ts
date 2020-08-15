@@ -1,9 +1,9 @@
 import type { SceneBase } from '../scenes/SceneBase';
 
 export function createBackground(scene: SceneBase) {
-	let texture = scene.textures.createCanvas('gradient_background', scene.gameWidth, scene.gameHeight);
-	let context = texture.getContext();
-	let grd = context.createLinearGradient(0, 0, 0, scene.gameHeight);
+	const texture = scene.textures.createCanvas('gradient_background', scene.gameWidth, scene.gameHeight);
+	const context = texture.getContext();
+	const grd = context.createLinearGradient(0, 0, 0, scene.gameHeight);
 
 	grd.addColorStop(0, '#DEB2FF');
 	grd.addColorStop(0.5, '#FFB2BF');

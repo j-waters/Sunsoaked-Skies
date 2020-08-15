@@ -15,7 +15,7 @@ export default class MapLocationSprite extends Phaser.GameObjects.Image {
 		this.location = location;
 		this.parent = parent;
 
-		let mod = parent.mapSize / parent.world.size;
+		const mod = parent.mapSize / parent.world.size;
 		this.setDisplaySize(12 * mod, 12 * mod);
 		this.setPosition(this.location.position.x * mod, this.location.position.y * mod);
 		this.setTint(Phaser.Display.Color.ValueToColor('rgb(186,96,71)').color);

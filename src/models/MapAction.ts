@@ -1,6 +1,6 @@
 export default class MapAction {
 	icon: string;
-	selected: boolean = false;
+	selected = false;
 }
 
 export class MovementAction implements MapAction {

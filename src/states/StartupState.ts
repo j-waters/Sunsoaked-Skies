@@ -1,5 +1,4 @@
 import State from './StateManager';
-import { Background } from '../scenes/Background';
 import Menu from '../scenes/Menu';
 
 export default class StartupState extends State {

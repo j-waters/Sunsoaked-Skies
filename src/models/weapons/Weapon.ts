@@ -7,7 +7,7 @@ export default abstract class Weapon implements MapAction {
 	cooldownTime: number;
 	cooldown: number;
 	icon: string;
-	selected: boolean = false;
+	selected = false;
 	angle: number;
 	range: number;
 	spread: number;
@@ -30,11 +30,11 @@ export default abstract class Weapon implements MapAction {
 }
 
 function generate() {
-	let canvas = document.createElement('canvas');
+	const canvas = document.createElement('canvas');
 
 	canvas.width = 20;
 	canvas.height = 20;
-	let context = canvas.getContext('2d');
+	const context = canvas.getContext('2d');
 
 	context.fillStyle = '#000000';
 	context.ellipse(10, 10, 10, 10, 0, 0, Math.PI * 2);

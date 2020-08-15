@@ -1,7 +1,7 @@
 import Button from './Button';
 import type Weapon from '../../models/weapons/Weapon';
-import Color = Phaser.Display.Color;
 import type MapUI from '../../scenes/MapUI';
+import Color = Phaser.Display.Color;
 
 export default class MapActionButton extends Button {
 	weapon: Weapon;
@@ -16,7 +16,7 @@ export default class MapActionButton extends Button {
 		this.weapon = weapon;
 		this.num = num;
 
-		let key = this.scene.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.ONE);
+		const key = this.scene.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.ONE);
 
 		key.on('down', (key, event) => this.onClick());
 
@@ -34,7 +34,7 @@ export default class MapActionButton extends Button {
 	select() {
 		this.parent.select(this);
 		this.weapon.selected = true;
-		let hoverColour = Color.ValueToColor('rgb(210,0,49)').color;
+		const hoverColour = Color.ValueToColor('rgb(210,0,49)').color;
 		this.background.setStrokeStyle(this.lineWidth, hoverColour);
 		this.icon.setTint(hoverColour);
 	}
