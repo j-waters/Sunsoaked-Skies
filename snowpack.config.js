@@ -9,8 +9,6 @@ module.exports = {
 	},
 	installOptions: {
 		installTypes: true,
-	},
-	installOptions: {
 		rollup: {
 			plugins: [
 				replace({

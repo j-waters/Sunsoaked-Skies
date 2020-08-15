@@ -1,5 +1,7 @@
 import Vector2 = Phaser.Math.Vector2;
 
+console.log('');
+
 export abstract class Location {
 	position: Vector2;
 	abstract icon: string;

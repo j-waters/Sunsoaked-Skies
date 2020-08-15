@@ -2,6 +2,8 @@
 import DataStore from '../DataStore';
 import Vector2 = Phaser.Math.Vector2;
 
+console.log('');
+
 export abstract class SceneBase extends Phaser.Scene {
 	state: StateManager;
 	_debug: Debug;

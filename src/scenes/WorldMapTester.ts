@@ -9,7 +9,6 @@ export default class WorldMapTester extends SceneBase {
 	private map: Phaser.GameObjects.Image;
 	private world: World;
 	create(data: { world: World }) {
-		console.log('hello');
 		this.world = data.world;
 		this.map = this.add.image(0, 0, generateWorldTexture(this, this.world, 512));
 		this.map.setOrigin(0, 0);
