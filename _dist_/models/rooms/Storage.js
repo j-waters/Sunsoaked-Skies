@@ -1,1 +1,1 @@
-import a from"../Room.js";export default class c extends a{get name(){return"Storage"}}
+import e from"../Room.js";export default class o extends e{get name(){return"Storage"}}

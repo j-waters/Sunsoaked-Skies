@@ -1,1 +1,1 @@
-import{SceneBase as a}from"./SceneBase.js";export class GameScene extends a{constructor(){super("GameScene")}preload(){}create(){}}
+import{SceneBase as e}from"./SceneBase.js";export class GameScene extends e{constructor(){super("GameScene")}preload(){}create(){}}

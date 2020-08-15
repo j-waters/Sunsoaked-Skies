@@ -1,1 +1,1 @@
-import{SceneBase as a}from"./SceneBase.js";export default class c extends a{}
+import{SceneBase as e}from"./SceneBase.js";export default class s extends e{}

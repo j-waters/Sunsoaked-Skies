@@ -1,1 +1,1 @@
-import a from"../Room.js";import b from"../weapons/Cannon.js";export default class e extends a{constructor(){super(...arguments);this.weapons=[new b()]}get name(){return"Gunnery"}}
+import n from"../Room.js";import o from"../weapons/Cannon.js";export default class e extends n{constructor(){super(...arguments);this.weapons=[new o()]}get name(){return"Gunnery"}}

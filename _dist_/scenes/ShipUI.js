@@ -1,1 +1,1 @@
-import b from"./BaseUI.js";import c from"../states/MapState.js";import d from"../sprites/ui/Button.js";export default class h extends b{create(){let a=new d(this,this.gameWidth-100,this.gameHeight-100,200,"ui/compass");a.setOnClick(()=>{this.state.start(c)}),this.add.existing(a)}}
+import s from"./BaseUI.js";import e from"../states/MapState.js";import a from"../sprites/ui/Button.js";export default class i extends s{create(){const t=new a(this,this.gameWidth-100,this.gameHeight-100,200,"ui/compass");t.setOnClick(()=>{this.state.start(e)}),this.add.existing(t)}}
