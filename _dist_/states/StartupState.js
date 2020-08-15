@@ -1,0 +1,1 @@
+import a from"./StateManager.js";import b from"../scenes/Menu.js";export default class f extends a{end(c){this.scene.stop("main_menu")}getScenes(){this.mainMenu=this.scene.getScene("main_menu")}initScenes(){this.mainMenu=this.scene.add("main_menu",b)}start(c){console.log("menu",this.mainMenu),this.scene.run("main_menu"),this.getScenes()}}

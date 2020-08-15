@@ -1,0 +1,1 @@
+var c=Phaser.GameObjects.Graphics,h=Phaser.Scene,i=Phaser.Display.Color;export default class j extends c{constructor(d,a,b,e,f,g){super(d);this.moveTo(0,0),this.arc(0,0,b,0,Phaser.Math.DegToRad(a)),g&&(this.lineTo(0,0),this.arc(0,0,b,Math.PI,Phaser.Math.DegToRad(a)+Math.PI)),this.fillStyle(e.color,f||1),this.fill()}}

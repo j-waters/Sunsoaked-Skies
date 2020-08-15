@@ -1,0 +1,1 @@
+import a from"./Weapon.js";export default class c extends a{constructor(){super(...arguments);this.cooldownTime=5e3,this.cooldown=0,this.icon="ui/cannon",this.angle=90,this.range=100,this.spread=10,this.speed=1}}
