@@ -12,6 +12,7 @@ import World from '../models/World';
 import Point = Phaser.Geom.Point;
 import Vector2 = Phaser.Math.Vector2;
 import ShipState from './ShipState';
+import WorldMap from '../scenes/WorldMap';
 
 export default class NewGameState extends State {
 	getScenes() {}
@@ -34,9 +35,9 @@ export default class NewGameState extends State {
 		let world = World.generate();
 		this.dataStore.worlds.push(world);
 		this.dataStore.playerShip.world = world;
-		this.dataStore.playerShip.position = new Vector2(256, 256);
+		this.dataStore.playerShip.position = new Vector2(1024, 1024);
 
-		this.state.start(ShipState);
+		this.state.start(MapState);
 	}
 
 	end(nextState: State) {}

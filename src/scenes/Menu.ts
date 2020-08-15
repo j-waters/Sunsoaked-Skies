@@ -4,17 +4,14 @@ import { generatePersonGraphic } from '../generation/generatePerson';
 import Person from '../models/Person';
 import { createBackground } from '../generation/generateBackground';
 import GenerationSettings from '../generation/generationSettings';
+import PersonSprite from '../sprites/PersonSprite';
+import TextStyle = Phaser.GameObjects.TextStyle;
+import NewGameState from '../states/NewGameState';
 
-export class Menu extends SceneBase {
-	private backgroundShips;
-	constructor() {
-		super('Menu');
-	}
-	public preload() {
-		// this.textures.addSpriteSheet(`menu_person`, generatePersonGraphic(new Person()), { personWidth: 50, personHeight: 50, spacing: 10 });
-	}
+export default class Menu extends SceneBase {
+	private backgroundShips: Phaser.GameObjects.Group;
+
 	public create(): void {
-		console.log('GAME WIDTH HEIGHT', this.gameWidth, this.gameHeight, this.gameWidth);
 		createBackground(this);
 		let background = this.add.image(0, 0, 'gradient_background');
 		background.setOrigin(0, 0);
@@ -26,14 +23,32 @@ export class Menu extends SceneBase {
 		hill.setOrigin(0.5, 1);
 		hill.setDisplaySize(this.gameWidth * 0.6, this.gameHeight * 0.15);
 
-		let p = generatePersonGraphic(new Person(), new GenerationSettings());
-		p.onload = () => {
-			this.textures.addImage('menu_person', p);
-			let person = this.add.image(this.gameWidth / 2, this.gameHeight * 0.9, 'menu_person');
-			person.setOrigin(0.5, 1);
-			person.setDisplaySize(this.gameWidth * 0.05, ((this.gameWidth * 0.05) / person.displayWidth) * person.displayHeight);
-		};
+		let person = new PersonSprite(this, new Person(), new GenerationSettings());
+		this.add.existing(person);
+		person.setPosition(this.gameWidth / 2, this.gameHeight * 0.85);
+		person.setDisplaySize(this.gameWidth * 0.05, ((this.gameWidth * 0.05) / person.displayWidth) * person.displayHeight);
+
+		let title = this.add.text(this.gameWidth / 2, this.gameHeight * 0.3, 'Sunsoaked\nSkies', {
+			fontFamily: 'Elder Magic Shadow',
+			color: 'rgb(0, 0, 0)',
+			fontSize: '128px',
+			align: 'center',
+		} as TextStyle);
+		title.setOrigin(0.5, 0.5);
+
+		let newGameButton = this.add.text(this.gameWidth / 2, this.gameHeight * 0.55, 'New Game', {
+			fontFamily: 'Elder Magic',
+			color: 'rgb(0, 0, 0)',
+			fontSize: '64px',
+			align: 'center',
+		} as TextStyle);
+		newGameButton.setOrigin(0.5, 0.5);
+		newGameButton.setInteractive({ useHandCursor: true });
+		newGameButton.on(Phaser.Input.Events.POINTER_OVER, () => newGameButton.setColor('rgb(73,0,63)'));
+		newGameButton.on(Phaser.Input.Events.POINTER_OUT, () => newGameButton.setColor('rgb(0, 0, 0)'));
+		newGameButton.on(Phaser.Input.Events.POINTER_DOWN, () => this.state.start(NewGameState));
 	}
+
 	public update(time: number, delta: number): void {
 		this.backgroundShips.getChildren().forEach((image: Phaser.GameObjects.Image) => {
 			image.x += image.getData('speed');

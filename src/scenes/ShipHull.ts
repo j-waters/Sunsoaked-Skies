@@ -3,16 +3,16 @@ import { generateHullGraphic } from '../generation/generateShip';
 import RoomSprite from '../sprites/ship/RoomSprite';
 import GenerationSettings from '../generation/generationSettings';
 import type Room from '../models/Room';
-import PersonSprite from '../sprites/ship/PersonSprite';
 import type Person from '../models/Person';
 import type Selectable from '../sprites/ship/Selectable';
 import { SceneBase } from './SceneBase';
+import ShipPersonSprite from '../sprites/ship/ShipPersonSprite';
 
 export default class ShipHull extends SceneBase {
 	private generationSettings: GenerationSettings;
 	private background: Phaser.GameObjects.Image;
 	roomSprites: RoomSprite[] = [];
-	personSprites: PersonSprite[] = [];
+	personSprites: ShipPersonSprite[] = [];
 	selected: Selectable = null;
 	private ship: Ship;
 
@@ -67,7 +67,7 @@ export default class ShipHull extends SceneBase {
 
 	private addPeople(people: Person[]) {
 		people.forEach((person) => {
-			let personSprite = new PersonSprite(this, person, this.generationSettings);
+			let personSprite = new ShipPersonSprite(this, person, this.generationSettings);
 			this.personSprites.push(personSprite);
 			this.add.existing(personSprite);
 			// this.bringToTop(personSprite);
@@ -76,7 +76,7 @@ export default class ShipHull extends SceneBase {
 	}
 
 	select(object: Selectable) {
-		if (this.selected instanceof PersonSprite && object instanceof RoomSprite) {
+		if (this.selected instanceof ShipPersonSprite && object instanceof RoomSprite) {
 			this.selected.tasks.addMoveTo(object.room);
 			// this.selected.toRoom(object);
 			return;

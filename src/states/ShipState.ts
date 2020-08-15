@@ -18,7 +18,6 @@ export default class ShipState extends State {
 	private background: Phaser.Scene;
 
 	initScenes() {
-		console.log('init');
 		this.background = this.scene.add('background', Background);
 		this.shipScene = <ShipHull>this.scene.add('ship', ShipHull);
 		this.uiScene = <ShipUI>this.scene.add('ship_ui', ShipUI);

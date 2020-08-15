@@ -24,5 +24,6 @@ export default class MapState extends State {
 	getScenes() {
 		this.mapScene = <WorldMap>this.scene.getScene('map');
 		this.uiScene = <MapUI>this.scene.getScene('map_ui');
+		this.uiScene.mapScene = this.mapScene;
 	}
 }

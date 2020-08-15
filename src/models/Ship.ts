@@ -6,6 +6,8 @@ import { POSITIVE_ZERO } from '../sprites/map/MapShipSprite';
 import Scene = Phaser.Scene;
 import type GenerationSettings from '../generation/generationSettings';
 import Curve = Phaser.Curves.Curve;
+import type Weapon from './weapons/Weapon';
+import { MovementAction } from './MapAction';
 
 export default class Ship {
 	rootRoom: Room;
@@ -13,14 +15,16 @@ export default class Ship {
 	position: Vector2;
 	velocity: Vector2;
 	turningModifier: number = 100;
-	speed: number = 2;
-	acceleration: number = 0.01;
+	speed: number = 0.2;
+	acceleration: number = 0.001;
 	targetCurve: Curve;
 	distance: number;
+	movementAction: MovementAction;
 
 	constructor(rootRoom: Room) {
 		this.rootRoom = rootRoom;
-		this.velocity = new Vector2(0, POSITIVE_ZERO);
+		this.velocity = new Vector2(0, -POSITIVE_ZERO);
+		this.movementAction = new MovementAction();
 	}
 
 	public get decelerationDistance() {
@@ -110,6 +114,10 @@ export default class Ship {
 	get movementProgress() {
 		if (!this.targetCurve) return 0;
 		return this.distance / this.targetCurve.getLength();
+	}
+
+	get weapons(): Weapon[] {
+		return this.rooms.map((room) => ('weapons' in room ? <Weapon[]>room['weapons'] : [])).flat();
 	}
 }
 

@@ -1,6 +1,5 @@
 import type WorldMap from '../../scenes/WorldMap';
 import type Ship from '../../models/Ship';
-import Curve = Phaser.Curves.Curve;
 
 export const POSITIVE_ZERO = 0.0001;
 

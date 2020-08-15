@@ -91,7 +91,7 @@ export function generateTopDownShipGraphic(ship: Ship): HTMLCanvasElement {
 }
 
 export function generateShipGraphic(ship: Ship, generationSettings): HTMLCanvasElement {
-	let hull = generateHullGraphic(ship, null);
+	let hull = generateHullGraphic(ship, generationSettings);
 	let balloon = generateBalloonGraphic(ship, generationSettings);
 
 	let canvas = document.createElement('canvas');

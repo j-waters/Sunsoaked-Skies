@@ -10,14 +10,27 @@ import Vector2 = Phaser.Math.Vector2;
 import CubicBezier = Phaser.Curves.CubicBezier;
 import { generateTopDownShipGraphic } from '../generation/generateShip';
 import Graphics = Phaser.GameObjects.Graphics;
+import Weapon from '../models/weapons/Weapon';
+import type { WeaponRangeOverlay } from '../sprites/map/WeaponOverlay';
+import Color = Phaser.Display.Color;
+import Cursor from '../sprites/map/Cursor';
+import type MapAction from '../models/MapAction';
+import { MovementAction } from '../models/MapAction';
+import GraphicOverlay from '../sprites/map/GraphicOverlay';
+import type { WeaponTargetOverlay } from '../sprites/map/WeaponOverlay';
+import Projectile from '../sprites/map/Projectile';
 
 export default class WorldMap extends SceneBase {
 	private map: Phaser.GameObjects.Image;
 	world: World;
 	mapSize: number = 512 * 4;
-	private playerShip: MapShipSprite;
-	private cursor: Phaser.GameObjects.Image;
-	private curve: Phaser.GameObjects.Graphics;
+	playerShip: MapShipSprite;
+	private cursor: Cursor;
+	private overlay: GraphicOverlay;
+	private weaponRangeOverlay: WeaponRangeOverlay;
+	private weaponTargetOverlay: WeaponTargetOverlay;
+	private selectedAction: MapAction;
+	private projectiles: Phaser.GameObjects.Group;
 
 	preload() {
 		MapLocationSprite.setupPipelines(this);
@@ -46,8 +59,16 @@ export default class WorldMap extends SceneBase {
 		this.playerShip.setDisplaySize(5 * mod, 8 * mod);
 		this.add.existing(this.playerShip);
 
+		this.cursor = new Cursor(this);
+		this.selectedAction = this.dataStore.playerShip.movementAction;
+		this.cursor.selectAction(this.selectedAction);
+		this.add.existing(this.cursor);
+
+		this.projectiles = this.add.group();
+		this.projectiles.runChildUpdate = true;
+
 		this.cameras.main.startFollow(this.playerShip);
-		this.cameras.main.setZoom(2 * (this.gameHeight / this.mapSize));
+		this.cameras.main.setZoom(7 * (this.gameHeight / this.mapSize));
 
 		this.input.on(Phaser.Input.Events.POINTER_WHEEL, (pointer, gameObjects, deltaX, deltaY, deltaZ) => {
 			this.cameras.main.zoom += -deltaY * (this.gameHeight / this.mapSize) * 0.01;
@@ -58,11 +79,8 @@ export default class WorldMap extends SceneBase {
 			}
 		});
 
-		this.cursor = this.add.image(0, 0, this.dataStore.playerShip.generateTopDownTexture(this));
-		this.cursor.setDisplaySize(5 * mod, 8 * mod);
-		this.cursor.setAlpha(0.5);
-
-		this.curve = this.add.graphics();
+		this.overlay = new GraphicOverlay(this);
+		this.add.existing(this.overlay);
 
 		this.input.on(Phaser.Input.Events.POINTER_DOWN, (pointer: Phaser.Input.Pointer) => this.pointerDown(pointer));
 
@@ -79,19 +97,21 @@ export default class WorldMap extends SceneBase {
 	pointerMove(pointer: Phaser.Input.Pointer, gameObjects) {
 		let pointerPosition: Vector2 = <Vector2>pointer.positionToCamera(this.cameras.main);
 		this.cursor.setPosition(pointerPosition.x, pointerPosition.y);
-
-		let curve = calculateCurve(this.playerShip.getCenter(), this.playerShip.ship.velocity.clone().setLength(this.playerShip.ship.turningModifier), pointerPosition);
-
-		this.curve.clear();
-		let lineAlpha = 1;
-		if (this.playerShip.ship.movementProgress > 0.8) {
-			lineAlpha *= (1 - this.playerShip.ship.movementProgress) / 0.2;
+		if (this.selectedAction instanceof MovementAction) {
+			this.handleMovementAction(pointer);
+		} else {
+			this.weaponRangeOverlay.setTo(this.playerShip);
+			this.weaponTargetOverlay.setTo(this.playerShip, pointerPosition);
+			// this.overlay.clear();
+			// this.overlay.lineStyle(1, Color.ValueToColor('rgb(0, 0, 0)').color, 0.5);
+			// this.overlay.lineBetween(this.playerShip.getCenter().x, this.playerShip.getCenter().y, pointerPosition.x, pointerPosition.y);
 		}
-		this.curve.lineStyle(1, 0x000000, lineAlpha);
-		this.playerShip.ship.targetCurve?.draw(this.curve);
-		this.curve.lineStyle(1, 0x000000, 0.5);
-		curve.draw(this.curve);
+	}
 
+	handleMovementAction(pointer: Phaser.Input.Pointer) {
+		let pointerPosition: Vector2 = <Vector2>pointer.positionToCamera(this.cameras.main);
+		let curve = calculateCurve(this.playerShip.getCenter(), this.playerShip.ship.velocity.clone().setLength(this.playerShip.ship.turningModifier), pointerPosition);
+		this.overlay.drawProspectiveMovement(curve);
 		this.cursor.setRotation(curve.getTangentAt(1).angle() - Math.PI / 2);
 	}
 
@@ -99,13 +119,47 @@ export default class WorldMap extends SceneBase {
 		let pointerPosition: Vector2 = <Vector2>pointer.positionToCamera(this.cameras.main);
 		let curve = calculateCurve(this.playerShip.getCenter(), this.playerShip.ship.velocity.clone().setLength(this.playerShip.ship.turningModifier), pointerPosition);
 
-		this.playerShip.moveTo(curve);
+		if (this.selectedAction instanceof MovementAction) {
+			this.playerShip.moveTo(curve);
+		} else {
+			this.fire(this.weaponTargetOverlay.targetAngle);
+		}
+	}
+
+	fire(angle: number) {
+		let projectile = new Projectile(this, this.selectedAction as Weapon, this.playerShip.getCenter(), angle);
+		this.projectiles.add(projectile, true);
+		// this.add.existing(projectile);
 	}
 
 	update(time: number, delta: number): void {
 		super.update(time, delta);
+		this.overlay.clear();
+		this.overlay.drawCurrentMovement(this.playerShip.ship);
 		this.playerShip.update();
 		this.pointerMove(this.input.activePointer, []);
+		this.weaponRangeOverlay?.setTo(this.playerShip);
+	}
+
+	selectAction(action: MapAction) {
+		this.weaponRangeOverlay?.destroy();
+		this.weaponTargetOverlay?.destroy();
+		if (action instanceof Weapon) {
+			this.weaponRangeOverlay = action.getWeaponRangeOverlay(this);
+			this.weaponTargetOverlay = action.getWeaponTargetOverlay(this);
+			this.add.existing(this.weaponRangeOverlay);
+			this.add.existing(this.weaponTargetOverlay);
+		}
+		this.selectedAction = action;
+		this.cursor.selectAction(this.selectedAction);
+		this.overlay.clear();
+	}
+
+	deselectAction() {
+		this.weaponRangeOverlay?.destroy();
+		this.weaponTargetOverlay?.destroy();
+		this.selectedAction = this.dataStore.playerShip.movementAction;
+		this.cursor.selectAction(this.selectedAction);
 	}
 }
 

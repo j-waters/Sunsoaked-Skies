@@ -1,9 +1,7 @@
 ﻿import { SceneBase } from './SceneBase';
 import WebFontFile from '../loaders/WebFontFile';
-import ShipState from '../states/ShipState';
-import MapState from '../states/MapState';
-import OutlinePipeline from '../shaders/OutlinePipeline';
 import NewGameState from '../states/NewGameState';
+import StartupState from '../states/StartupState';
 
 export class Preloader extends SceneBase {
 	static key = 'Preloader';
@@ -13,15 +11,20 @@ export class Preloader extends SceneBase {
 	public preload(): void {
 		this.load.image('menu/hill', 'assets/images/menu/hill.png');
 		this.load.svg('ui/compass', 'assets/images/ui/compass.svg', { width: 512, height: 512 });
+		this.load.svg('ui/cannon', 'assets/images/ui/cannon.svg', { width: 512, height: 512 });
+		this.load.svg('ui/ship', 'assets/images/ui/ship.svg', { width: 512, height: 512 });
 		this.load.svg('map/ruin', 'assets/images/map/ruin.svg', { width: 512, height: 512 });
 		this.load.svg('map/village', 'assets/images/map/village.svg', { width: 512, height: 512 });
-		this.load.svg('map/move-target', 'assets/images/map/move-target.svg', { width: 512, height: 512 });
+		this.load.svg('map/target', 'assets/images/map/target.svg', { width: 512, height: 512 });
 
-		this.load.addFile(new WebFontFile(this.load, ['Artifika']));
+		this.load.addFile(new WebFontFile(this.load, ['Artifika', 'Elder Magic', 'Elder Magic Shadow']));
 	}
 
 	public create() {
-		// this.state.start(ShipState);
-		this.state.start(NewGameState);
+		if (import.meta.env.MODE === 'development' && false) {
+			this.state.start(NewGameState);
+		} else {
+			this.state.start(StartupState);
+		}
 	}
 }
